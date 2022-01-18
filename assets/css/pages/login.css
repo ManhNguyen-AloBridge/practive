@@ -1,0 +1,17 @@
+.login-page{
+  height: 100vh;
+}
+
+.login-page .login-content{
+  padding-top: 290px;
+  max-width: 500px;
+  margin:auto;
+}
+
+
+.login-page .form-login{
+  padding: 15px;
+  border: solid 1px gray;
+  border-radius: 5px;
+  box-shadow: -2px 2px 5px #aeaeae;
+}
