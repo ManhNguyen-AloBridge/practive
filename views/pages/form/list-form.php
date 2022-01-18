@@ -1,3 +1,12 @@
+<?php
+session_start();
+$success = false;
+if (isset($_SESSION['success_create_form'])) {
+  $success = true;
+  $messageSuccess = $_SESSION['success_create_form'];
+  unset($_SESSION['success_create_form']);
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,17 +20,17 @@
   <link rel="stylesheet" href="../../../assets/css/layout/index.css">
 
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-  integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-  crossorigin="anonymous"></script>
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
+  </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-  integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-  crossorigin="anonymous"></script>
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
+  </script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-  integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-  crossorigin="anonymous"></script>
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+  </script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-    crossorigin="anonymous"></script>
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+  </script>
   <title>Document</title>
 </head>
 
@@ -37,25 +46,25 @@
       <hr>
       <ul class="nav nav-pills flex-column mb-auto" id="menu">
         <li class="nav-item">
-          <a href="../index.html" class="nav-link link-dark" id="dashboard">
+          <a href="../index.php" class="nav-link link-dark" id="dashboard">
             <svg class="bi me-2" width="16" height="16"></svg>
             Dashboard
           </a>
         </li>
         <li>
-          <a href="../admin/list-admin.html" class="nav-link link-dark" id="listAdmin">
+          <a href="../admin/list-admin.php" class="nav-link link-dark" id="listAdmin">
             <svg class="bi me-2" width="16" height="16"></svg>
             Danh sách admin
           </a>
         </li>
         <li>
-          <a href="../staff/list-staff.html" class="nav-link link-dark" id="listStaff">
+          <a href="../staff/list-staff.php" class="nav-link link-dark" id="listStaff">
             <svg class="bi me-2" width="16" height="16"></svg>
             Danh sách nhân viên
           </a>
         </li>
         <li>
-          <a href="form/list-form.html" class="nav-link link-dark active" aria-current="page" id="listForm">
+          <a href="form/list-form.php" class="nav-link link-dark active" aria-current="page" id="listForm">
             <svg class="bi me-2" width="16" height="16"></svg>
             Danh sách sách form
           </a>
@@ -69,8 +78,8 @@
           <strong>mdo</strong>
         </a>
         <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
-          <li><a class="dropdown-item" href="../profile.html">Profile</a></li>
-          <li><a class="dropdown-item" href="create.html">Gửi form</a></li>
+          <li><a class="dropdown-item" href="../profile.php">Profile</a></li>
+          <li><a class="dropdown-item" href="create.php">Gửi form</a></li>
           <li>
             <hr class="dropdown-divider">
           </li>
@@ -81,7 +90,7 @@
     <div class="b-example-divider"></div>
     <div class="w-100">
       <div class="main-content">
-        <h1 class="pb-3">Danh sách from gửi</h1>
+        <h1 class="">Danh sách from gửi</h1>
         <table class="table table-striped">
           <thead>
             <tr>
@@ -105,7 +114,7 @@
               <td class="table-list-action form-list">
                 <ul class="p-0 m-0">
                   <li>
-                    <a href="detail.html" class="btn table-btn btn-primary">Chi tiết</a>
+                    <a href="detail.php" class="btn table-btn btn-primary">Chi tiết</a>
                     <button data-toggle="modal" data-target="#exampleModal" href=""
                       class="btn table-btn btn-danger">Xóa</button>
                   </li>
@@ -123,7 +132,7 @@
               <td class="table-list-action form-list">
                 <ul class="p-0 m-0">
                   <li>
-                    <a href="detail.html" class="btn table-btn btn-primary">Chi tiết</a>
+                    <a href="detail.php" class="btn table-btn btn-primary">Chi tiết</a>
                     <button data-toggle="modal" data-target="#exampleModal" href=""
                       class="btn table-btn btn-danger">Xóa</button>
                   </li>
@@ -141,7 +150,7 @@
               <td class="table-list-action form-list">
                 <ul class="p-0 m-0">
                   <li>
-                    <a href="detail.html" class="btn table-btn btn-primary">Chi tiết</a>
+                    <a href="detail.php" class="btn table-btn btn-primary">Chi tiết</a>
                     <button data-toggle="modal" data-target="#exampleModal" href=""
                       class="btn table-btn btn-danger">Xóa</button>
                   </li>
@@ -159,7 +168,7 @@
               <td class="table-list-action form-list">
                 <ul class="p-0 m-0">
                   <li>
-                    <a href="detail.html" class="btn table-btn btn-primary">Chi tiết</a>
+                    <a href="detail.php" class="btn table-btn btn-primary">Chi tiết</a>
                     <button data-toggle="modal" data-target="#exampleModal" href=""
                       class="btn table-btn btn-danger">Xóa</button>
                   </li>
@@ -177,7 +186,7 @@
               <td class="table-list-action form-list">
                 <ul class="p-0 m-0">
                   <li>
-                    <a href="detail.html" class="btn table-btn btn-primary">Chi tiết</a>
+                    <a href="detail.php" class="btn table-btn btn-primary">Chi tiết</a>
                     <button data-toggle="modal" data-target="#exampleModal" href=""
                       class="btn table-btn btn-danger">Xóa</button>
                   </li>
@@ -195,7 +204,7 @@
               <td class="table-list-action form-list">
                 <ul class="p-0 m-0">
                   <li>
-                    <a href="detail.html" class="btn table-btn btn-primary">Chi tiết</a>
+                    <a href="detail.php" class="btn table-btn btn-primary">Chi tiết</a>
                     <button data-toggle="modal" data-target="#exampleModal" href=""
                       class="btn table-btn btn-danger">Xóa</button>
                   </li>
@@ -213,7 +222,7 @@
               <td class="table-list-action form-list">
                 <ul class="p-0 m-0">
                   <li>
-                    <a href="detail.html" class="btn table-btn btn-primary">Chi tiết</a>
+                    <a href="detail.php" class="btn table-btn btn-primary">Chi tiết</a>
                     <button data-toggle="modal" data-target="#exampleModal" href=""
                       class="btn table-btn btn-danger">Xóa</button>
                   </li>
@@ -231,7 +240,7 @@
               <td class="table-list-action form-list">
                 <ul class="p-0 m-0">
                   <li>
-                    <a href="detail.html" class="btn table-btn btn-primary">Chi tiết</a>
+                    <a href="detail.php" class="btn table-btn btn-primary">Chi tiết</a>
                     <button data-toggle="modal" data-target="#exampleModal" href=""
                       class="btn table-btn btn-danger">Xóa</button>
                   </li>
@@ -249,7 +258,7 @@
               <td class="table-list-action form-list">
                 <ul class="p-0 m-0">
                   <li>
-                    <a href="detail.html" class="btn table-btn btn-primary">Chi tiết</a>
+                    <a href="detail.php" class="btn table-btn btn-primary">Chi tiết</a>
                     <button data-toggle="modal" data-target="#exampleModal" href=""
                       class="btn table-btn btn-danger">Xóa</button>
                   </li>
@@ -257,6 +266,15 @@
               </td>
             </tr>
           </tbody>
+          <div id='container'>
+            <?php if ($success) {
+            ?>
+            <div id='hideMe' class="alert alert-success m-0" role="alert">
+              <?= $messageSuccess ?>
+            </div>
+            <?php
+            } ?>
+          </div>
         </table>
       </div>
     </div>
