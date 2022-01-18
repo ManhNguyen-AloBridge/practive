@@ -1,3 +1,12 @@
+<?php
+session_start();
+$success = false;
+if (isset($_SESSION['success_create_admin'])) {
+  $success = true;
+  $messageSuccess = $_SESSION['success_create_admin'];
+  unset($_SESSION['success_create_admin']);
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,19 +19,18 @@
   <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/sidebars/">
   <link rel="stylesheet" href="../../../assets/css/layout/index.css">
 
-
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-  integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-  crossorigin="anonymous"></script>
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
+  </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-  integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-  crossorigin="anonymous"></script>
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
+  </script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-  integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-  crossorigin="anonymous"></script>
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+  </script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-    crossorigin="anonymous"></script>
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+  </script>
   <title>Document</title>
 </head>
 
@@ -38,25 +46,25 @@
       <hr>
       <ul class="nav nav-pills flex-column mb-auto" id="menu">
         <li class="nav-item">
-          <a href="../index.html" class="nav-link link-dark" id="dashboard">
+          <a href="../index.php" class="nav-link link-dark" id="dashboard">
             <svg class="bi me-2" width="16" height="16"></svg>
             Dashboard
           </a>
         </li>
         <li>
-          <a href="../admin/list-admin.html" class="nav-link link-dark" id="listAdmin">
+          <a href="list-admin.php" class="nav-link link-dark active" aria-current="page" id="listAdmin">
             <svg class="bi me-2" width="16" height="16"></svg>
             Danh sách admin
           </a>
         </li>
         <li>
-          <a href="list-staff.html" class="nav-link link-dark active" aria-current="page" id="listStaff">
+          <a href="../staff/list-staff.php" class="nav-link link-dark" id="listStaff">
             <svg class="bi me-2" width="16" height="16"></svg>
             Danh sách nhân viên
           </a>
         </li>
         <li>
-          <a href="../form/list-form.html" class="nav-link link-dark" id="listForm">
+          <a href="../form/list-form.php" class="nav-link link-dark" id="listForm">
             <svg class="bi me-2" width="16" height="16"></svg>
             Danh sách sách form
           </a>
@@ -70,8 +78,8 @@
           <strong>mdo</strong>
         </a>
         <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
-          <li><a class="dropdown-item" href="../profile.html">Profile</a></li>
-          <li><a class="dropdown-item" href="../form/create.html">Gửi form</a></li>
+          <li><a class="dropdown-item" href="../profile.php">Profile</a></li>
+          <li><a class="dropdown-item" href="../form/create.php">Gửi form</a></li>
           <li>
             <hr class="dropdown-divider">
           </li>
@@ -83,9 +91,9 @@
     <div class="w-100">
       <div class="main-content">
         <div class="row main-content-header">
-          <h1 class="col-10">Danh sách nhân viên</h1>
+          <h1 class="col-10">Danh sách Admin</h1>
           <div class="col-2 ">
-            <a href="create.html" class="btn btn-primary btn-create">Tạo mới</a>
+            <a href="create.php" class="btn btn-primary btn-create">Tạo mới</a>
           </div>
         </div>
         <table class="table table-striped">
@@ -107,8 +115,8 @@
               <td class="table-list-action">
                 <ul class="p-0 m-0">
                   <li>
-                    <a href="detail.html" class="btn table-btn btn-primary">Chi tiết</a>
-                    <a href="edit.html" class="btn table-btn btn-warning">Cập nhật</a>
+                    <a href="detail.php" class="btn table-btn btn-primary">Chi tiết</a>
+                    <a href="edit.php" class="btn table-btn btn-warning">Cập nhật</a>
                     <button data-toggle="modal" data-target="#exampleModal" href=""
                       class="btn table-btn btn-danger">Xóa</button>
                   </li>
@@ -123,8 +131,8 @@
               <td class="table-list-action">
                 <ul class="p-0 m-0">
                   <li>
-                    <a href="detail.html" class="btn table-btn btn-primary">Chi tiết</a>
-                    <a href="edit.html" class="btn table-btn btn-warning">Cập nhật</a>
+                    <a href="detail.php" class="btn table-btn btn-primary">Chi tiết</a>
+                    <a href="edit.php" class="btn table-btn btn-warning">Cập nhật</a>
                     <button data-toggle="modal" data-target="#exampleModal" href=""
                       class="btn table-btn btn-danger">Xóa</button>
                   </li>
@@ -139,8 +147,8 @@
               <td class="table-list-action">
                 <ul class="p-0 m-0">
                   <li>
-                    <a href="detail.html" class="btn table-btn btn-primary">Chi tiết</a>
-                    <a href="edit.html" class="btn table-btn btn-warning">Cập nhật</a>
+                    <a href="detail.php" class="btn table-btn btn-primary">Chi tiết</a>
+                    <a href="edit.php" class="btn table-btn btn-warning">Cập nhật</a>
                     <button data-toggle="modal" data-target="#exampleModal" href=""
                       class="btn table-btn btn-danger">Xóa</button>
                   </li>
@@ -155,8 +163,8 @@
               <td class="table-list-action">
                 <ul class="p-0 m-0">
                   <li>
-                    <a href="detail.html" class="btn table-btn btn-primary">Chi tiết</a>
-                    <a href="edit.html" class="btn table-btn btn-warning">Cập nhật</a>
+                    <a href="detail.php" class="btn table-btn btn-primary">Chi tiết</a>
+                    <a href="edit.php" class="btn table-btn btn-warning">Cập nhật</a>
                     <button data-toggle="modal" data-target="#exampleModal" href=""
                       class="btn table-btn btn-danger">Xóa</button>
                   </li>
@@ -171,8 +179,8 @@
               <td class="table-list-action">
                 <ul class="p-0 m-0">
                   <li>
-                    <a href="detail.html" class="btn table-btn btn-primary">Chi tiết</a>
-                    <a href="edit.html" class="btn table-btn btn-warning">Cập nhật</a>
+                    <a href="detail.php" class="btn table-btn btn-primary">Chi tiết</a>
+                    <a href="edit.php" class="btn table-btn btn-warning">Cập nhật</a>
                     <button data-toggle="modal" data-target="#exampleModal" href=""
                       class="btn table-btn btn-danger">Xóa</button>
                   </li>
@@ -187,8 +195,8 @@
               <td class="table-list-action">
                 <ul class="p-0 m-0">
                   <li>
-                    <a href="detail.html" class="btn table-btn btn-primary">Chi tiết</a>
-                    <a href="edit.html" class="btn table-btn btn-warning">Cập nhật</a>
+                    <a href="detail.php" class="btn table-btn btn-primary">Chi tiết</a>
+                    <a href="edit.php" class="btn table-btn btn-warning">Cập nhật</a>
                     <button data-toggle="modal" data-target="#exampleModal" href=""
                       class="btn table-btn btn-danger">Xóa</button>
                   </li>
@@ -203,8 +211,8 @@
               <td class="table-list-action">
                 <ul class="p-0 m-0">
                   <li>
-                    <a href="detail.html" class="btn table-btn btn-primary">Chi tiết</a>
-                    <a href="edit.html" class="btn table-btn btn-warning">Cập nhật</a>
+                    <a href="detail.php" class="btn table-btn btn-primary">Chi tiết</a>
+                    <a href="edit.php" class="btn table-btn btn-warning">Cập nhật</a>
                     <button data-toggle="modal" data-target="#exampleModal" href=""
                       class="btn table-btn btn-danger">Xóa</button>
                   </li>
@@ -219,8 +227,8 @@
               <td class="table-list-action">
                 <ul class="p-0 m-0">
                   <li>
-                    <a href="detail.html" class="btn table-btn btn-primary">Chi tiết</a>
-                    <a href="edit.html" class="btn table-btn btn-warning">Cập nhật</a>
+                    <a href="detail.php" class="btn table-btn btn-primary">Chi tiết</a>
+                    <a href="edit.php" class="btn table-btn btn-warning">Cập nhật</a>
                     <button data-toggle="modal" data-target="#exampleModal" href=""
                       class="btn table-btn btn-danger">Xóa</button>
                   </li>
@@ -235,8 +243,8 @@
               <td class="table-list-action">
                 <ul class="p-0 m-0">
                   <li>
-                    <a href="detail.html" class="btn table-btn btn-primary">Chi tiết</a>
-                    <a href="edit.html" class="btn table-btn btn-warning">Cập nhật</a>
+                    <a href="detail.php" class="btn table-btn btn-primary">Chi tiết</a>
+                    <a href="edit.php" class="btn table-btn btn-warning">Cập nhật</a>
                     <button data-toggle="modal" data-target="#exampleModal" href=""
                       class="btn table-btn btn-danger">Xóa</button>
                   </li>
@@ -244,24 +252,30 @@
               </td>
             </tr>
           </tbody>
+          <div id='container'>
+            <?php if ($success) {
+            ?>
+            <div id='hideMe' class="alert alert-success m-0" role="alert">
+              <?= $messageSuccess ?>
+            </div>
+            <?php
+            } ?>
+          </div>
+
         </table>
       </div>
     </div>
 
   </main>
 
+
+  <!-- Modal -->
   <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Thông báo</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          Bạn có muốn xóa from này?
+          <h5 class="modal-title" id="exampleModalLabel">Bạn có muốn xóa admin này?</h5>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy bỏ</button>
@@ -269,8 +283,14 @@
         </div>
       </div>
     </div>
-  </div>
 
+
+    <script>
+    let a = document.getElementById('successMessage');
+    a.addEventListener('click', function() {
+      a.style.display = 'none';
+    }, 5000);
+    </script>
 </body>
 
 </html>
