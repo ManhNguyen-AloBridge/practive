@@ -49,6 +49,10 @@ main {
   list-style: none;
 }
 
+.pagination{
+  justify-content:center;
+}
+
 .table-btn {
   padding: 3px 20px;
   margin: 0 2px;
