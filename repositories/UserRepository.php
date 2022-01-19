@@ -44,7 +44,7 @@ class UserRepository
 
   public function findByEmail(string $email)
   {
-    $result = $this->conn->getInstance()->query("SELECT * FROM users WHERE email ='" . $email . "'");
+    $result = $this->conn->getInstance()->query("SELECT * FROM users WHERE email ='" . $email . "' AND users.deleted_at IS NULL");
     $data = $result->fetchAll(PDO::FETCH_ASSOC);
     return $data[0];
   }
