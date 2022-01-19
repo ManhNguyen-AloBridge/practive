@@ -1,10 +1,17 @@
 <?php
 require_once('../../../controllers/User/UserController.php');
+session_start();
 $userController = new UserController();
 
 $listData = $userController->getListStaff();
-?>
 
+$success = false;
+if (isset($_SESSION['success_create'])) {
+  $success = true;
+  $messageSuccess = $_SESSION['success_create'];
+  unset($_SESSION['success_create']);
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -128,6 +135,15 @@ $listData = $userController->getListStaff();
             <?php
             } ?>
           </tbody>
+          <div id='container'>
+            <?php if ($success) {
+            ?>
+            <div id='hideMe' class="alert alert-success m-0" role="alert">
+              <?= $messageSuccess ?>
+            </div>
+            <?php
+            } ?>
+          </div>
         </table>
         <nav aria-label="Page navigation example">
           <ul class="pagination" id="pagination">

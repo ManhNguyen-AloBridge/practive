@@ -13,6 +13,12 @@ class UserRepository
     $this->model = $user;
   }
 
+  public function store(array $data)
+  {
+    $query = $this->conn->getInstance()->prepare('INSERT INTO users (name, email, password, birthday, address, phone, role_id, position_id, created_at, updated_at, deleted_at) values (?, ?,?, ?, ?, ?, ?, ?, ?, ?, ?)');
+    return $query->execute($data);
+  }
+
   public function getListAdmin()
   {
     $query = $this->conn->getInstance()->query("
@@ -39,6 +45,25 @@ class UserRepository
     AND users.deleted_at IS NULL
     LIMIT 10
     ");
+    return $query->fetchAll(PDO::FETCH_ASSOC);
+  }
+
+  public function findByEmail(string $email)
+  {
+    $result = $this->conn->getInstance()->query("SELECT * FROM users WHERE email ='" . $email . "' AND users.deleted_at IS NULL");
+    $data = $result->fetchAll(PDO::FETCH_ASSOC);
+    return $data[0];
+  }
+
+  public function getListPosition()
+  {
+    $query = $this->conn->getInstance()->query(" SELECT * FROM positions");
+    return $query->fetchAll(PDO::FETCH_ASSOC);
+  }
+
+  public function getListRole()
+  {
+    $query = $this->conn->getInstance()->query(" SELECT * FROM roles");
     return $query->fetchAll(PDO::FETCH_ASSOC);
   }
 }

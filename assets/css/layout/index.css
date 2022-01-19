@@ -33,7 +33,7 @@ main {
 }
 
 .main-content {
-  max-height: 85vh;
+  min-height: 85vh;
   margin: 70px 50px 50px 50px;
   border: solid 1px gray;
   border-radius: 5px;
@@ -81,4 +81,42 @@ main {
   padding: 10px 25px;
   border-radius: 5px;
   box-shadow: 1px 2px 4px grey;
+}
+
+.message-error{
+  display: block;
+  font-size: 12px;
+  color: red;
+}
+
+.alert-success{
+  padding:3px 8px;
+}
+
+#container {
+  overflow:hide;
+  position:relative;
+  min-height: 24px;
+}
+#hideMe {
+  -moz-animation: cssAnimation 0s ease-in 5s forwards;
+  /* Firefox */
+  -webkit-animation: cssAnimation 0s ease-in 5s forwards;
+  /* Safari and Chrome */
+  -o-animation: cssAnimation 0s ease-in 5s forwards;
+  /* Opera */
+  animation: cssAnimation 0s ease-in 5s forwards;
+  -webkit-animation-fill-mode: forwards;
+  animation-fill-mode: forwards;
+}
+
+@keyframes cssAnimation {
+  to {
+      opacity:0;
+  }
+}
+@-webkit-keyframes cssAnimation {
+  to {
+      opacity:0;
+  }
 }
