@@ -25,7 +25,7 @@ class AuthService
 
     unset($_SESSION['error_login']);
 
-    $_SESSION['user'] = $result['email'];
+    $_SESSION['user'] = $result['user_id'];
 
     return true;
   }

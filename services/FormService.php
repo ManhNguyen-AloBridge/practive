@@ -13,10 +13,7 @@ class FormService
 
   public function store(array $data)
   {
-    $type = intval($data['form_type_id']);
     session_start();
-    $_SESSION['user_id'] = 1; //fake session get user_id when user login
-
     $newData = array_merge($data, [
       'user_id' => $_SESSION['user_id'],
       'status_id' => $this->formModel::PENDING,
@@ -37,23 +34,7 @@ class FormService
       $newData['deleted_at'],
     ];
 
-    if ($type == $this->formModel::ABSENCE) { //absence
-      if ($data['extend_absence'] == null) {
-        return false;
-      }
-      return $this->formRepository->store($dataInsert);
-    }
-
-    if ($type == $this->formModel::INLATE_EARLY) { //inlate/early
-      if ($data['extend_inlate_early'] == null) {
-        return false;
-      }
-      return $this->formRepository->store($dataInsert);
-    }
-
-    if ($type == $this->formModel::REMOTE) { //remote
-      return $this->formRepository->store($dataInsert);
-    }
+    return $this->formRepository->store($dataInsert);
   }
 
   public function getListForm()
