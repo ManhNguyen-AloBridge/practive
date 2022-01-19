@@ -12,8 +12,8 @@
 
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-    crossorigin="anonymous"></script>
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+  </script>
   <title>Document</title>
 </head>
 
@@ -29,25 +29,25 @@
       <hr>
       <ul class="nav nav-pills flex-column mb-auto" id="menu">
         <li class="nav-item">
-          <a href="index.html" class="nav-link link-dark active" aria-current="page" id="dashboard">
+          <a href="index.php" class="nav-link link-dark active" aria-current="page" id="dashboard">
             <svg class="bi me-2" width="16" height="16"></svg>
             Dashboard
           </a>
         </li>
         <li>
-          <a href="admin/list-admin.html" class="nav-link link-dark" id="listAdmin">
+          <a href="../../views/pages/admin/list-admin.php" class="nav-link link-dark" id="listAdmin">
             <svg class="bi me-2" width="16" height="16"></svg>
             Danh sách admin
           </a>
         </li>
         <li>
-          <a href="staff/list-staff.html" class="nav-link link-dark" id="listStaff">
+          <a href="../../views/pages/staff/list-staff.php" class="nav-link link-dark" id="listStaff">
             <svg class="bi me-2" width="16" height="16"></svg>
             Danh sách nhân viên
           </a>
         </li>
         <li>
-          <a href="form/list-form.html" class="nav-link link-dark" id="listForm">
+          <a href="../../views/pages/form/list-form.php" class="nav-link link-dark" id="listForm">
             <svg class="bi me-2" width="16" height="16"></svg>
             Danh sách sách form
           </a>
@@ -61,8 +61,8 @@
           <strong>mdo</strong>
         </a>
         <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
-          <li><a class="dropdown-item" href="profile.html">Profile</a></li>
-          <li><a class="dropdown-item" href="../pages/form/create.html">Gửi form</a></li>
+          <li><a class="dropdown-item" href="profile.php">Profile</a></li>
+          <li><a class="dropdown-item" href="../pages/form/create.php">Gửi form</a></li>
           <li>
             <hr class="dropdown-divider">
           </li>
@@ -76,46 +76,46 @@
         <div class="on-day statistic-day statistic">
           <h1>Thống kê trong ngày</h1>
           <div class="row pt-3 pb-3">
-            <label class="col-3 fie" >Tổng số form đi muộn/ về sớm</label>
-            <label class="col-9 fie" >1</label>
+            <label class="col-3 fie">Tổng số form đi muộn/ về sớm</label>
+            <label class="col-9 fie">1</label>
           </div>
           <div class="row pt-3 pb-3">
-            <label class="col-3 fie" >Tổng số form xin remote</label>
-            <label class="col-9 fie" >1</label>
+            <label class="col-3 fie">Tổng số form xin remote</label>
+            <label class="col-9 fie">1</label>
           </div>
           <div class="row pt-3 pb-3">
-            <label class="col-3 fie" >Tổng số form xin nghỉ</label>
-            <label class="col-9 fie" >1</label>
+            <label class="col-3 fie">Tổng số form xin nghỉ</label>
+            <label class="col-9 fie">1</label>
           </div>
         </div>
         <div class="on-week statistic-week statistic">
           <h1>Thống kê trong tuần</h1>
           <div class="row pt-3 pb-3">
-            <label class="col-3 fie" >Tổng số form đi muộn/ về sớm</label>
-            <label class="col-9 fie" >1</label>
+            <label class="col-3 fie">Tổng số form đi muộn/ về sớm</label>
+            <label class="col-9 fie">1</label>
           </div>
           <div class="row pt-3 pb-3">
-            <label class="col-3 fie" >Tổng số form xin remote</label>
-            <label class="col-9 fie" >1</label>
+            <label class="col-3 fie">Tổng số form xin remote</label>
+            <label class="col-9 fie">1</label>
           </div>
           <div class="row pt-3 pb-3">
-            <label class="col-3 fie" >Tổng số form xin nghỉ</label>
-            <label class="col-9 fie" >1</label>
+            <label class="col-3 fie">Tổng số form xin nghỉ</label>
+            <label class="col-9 fie">1</label>
           </div>
         </div>
         <div class="on-month statistic-month statistic">
           <h1>Thống kê trong tháng</h1>
           <div class="row pt-3 pb-3">
-            <label class="col-3 fie" >Tổng số form đi muộn/ về sớm</label>
-            <label class="col-9 fie" >1</label>
+            <label class="col-3 fie">Tổng số form đi muộn/ về sớm</label>
+            <label class="col-9 fie">1</label>
           </div>
           <div class="row pt-3 pb-3">
-            <label class="col-3 fie" >Tổng số form xin remote</label>
-            <label class="col-9 fie" >1</label>
+            <label class="col-3 fie">Tổng số form xin remote</label>
+            <label class="col-9 fie">1</label>
           </div>
           <div class="row pt-3 pb-3">
-            <label class="col-3 fie" >Tổng số form xin nghỉ</label>
-            <label class="col-9 fie" >1</label>
+            <label class="col-3 fie">Tổng số form xin nghỉ</label>
+            <label class="col-9 fie">1</label>
           </div>
         </div>
       </div>
