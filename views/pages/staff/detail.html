@@ -6,8 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/sidebars/">
-  <link rel="stylesheet" href="../../assets/css/layout/index.css">
-  <!-- <script src="../../assets/js/layout/index.js"></script> -->
+  <link rel="stylesheet" href="../../../assets/css/layout/index.css">
+  <link rel="stylesheet" href="../../../assets/css/pages/detail.css">
 
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
@@ -23,25 +23,25 @@
         <hr>
         <ul class="nav nav-pills flex-column mb-auto" id="menu">
           <li class="nav-item">
-            <a href="#" class="nav-link link-dark active" aria-current="page" id="dashboard">
+            <a href="../index.html" class="nav-link link-dark" id="dashboard">
               <svg class="bi me-2" width="16" height="16"></svg>
               Dashboard
             </a>
           </li>
           <li>
-            <a href="#" class="nav-link link-dark" id="listAdmin">
+            <a href="list-admin.html"  class="nav-link link-dark" id="listAdmin">
               <svg class="bi me-2" width="16" height="16"></svg>
               Danh sách admin
             </a>
           </li>
           <li>
-            <a href="list-staff.html" class="nav-link link-dark" id="listStaff">
+            <a href="../staff/list-staff.html"class="nav-link link-dark active"  aria-current="page"  id="listStaff">
               <svg class="bi me-2" width="16" height="16"></svg>
               Danh sách nhân viên
             </a>
           </li>
           <li>
-            <a href="#" class="nav-link link-dark" id="listForm">
+            <a href="../form/list-form.html" class="nav-link link-dark" id="listForm">
               <svg class="bi me-2" width="16" height="16"></svg>
               Danh sách sách form
             </a>
@@ -54,7 +54,8 @@
             <strong>mdo</strong>
           </a>
           <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
-            <li><a class="dropdown-item" href="#">Profile</a></li>
+            <li><a class="dropdown-item" href="../profile.html">Profile</a></li>
+            <li><a class="dropdown-item" href="../form/create.html">Gửi form</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="#">Sign out</a></li>
           </ul>
@@ -62,13 +63,52 @@
       </div>
       <div class="b-example-divider"></div>
       <div class="w-100">
-        <h1>content</h1>
-        <div w3-include-html="list-admin.html" id="content-page"></div> 
+        <div class="main-content">
+          <div class="row main-content-header">
+            <h1 class="col-10">Thông tin chi tiết nhân viên</h1>
+            <div class="col-2 ">
+              <a href="edit.html" class="btn btn-primary btn-update">Cập nhật</a>
+            </div>
+          </div>
+          <div class="content-detail">
+            <div class="row field-info pt-3 pb-3">
+              <label for="name" class="name col-3">Họ tên</label>
+              <div class="col-9">Tran Van A</div>
+            </div>
+            <div class="row field-info pt-3 pb-3">
+              <label for="name" class="name col-3">Vai trò</label>
+              <div class="col-9">User</div>
+            </div>
+            <div class="row field-info pt-3 pb-3">
+              <label for="name" class="name col-3">Chức vụ</label>
+              <div class="col-9">Nhân viên</div>
+            </div>
+            <div class="row field-info pt-3 pb-3">
+              <label for="name" class="name col-3">Ngày sinh </label>
+              <div class="col-9">10-10-1990</div>
+            </div>
+            <div class="row field-info pt-3 pb-3">
+              <label for="name" class="name col-3">Số điện thoại</label>
+              <div class="col-9">123456789</div>
+            </div>
+            <div class="row field-info pt-3 pb-3">
+              <label for="name" class="name col-3">Email</label>
+              <div class="col-9">tranvana@gmail.com</div>
+            </div>
+          </div>
+
+          <footer class="footer-detail">
+            <div class="footer text-center">
+              <a href="list-admin.html" class="btn btn-back btn-secondary">
+                Quay lại
+              </a>
+            </div>
+          </footer>
+        </div>
       </div>
 
     </main>
 
-    <script src="../../assets/js/layout/index.js"></script>
   </body>
   
 </body>

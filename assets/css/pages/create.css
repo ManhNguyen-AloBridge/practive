@@ -1,0 +1,12 @@
+.position, .form-type {
+  padding-right: 25px;
+  display: inline-block;
+}
+
+.select-role{
+  width: 120px;
+}
+
+.btn-send{
+  padding: 8px 50px;
+}
