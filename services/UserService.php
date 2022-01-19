@@ -11,6 +11,25 @@ class UserService
     $this->userRepository = $userRepository;
   }
 
+  public function store(array $data)
+  {
+    $dataInsert = [
+      $data['name'],
+      $data['email'],
+      $data['password'],
+      $data['birthday'],
+      $data['address'],
+      $data['phone'],
+      $data['role'],
+      $data['position'],
+      $data['created_at'],
+      $data['updated_at'],
+      $data['deleted_at'],
+    ];
+
+    return $this->userRepository->store($dataInsert);
+  }
+
   public function getListAdmin()
   {
 
@@ -23,5 +42,20 @@ class UserService
   {
     $listStaff = $this->userRepository->getListStaff();
     return $listStaff;
+  }
+
+  public function findByEmail(string $email)
+  {
+    return $this->userRepository->findByEmail($email);
+  }
+
+  public function getListPosition()
+  {
+    return $this->userRepository->getListPosition();
+  }
+
+  public function getListRole()
+  {
+    return $this->userRepository->getListRole();
   }
 }

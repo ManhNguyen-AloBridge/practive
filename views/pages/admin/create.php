@@ -1,3 +1,18 @@
+<?php
+require_once('../../../services/UserService.php');
+$userService = new UserService();
+
+$roles = $userService->getListRole();
+$positions = $userService->getListPosition();
+
+session_start();
+$error = false;
+if (isset($_SESSION['error_create'])) {
+  $error = true;
+  $messageError = $_SESSION['error_create'];
+  unset($_SESSION['error_create']);
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -75,63 +90,21 @@
     <div class="b-example-divider"></div>
     <div class="w-100">
       <div class="main-content">
-        <form action="#" method="post">
-
+        <form action="../../../controllers/User/HandleCreateAdmin.php" method="post">
           <h1 class="title-detail pb-3 mb-4">Thêm mới Admin</h1>
           <div class="content-detail">
+            <?php if ($error) {
+            ?>
+            <div class="alert alert-danger" role="alert">
+              <?= $messageError ?>
+            </div>
+            <?php
+            } ?>
+
             <div class="row field-info pt-3 pb-3">
               <label for="name" class="name col-3">Họ tên</label>
               <div class="col-9">
                 <input class="field-input" type="text" name="name">
-              </div>
-            </div>
-            <div class="row field-info pt-3 pb-3">
-              <label for="role" class="name col-3">Vai trò</label>
-              <div class="col-9">
-                <select class="select-role" name="role" id="">
-                  <option value="">Chọn quyền</option>
-                  <option value="1">Admin</option>
-                  <option value="2">User</option>
-                </select>
-              </div>
-            </div>
-            <div class="row field-info pt-3 pb-3">
-              <label class="name col-3">Chức vụ</label>
-              <div class="col-9">
-                <div class="position">
-                  <input class="" type="radio" value="1" name="position" id="giamdoc">
-                  <label for="giamdoc">Giám đốc</label>
-                </div>
-                <div class="position">
-                  <input class="" type="radio" value="2" name="position" id="truongnhom">
-                  <label for="truongnhom">Trưởng nhóm</label>
-                </div>
-                <div class="position">
-                  <input class="" type="radio" value="3" name="position" id="truongphong">
-                  <label for="truongphong">Trưởng phòng</label>
-                </div>
-                <div class="position">
-                  <input class="" checked type="radio" value="4" name="position" id="nhanvien">
-                  <label for="nhanvien">Nhân viên</label>
-                </div>
-              </div>
-            </div>
-            <div class="row field-info pt-3 pb-3">
-              <label for="birthday" class="name col-3">Ngày sinh </label>
-              <div class="col-9">
-                <input class="" type="date" name="birthday">
-              </div>
-            </div>
-            <div class="row field-info pt-3 pb-3">
-              <label for="address" class="name col-3">Địa chỉ </label>
-              <div class="col-9">
-                <input class="field-input" type="text" name="address">
-              </div>
-            </div>
-            <div class="row field-info pt-3 pb-3">
-              <label for="phone" class="name col-3">Số điện thoại</label>
-              <div class="col-9">
-                <input class="field-input" type="text" name="phone">
               </div>
             </div>
             <div class="row field-info pt-3 pb-3">
@@ -146,10 +119,55 @@
                 <input class="field-input" type="password" name="password">
               </div>
             </div>
+            <div class="row field-info pt-3 pb-3">
+              <label for="name" class="name col-3">Vai trò</label>
+              <div class="col-9">
+                <select class="select-role" name="role" id="">
+                  <option value="">Chọn quyền</option>
+                  <?php foreach ($roles as $role) {
+                  ?>
+                  <option value="<?= $role['id'] ?>"><?= $role['name'] ?></option>
+                  <?php
+                  } ?>
+                </select>
+              </div>
+            </div>
+            <div class="row field-info pt-3 pb-3">
+              <label for="name" class="name col-3">Chức vụ</label>
+              <div class="col-9">
+                <?php foreach ($positions as $item) {
+                ?>
+                <div class="position">
+                  <input class="" type="radio" value="<?= $item['id'] ?>" name="position">
+                  <label><?= $item['name'] ?></label>
+                </div>
+                <?php
+                } ?>
+              </div>
+            </div>
+            <div class="row field-info pt-3 pb-3">
+              <label for="name" class="name col-3">Ngày sinh </label>
+              <div class="col-9">
+                <input class="" type="date" value="" name="birthday">
+              </div>
+            </div>
+            <div class="row field-info pt-3 pb-3">
+              <label for="name" class="name col-3">Số điện thoại</label>
+              <div class="col-9">
+                <input class="field-input" type="text" value="" name="phone">
+              </div>
+            </div>
+            <div class="row field-info pt-3 pb-3">
+              <label for="address" class="name col-3">Địa chỉ</label>
+              <div class="col-9">
+                <input class="field-input" type="text" value="" name="address">
+              </div>
+            </div>
           </div>
+
           <footer class="footer-detail">
             <div class="footer text-center">
-              <a href="list-admin.php" class="btn btn-footer-edit btn-back btn-secondary">
+              <a href="../../../views/pages/admin/list-admin.php" class="btn btn-footer-edit btn-back btn-secondary">
                 Hủy bỏ
               </a>
               <button type="submit" class="btn btn-footer-edit btn-update btn-primary">

@@ -1,3 +1,12 @@
+<?php
+session_start();
+$error = false;
+if (isset($_SESSION['error_create'])) {
+  $error = true;
+  $messageError = $_SESSION['error_create'];
+  unset($_SESSION['error_create']);
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -75,75 +84,96 @@
     <div class="b-example-divider"></div>
     <div class="w-100">
       <div class="main-content">
-        <h1 class="title-detail pb-3 mb-4">Thêm mới nhân viên</h1>
-        <div class="content-detail">
-          <div class="row field-info pt-3 pb-3">
-            <label for="name" class="name col-3">Họ tên</label>
-            <div class="col-9">
-              <input class="field-input" type="text" name="name">
+        <form action="../../../controllers/User/HandleCreateUser.php" method="post">
+          <h1 class="title-detail pb-3 mb-4">Thêm mới nhân viên</h1>
+          <div class="content-detail">
+            <?php if ($error) {
+            ?>
+            <div class="alert alert-danger" role="alert">
+              <?= $messageError ?>
             </div>
-          </div>
-          <div class="row field-info pt-3 pb-3">
-            <label for="name" class="name col-3">Vai trò</label>
-            <div class="col-9">
-              <select class="select-role" name="role" id="">
-                <option value="">Chọn quyền</option>
-                <option value="1">Admin</option>
-                <option value="2">User</option>
-              </select>
-            </div>
-          </div>
-          <div class="row field-info pt-3 pb-3">
-            <label for="name" class="name col-3">Chức vụ</label>
-            <div class="col-9">
-              <div class="position">
-                <input class="" type="radio" value="giamdoc" name="position" id="giamdoc">
-                <label for="giamdoc">Giám đốc</label>
-              </div>
-              <div class="position">
-                <input class="" type="radio" value="truongnhom" name="position" id="truongnhom">
-                <label for="truongnhom">Trưởng nhóm</label>
-              </div>
-              <div class="position">
-                <input class="" type="radio" value="truongphong" name="position" id="truongphong">
-                <label for="truongphong">Trưởng phòng</label>
-              </div>
-              <div class="position">
-                <input class="" checked type="radio" value="nhanvien" name="position" id="nhanvien">
-                <label for="nhanvien">Nhân viên</label>
+            <?php
+            } ?>
+            <div class="row field-info pt-3 pb-3">
+              <label for="name" class="name col-3">Họ tên</label>
+              <div class="col-9">
+                <input class="field-input" type="text" name="name">
               </div>
             </div>
-          </div>
-          <div class="row field-info pt-3 pb-3">
-            <label for="name" class="name col-3">Ngày sinh </label>
-            <div class="col-9">
-              <input class="field-input" type="date" value="" name="birthday">
+            <div class="row field-info pt-3 pb-3">
+              <label for="email" class="name col-3">Email</label>
+              <div class="col-9">
+                <input class="field-input" type="email" name="email">
+              </div>
+            </div>
+            <div class="row field-info pt-3 pb-3">
+              <label for="password" class="name col-3">Password</label>
+              <div class="col-9">
+                <input class="field-input" type="password" name="password">
+              </div>
+            </div>
+            <div class="row field-info pt-3 pb-3">
+              <label for="name" class="name col-3">Vai trò</label>
+              <div class="col-9">
+                <select class="select-role" name="role" id="">
+                  <option value="">Chọn quyền</option>
+                  <option value="1">Admin</option>
+                  <option value="2">User</option>
+                </select>
+              </div>
+            </div>
+            <div class="row field-info pt-3 pb-3">
+              <label for="name" class="name col-3">Chức vụ</label>
+              <div class="col-9">
+                <div class="position">
+                  <input class="" type="radio" value="1" name="position" id="giamdoc">
+                  <label for="giamdoc">Giám đốc</label>
+                </div>
+                <div class="position">
+                  <input class="" type="radio" value="2" name="position" id="truongnhom">
+                  <label for="truongnhom">Trưởng nhóm</label>
+                </div>
+                <div class="position">
+                  <input class="" type="radio" value="3" name="position" id="truongphong">
+                  <label for="truongphong">Trưởng phòng</label>
+                </div>
+                <div class="position">
+                  <input class="" checked type="radio" value="4" name="position" id="nhanvien">
+                  <label for="nhanvien">Nhân viên</label>
+                </div>
+              </div>
+            </div>
+            <div class="row field-info pt-3 pb-3">
+              <label for="name" class="name col-3">Ngày sinh </label>
+              <div class="col-9">
+                <input class="" type="date" value="" name="birthday">
+              </div>
+            </div>
+            <div class="row field-info pt-3 pb-3">
+              <label for="name" class="name col-3">Số điện thoại</label>
+              <div class="col-9">
+                <input class="field-input" type="text" value="" name="phone">
+              </div>
+            </div>
+            <div class="row field-info pt-3 pb-3">
+              <label for="address" class="name col-3">Địa chỉ</label>
+              <div class="col-9">
+                <input class="field-input" type="text" value="" name="address">
+              </div>
             </div>
           </div>
-          <div class="row field-info pt-3 pb-3">
-            <label for="name" class="name col-3">Số điện thoại</label>
-            <div class="col-9">
-              <input class="field-input" type="text" value="" name="phone">
-            </div>
-          </div>
-          <div class="row field-info pt-3 pb-3">
-            <label for="name" class="name col-3">Email</label>
-            <div class="col-9">
-              <input class="field-input" type="email" value="" name="email">
-            </div>
-          </div>
-        </div>
 
-        <footer class="footer-detail">
-          <div class="footer text-center">
-            <a href="list-staff.php" class="btn btn-footer-edit btn-back btn-secondary">
-              Hủy bỏ
-            </a>
-            <a href="#" class="btn btn-footer-edit btn-update btn-primary">
-              Tạo mới
-            </a>
-          </div>
-        </footer>
+          <footer class="footer-detail">
+            <div class="footer text-center">
+              <a href="../../../views/pages/staff/list-staff.php" class="btn btn-footer-edit btn-back btn-secondary">
+                Hủy bỏ
+              </a>
+              <button type="submit" class="btn btn-footer-edit btn-update btn-primary">
+                Tạo mới
+              </button>
+            </div>
+          </footer>
+        </form>
       </div>
     </div>
 
