@@ -1,13 +1,18 @@
 <?php
 require_once(dirname(__DIR__) . '/connection.php');
-class FormPosition
+
+class FormRepository
 {
-  public $conn;
 
   function __construct()
   {
-    $conn = new DB();
-    $this->conn = $conn;
+    $this->conn = new DB();
+  }
+
+  public function store(array $data)
+  {
+    $query = $this->conn->getInstance()->prepare('INSERT INTO register_forms (form_type_id, reason, extend_inlate_early_id, extend_absence_id , start_date, end_date, detail_time, created_at, deleted_at, user_id, status_id) VALUE (?,?,?,?,?,?,?,?,?,?,?) ');
+    return $query->execute($data);
   }
 
   public function getListForm()
@@ -22,6 +27,18 @@ class FormPosition
     WHERE register_forms.deleted_at IS NULL
     AND users.deleted_at IS NULL
     ");
+    return $query->fetchAll(PDO::FETCH_ASSOC);
+  }
+
+  public function getListExtendInlateEarly()
+  {
+    $query = $this->conn->getInstance()->query('SELECT * FROM extend_inlate_early');
+    return $query->fetchAll(PDO::FETCH_ASSOC);
+  }
+
+  public function getListExtendAbsence()
+  {
+    $query = $this->conn->getInstance()->query('SELECT * FROM extend_absence');
     return $query->fetchAll(PDO::FETCH_ASSOC);
   }
 }

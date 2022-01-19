@@ -1,9 +1,7 @@
 <?php
 require_once(dirname(__DIR__) . '/repositories/UserRepository.php');
-
 class UserService
 {
-  public $userRepository;
 
   function __construct()
   {

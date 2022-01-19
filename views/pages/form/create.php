@@ -1,3 +1,18 @@
+<?php
+require_once('../../../services/FormService.php');
+session_start();
+$formService = new FormService();
+
+$listInlateEarly = $formService->getListExtendInlateEarly();
+$listAbsence = $formService->getListExtendAbsence();
+
+$error = false;
+if (isset($_SESSION['error_create_form'])) {
+  $error = true;
+  $messageError = $_SESSION['error_create_form'];
+  unset($_SESSION['error_create_form']);
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -75,97 +90,96 @@
     <div class="b-example-divider"></div>
     <div class="w-100">
       <div class="main-content">
-        <h1 class="title-detail pb-3 mb-4">Gửi form</h1>
-        <div class="content-detail">
-          <div class="row field-info pt-3 pb-3">
-            <label for="name" class="name col-3">Tên người gửi</label>
-            <div class="col-9">
-              <input class="field-input" type="text" name="name" id="">
+        <form action="../../../controllers/Form/HandleCreateForm.php" method="post">
+          <h1 class="title-detail pb-3 mb-4">Gửi form</h1>
+          <div class="content-detail">
+            <?php if ($error) {
+            ?>
+            <div class="alert alert-danger" role="alert">
+              <?= $messageError ?>
             </div>
-          </div>
-          <div class="row field-info pt-3 pb-3" id="reason">
-            <label for="name" class="name col-3">Yêu cầu</label>
-            <div class="col-9">
-              <div class="form-type">
-                <input class="" type="radio" name="form-type" id="lateEarly">
-                <label for="lateEarly">Đi muộn/ Về sớm</label>
-              </div>
-              <div class="form-type">
-                <input class="" type="radio" name="form-type" id="remote">
-                <label for="remote">Remote</label>
-              </div>
-              <div class="form-type">
-                <input class="" type="radio" name="form-type" id="absence">
-                <label for="absence">Xin nghỉ</label>
-              </div>
-            </div>
-          </div>
-          <div class="row field-extend-late-early d-none pt-3 pb-3" id="extend-inlate-early">
-            <label for="name" class="name col-3">Chi tiết</label>
-            <div class="col-9">
-              <div class="form-type">
-                <input class="" type="radio" name="form-type" id="inLate">
-                <label for="lateEarly">Đi muộn</label>
-              </div>
-              <div class="form-type">
-                <input class="" type="radio" name="form-type" id="earlyLeave">
-                <label for="remote">Về sớm</label>
+            <?php
+            } ?>
+            <div class="row field-info pt-3 pb-3" id="reason">
+              <label for="name" class="name col-3">Yêu cầu</label>
+              <div class="col-9">
+                <div class="form-type">
+                  <input class="" type="radio" name="form_type" value="1" id="absence">
+                  <label for="absence">Xin nghỉ</label>
+                </div>
+                <div class="form-type">
+                  <input class="" type="radio" name="form_type" value="2" id="lateEarly">
+                  <label for="lateEarly">Đi muộn/ Về sớm</label>
+                </div>
+                <div class="form-type">
+                  <input class="" type="radio" name="form_type" value="3" id="remote">
+                  <label for="remote">Remote</label>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="row field-extend-absence d-none pt-3 pb-3" id="extend-absence">
-            <label for="name" class="name col-3">Buổi trong ngày</label>
-            <div class="col-9">
-              <div class="form-type">
-                <input class="" type="radio" name="form-type" id="morning">
-                <label for="morning">Buổi sáng</label>
-              </div>
-              <div class="form-type">
-                <input class="" type="radio" name="form-type" id="afternoon">
-                <label for="afternoon">Buổi chiều</label>
-              </div>
-              <div class="form-type">
-                <input class="" type="radio" name="form-type" id="allDay">
-                <label for="allDay">Cả ngày</label>
+            <div class="row field-extend-late-early d-none pt-3 pb-3" id="extend-inlate-early">
+              <label for="name" class="name col-3">Chi tiết</label>
+              <div class="col-9">
+                <?php foreach ($listInlateEarly as $item) {
+                ?>
+                <div class="form-type">
+                  <input class="" type="radio" name="extend_inlate_early" value="<?= $item['id'] ?>">
+                  <label for=""><?= $item['name'] ?></label>
+                </div>
+                <?php
+                } ?>
               </div>
             </div>
-          </div>
-          <div class="row field-info pt-3 pb-3">
-            <label for="name" class="name col-3">Lý do</label>
-            <div class="col-9">
-              <input class="field-input" type="text" name="" id="">
+            <div class="row field-extend-absence d-none pt-3 pb-3" id="extend-absence">
+              <label for="name" class="name col-3">Buổi trong ngày</label>
+              <div class="col-9">
+                <?php foreach ($listAbsence as $item) {
+                ?>
+                <div class="form-type">
+                  <input class="" type="radio" name="extend_absence" value="<?= $item['id'] ?>">
+                  <label for=""><?= $item['name'] ?></label>
+                </div>
+                <?php
+                } ?>
+              </div>
+            </div>
+            <div class="row field-info pt-3 pb-3">
+              <label for="name" class="name col-3">Lý do</label>
+              <div class="col-9">
+                <input class="field-input" type="text" name="reason" id="">
+              </div>
+            </div>
+            <div class="row field-info pt-3 pb-3">
+              <label for="name" class="name col-3">Thời gian bắt đầu</label>
+              <div class="col-9">
+                <input class="" type="date" name="start_date" id="">
+              </div>
+            </div>
+            <div class="row field-info pt-3 pb-3">
+              <label for="name" class="name col-3">Thời gian kết thúc</label>
+              <div class="col-9">
+                <input class="" type="date" name="end_date" id="">
+              </div>
+            </div>
+            <div class="row field-info pt-3 pb-3">
+              <label for="name" class="name col-3">Thông tin bổ xung</label>
+              <div class="col-9">
+                <input class="field-input" type="text" name="detail_time" id="">
+              </div>
             </div>
           </div>
-          <div class="row field-info pt-3 pb-3">
-            <label for="name" class="name col-3">Thời gian bắt đầu</label>
-            <div class="col-9">
-              <input class="" type="date" name="" id="">
-            </div>
-          </div>
-          <div class="row field-info pt-3 pb-3">
-            <label for="name" class="name col-3">Thời gian kết thúc</label>
-            <div class="col-9">
-              <input class="" type="date" name="" id="">
-            </div>
-          </div>
-          <div class="row field-info pt-3 pb-3">
-            <label for="name" class="name col-3">Thông tin bổ xung</label>
-            <div class="col-9">
-              <input class="field-input" type="text" name="" id="">
-            </div>
-          </div>
-        </div>
 
-        <footer class="footer-detail">
-          <div class="footer text-center">
-            <a href="../index.php" class="btn btn-footer-edit btn-back btn-secondary">
-              Hủy bỏ
-            </a>
-            <a href="#" class="btn btn-footer-edit btn-send btn-primary">
-              Gửi
-            </a>
-          </div>
-        </footer>
+          <footer class="footer-detail">
+            <div class="footer text-center">
+              <a href="../index.php" class="btn btn-footer-edit btn-back btn-secondary">
+                Hủy bỏ
+              </a>
+              <button type="submit" class="btn btn-footer-edit btn-send btn-primary">
+                Gửi
+              </button>
+            </div>
+          </footer>
+        </form>
       </div>
     </div>
 

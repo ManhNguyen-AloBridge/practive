@@ -1,10 +1,16 @@
 <?php
 require_once('../../../controllers/Form/FormController.php');
+session_start();
 $formController = new FormController();
-
 $listData = $formController->getListForm();
-?>
 
+$success = false;
+if (isset($_SESSION['success_create_form'])) {
+  $success = true;
+  $messageSuccess = $_SESSION['success_create_form'];
+  unset($_SESSION['success_create_form']);
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -88,7 +94,7 @@ $listData = $formController->getListForm();
     <div class="b-example-divider"></div>
     <div class="w-100">
       <div class="main-content">
-        <h1 class="pb-3">Danh sách from gửi</h1>
+        <h1 class="">Danh sách from gửi</h1>
         <table class="table table-striped">
           <thead>
             <tr>
@@ -101,9 +107,10 @@ $listData = $formController->getListForm();
             </tr>
           </thead>
           <tbody>
-            <?php
-            foreach ($listData as $key => $value) {
-            ?>
+            <tr>
+              <?php
+              foreach ($listData as $key => $value) {
+              ?>
             <tr>
               <td><?= ++$key ?></td>
               <td><?= $value['name_form_type'] ?></td>
@@ -123,10 +130,18 @@ $listData = $formController->getListForm();
               </td>
             </tr>
             <?php
-              $i++;
-            }
-            ?>
+              }
+          ?>
           </tbody>
+          <div id='container'>
+            <?php if ($success) {
+            ?>
+            <div id='hideMe' class="alert alert-success m-0" role="alert">
+              <?= $messageSuccess ?>
+            </div>
+            <?php
+            } ?>
+          </div>
         </table>
         <nav aria-label="Page navigation example">
           <ul class="pagination">
@@ -168,8 +183,6 @@ $listData = $formController->getListForm();
       </div>
     </div>
   </div>
-
-
 
 </body>
 
