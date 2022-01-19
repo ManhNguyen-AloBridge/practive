@@ -1,9 +1,8 @@
 <?php
-// require_once(dirname(__DIR__) . '/services/UserService.php');
-require_once('../../services/UserService.php');
-
+require_once('../../../services/UserService.php');
 class UserController
 {
+  public $userService;
 
   function __construct()
   {
@@ -55,6 +54,16 @@ class UserController
     return header('Location: /views/pages/staff/list-staff.php');
   }
 
+
+  public function getListAdmin()
+  {
+    return $this->userService->getListAdmin();
+  }
+
+  public function getListStaff()
+  {
+    return $this->userService->getListStaff();
+  }
 
   function update()
   {

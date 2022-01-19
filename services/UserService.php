@@ -1,7 +1,9 @@
 <?php
 require_once(dirname(__DIR__) . '/repositories/UserRepository.php');
+
 class UserService
 {
+  public $userRepository;
 
   function __construct()
   {
@@ -12,5 +14,19 @@ class UserService
   public function store(array $data)
   {
     return $this->userRepository->store($data);
+  }
+
+  public function getListAdmin()
+  {
+
+    $listAdmin = $this->userRepository->getListAdmin();
+    return $listAdmin;
+  }
+
+
+  public function getListStaff()
+  {
+    $listStaff = $this->userRepository->getListStaff();
+    return $listStaff;
   }
 }
