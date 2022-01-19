@@ -102,16 +102,15 @@ $listData = $formController->getListForm();
           </thead>
           <tbody>
             <?php
-            $i = 1;
-            foreach ($listData as $item) {
+            foreach ($listData as $key => $value) {
             ?>
             <tr>
-              <td><?= $i ?></td>
-              <td><?= $item['name_form_type'] ?></td>
-              <td><?= $item['name_position'] ?></td>
-              <td><?= $item['phone'] ?></td>
+              <td><?= ++$key ?></td>
+              <td><?= $value['name_form_type'] ?></td>
+              <td><?= $value['name_position'] ?></td>
+              <td><?= $value['phone'] ?></td>
               <td>
-                <?= $item['name_status'] ?>
+                <?= $value['name_status'] ?>
               </td>
               <td class="table-list-action form-list">
                 <ul class="p-0 m-0">

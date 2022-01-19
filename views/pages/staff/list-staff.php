@@ -107,14 +107,13 @@ $listData = $userController->getListStaff();
           </thead>
           <tbody>
             <?php
-            $i = 1;
-            foreach ($listData as $item) {
+            foreach ($listData as $key => $value) {
             ?>
             <tr>
-              <td><?= $i ?></td>
-              <td><?= $item['user_name'] ?></td>
-              <td><?= $item['position_name'] ?></td>
-              <td><?= $item['phone'] ?></td>
+              <td><?= ++$key ?></td>
+              <td><?= $value['user_name'] ?></td>
+              <td><?= $value['position_name'] ?></td>
+              <td><?= $value['phone'] ?></td>
               <td class="table-list-action">
                 <ul class="p-0 m-0">
                   <li>
@@ -127,7 +126,6 @@ $listData = $userController->getListStaff();
               </td>
             </tr>
             <?php
-              $i++;
             } ?>
           </tbody>
         </table>
