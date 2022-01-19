@@ -41,4 +41,11 @@ class UserRepository
     ");
     return $query->fetchAll(PDO::FETCH_ASSOC);
   }
+
+  public function findByEmail(string $email)
+  {
+    $result = $this->conn->getInstance()->query("SELECT * FROM users WHERE email ='" . $email . "'");
+    $data = $result->fetchAll(PDO::FETCH_ASSOC);
+    return $data[0];
+  }
 }
