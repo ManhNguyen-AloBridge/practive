@@ -1,5 +1,11 @@
 <?php
+require_once('../../../services/FormService.php');
 session_start();
+$formService = new FormService();
+
+$listInlateEarly = $formService->getListExtendInlateEarly();
+$listAbsence = $formService->getListExtendAbsence();
+
 $error = false;
 if (isset($_SESSION['error_create_form'])) {
   $error = true;
@@ -114,31 +120,27 @@ if (isset($_SESSION['error_create_form'])) {
             <div class="row field-extend-late-early d-none pt-3 pb-3" id="extend-inlate-early">
               <label for="name" class="name col-3">Chi tiết</label>
               <div class="col-9">
+                <?php foreach ($listInlateEarly as $item) {
+                ?>
                 <div class="form-type">
-                  <input class="" type="radio" name="extend_inlate_early" value="1" id="inLate">
-                  <label for="lateEarly">Đi muộn</label>
+                  <input class="" type="radio" name="extend_inlate_early" value="<?= $item['id'] ?>">
+                  <label for=""><?= $item['name'] ?></label>
                 </div>
-                <div class="form-type">
-                  <input class="" type="radio" name="extend_inlate_early" value="2" id="earlyLeave">
-                  <label for="remote">Về sớm</label>
-                </div>
+                <?php
+                } ?>
               </div>
             </div>
             <div class="row field-extend-absence d-none pt-3 pb-3" id="extend-absence">
               <label for="name" class="name col-3">Buổi trong ngày</label>
               <div class="col-9">
+                <?php foreach ($listAbsence as $item) {
+                ?>
                 <div class="form-type">
-                  <input class="" type="radio" name="extend_absence" value="1" id="morning">
-                  <label for="morning">Buổi sáng</label>
+                  <input class="" type="radio" name="extend_absence" value="<?= $item['id'] ?>">
+                  <label for=""><?= $item['name'] ?></label>
                 </div>
-                <div class="form-type">
-                  <input class="" type="radio" name="extend_absence" value="2" id="afternoon">
-                  <label for="afternoon">Buổi chiều</label>
-                </div>
-                <div class="form-type">
-                  <input class="" type="radio" name="extend_absence" value="3" id="allDay">
-                  <label for="allDay">Cả ngày</label>
-                </div>
+                <?php
+                } ?>
               </div>
             </div>
             <div class="row field-info pt-3 pb-3">

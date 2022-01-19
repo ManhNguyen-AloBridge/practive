@@ -1,5 +1,5 @@
 <?php
-require_once('../../services/FormService.php');
+require_once(dirname('/home/giangtuan/Documents/Code/study/practive/controllers') . '/services/FormService.php');
 
 class FormController
 {
@@ -18,10 +18,6 @@ class FormController
       $_SESSION['error_create_form'] = 'Gửi form không thành công';
 
       return header('Location: /views/pages/form/create.php');
-    }
-
-    if (isset($_SESSION['error_create_form'])) {
-      unset($_SESSION['error_create_form']);
     }
 
     $_SESSION['success_create_form'] = 'Gửi form thành công';

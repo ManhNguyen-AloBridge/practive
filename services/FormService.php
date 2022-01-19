@@ -58,6 +58,16 @@ class FormService
 
   public function getListForm()
   {
-    return $this->formPosition->getListForm();
+    return $this->formRepository->getListForm();
+  }
+
+  public function getListExtendInlateEarly()
+  {
+    return $this->formRepository->getListExtendInlateEarly();
+  }
+
+  public function getListExtendAbsence()
+  {
+    return $this->formRepository->getListExtendAbsence();
   }
 }

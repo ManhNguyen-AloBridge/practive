@@ -12,7 +12,7 @@ class FormRepository
 
   public function store(array $data)
   {
-    $query = $this->conn->getInstance()->prepare('INSERT INTO register_forms (user_id, form_type_id, extend_inlate_early_id, extend_absence_id, reason, status_id, start_date, end_date, detail_time, created_at, deleted_at) VALUE (?,?,?,?,?,?,?,?,?,?,?) ');
+    $query = $this->conn->getInstance()->prepare('INSERT INTO register_forms (user_id, form_type_id, extend_inlate_early_id, extend_absence_id, reason , status_id, start_date, end_date, detail_time, created_at, deleted_at) VALUE (?,?,?,?,?,?,?,?,?,?,?) ');
     return $query->execute($data);
   }
 
@@ -28,6 +28,18 @@ class FormRepository
     WHERE register_forms.deleted_at IS NULL
     AND users.deleted_at IS NULL
     ");
+    return $query->fetchAll(PDO::FETCH_ASSOC);
+  }
+
+  public function getListExtendInlateEarly()
+  {
+    $query = $this->conn->getInstance()->query('SELECT * FROM extend_inlate_early');
+    return $query->fetchAll(PDO::FETCH_ASSOC);
+  }
+
+  public function getListExtendAbsence()
+  {
+    $query = $this->conn->getInstance()->query('SELECT * FROM extend_absence');
     return $query->fetchAll(PDO::FETCH_ASSOC);
   }
 }
