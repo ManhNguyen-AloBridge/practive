@@ -72,21 +72,20 @@ class UserController
 
   public function getListAdmin()
   {
-    session_start();
     $data = $this->userService->getListAdmin();
-    $index = array_search(strval($_SESSION['user_id']), array_column($data, 'id'));
-    unset($data[$index]);
-
-    return $data;
+    return $this->uncheckYourInfoInList($data);
   }
 
   public function getListStaff()
   {
-    session_start();
     $data = $this->userService->getListStaff();
+    return $this->uncheckYourInfoInList($data);
+  }
+
+  private function uncheckYourInfoInList(array $data)
+  {
     $index = array_search(strval($_SESSION['user_id']), array_column($data, 'id'));
     unset($data[$index]);
-
     return $data;
   }
 
