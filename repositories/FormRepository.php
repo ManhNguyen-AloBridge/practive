@@ -20,6 +20,7 @@ class FormPosition
     JOIN users ON users.id = register_forms.user_id 
     JOIN positions ON positions.id = users.position_id
     WHERE register_forms.deleted_at IS NULL
+    AND users.deleted_at IS NULL
     ");
     return $query->fetchAll(PDO::FETCH_ASSOC);
   }
