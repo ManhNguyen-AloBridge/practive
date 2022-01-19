@@ -7,7 +7,6 @@ class FormController
   function __construct()
   {
     $this->formService = new FormService();
-    $this->formModel = new Form();
   }
 
   public function store(array $data)
@@ -15,7 +14,8 @@ class FormController
     $type = intval($data['form_type_id']);
     session_start();
 
-    if ($type == $this->formModel::ABSENCE && $data['extend_absence'] == null || $type == $this->formModel::INLATE_EARLY && $data['extend_inlate_early'] == null) { //absence
+
+    if (($type == Form::TYPE_ABSENCE && $data['extend_absence'] == null) || ($type == Form::TYPE_INLATE_EARLY && $data['extend_inlate_early'] == null)) {
       $this->createSessionError();
     }
 

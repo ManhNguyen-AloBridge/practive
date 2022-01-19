@@ -2,10 +2,10 @@
 class Form
 {
 
-  const PENDING = 1;
-  const APPROVE = 2;
-  const CLOSED = 3;
-  const ABSENCE = 1;
-  const INLATE_EARLY = 2;
-  const REMOTE = 3;
+  public  const STATUS_PENDING = 1;
+  public  const STATUS_APPROVED = 2;
+  public  const STATUS_CLOSED = 3;
+  public  const TYPE_ABSENCE = 1;
+  public  const TYPE_INLATE_EARLY = 2;
+  public  const TYPE_REMOTE = 3;
 }

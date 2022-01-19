@@ -6,13 +6,12 @@ class FormRepository
 
   function __construct()
   {
-    $conn = new DB();
-    $this->conn = $conn;
+    $this->conn = new DB();
   }
 
   public function store(array $data)
   {
-    $query = $this->conn->getInstance()->prepare('INSERT INTO register_forms (user_id, form_type_id, extend_inlate_early_id, extend_absence_id, reason , status_id, start_date, end_date, detail_time, created_at, deleted_at) VALUE (?,?,?,?,?,?,?,?,?,?,?) ');
+    $query = $this->conn->getInstance()->prepare('INSERT INTO register_forms (form_type_id, reason, extend_inlate_early_id, extend_absence_id , start_date, end_date, detail_time, created_at, deleted_at, user_id, status_id) VALUE (?,?,?,?,?,?,?,?,?,?,?) ');
     return $query->execute($data);
   }
 
