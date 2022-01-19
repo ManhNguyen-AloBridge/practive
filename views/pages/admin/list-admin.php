@@ -123,8 +123,7 @@ if (isset($_SESSION['success_create'])) {
               <td class="table-list-action">
                 <ul class="p-0 m-0">
                   <li>
-                    <a href="detail.php" class="btn table-btn btn-primary">Chi tiết</a>
-                    <a href="edit.php" class="btn table-btn btn-warning">Cập nhật</a>
+                    <a href="detail.php?id=<?= $value['id'] ?>" class="btn table-btn btn-primary">Chi tiết</a>
                     <button data-toggle="modal" data-target="#exampleModal" href=""
                       class="btn table-btn btn-danger">Xóa</button>
                   </li>

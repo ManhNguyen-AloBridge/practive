@@ -1,3 +1,13 @@
+<?php
+require_once("../../../controllers/Form/FormController.php");
+$formController = new FormController();
+
+if (isset($_GET['id'])) {
+  $formId = $_GET['id'];
+  $dataDetail = $formController->show($formId);
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -78,35 +88,39 @@
         <div class="content-detail">
           <div class="row field-info pt-3 pb-3">
             <label for="name" class="name col-3">Tên người gửi</label>
-            <div class="col-9">Tran Van A</div>
+            <div class="col-9"><?= $dataDetail['user_name'] ?></div>
+          </div>
+          <div class="row field-info pt-3 pb-3">
+            <label for="name" class="name col-3">Chức vụ</label>
+            <div class="col-9"><?= $dataDetail['name_position'] ?></div>
           </div>
           <div class="row field-info pt-3 pb-3">
             <label for="name" class="name col-3">Yêu cầu</label>
-            <div class="col-9">Đi muộn</div>
+            <div class="col-9"><?= $dataDetail['name_form_type'] ?></div>
           </div>
           <div class="row field-info pt-3 pb-3">
             <label for="name" class="name col-3">Lý do</label>
-            <div class="col-9">Hỏng xe do cán phải đinh trên đường</div>
+            <div class="col-9"><?= $dataDetail['reason'] ?></div>
           </div>
           <div class="row field-info pt-3 pb-3">
             <label for="name" class="name col-3">Trạng thái</label>
-            <div class="col-9">Đang chờ</div>
+            <div class="col-9"><?= $dataDetail['name_status'] ?></div>
           </div>
           <div class="row field-info pt-3 pb-3">
             <label for="name" class="name col-3">Thời gian bắt đầu</label>
-            <div class="col-9">10/10/2022</div>
+            <div class="col-9"><?= $dataDetail['start_date'] ?></div>
           </div>
           <div class="row field-info pt-3 pb-3">
             <label for="name" class="name col-3">Thời gian kết thúc</label>
-            <div class="col-9">10/10/2022</div>
+            <div class="col-9"><?= $dataDetail['end_date'] ?></div>
           </div>
           <div class="row field-info pt-3 pb-3">
             <label for="name" class="name col-3">Thông tin bổ xung</label>
-            <div class="col-9">Xin đến muộn 40p, sẽ làm bù thêm 40p vào cuối buổi làm việc</div>
+            <div class="col-9"><?= $dataDetail['detail_time'] ?></div>
           </div>
           <div class="row field-info pt-3 pb-3">
             <label for="name" class="name col-3">Thời gian gửi</label>
-            <div class="col-9">10/10/2022 - 08h20</div>
+            <div class="col-9"><?= $dataDetail['created_at'] ?></div>
           </div>
         </div>
 

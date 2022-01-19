@@ -1,3 +1,13 @@
+<?php
+require_once("../../../controllers/User/UserController.php");
+$userController = new UserController();
+
+if (isset($_GET['id'])) {
+  $userId = $_GET['id'];
+  $dataDetail = $userController->detailInfo($userId);
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -77,33 +87,33 @@
         <div class="row main-content-header">
           <h1 class="col-10">Thông tin chi tiết nhân viên</h1>
           <div class="col-2 ">
-            <a href="edit.php" class="btn btn-primary btn-update">Cập nhật</a>
+            <a href="edit.php?id=<?= $dataDetail['id'] ?>" class="btn btn-primary btn-update">Cập nhật</a>
           </div>
         </div>
         <div class="content-detail">
           <div class="row field-info pt-3 pb-3">
             <label for="name" class="name col-3">Họ tên</label>
-            <div class="col-9">Tran Van A</div>
+            <div class="col-9"><?= $dataDetail['user_name'] ?></div>
           </div>
           <div class="row field-info pt-3 pb-3">
             <label for="name" class="name col-3">Vai trò</label>
-            <div class="col-9">User</div>
+            <div class="col-9"><?= $dataDetail['role_name'] ?></div>
           </div>
           <div class="row field-info pt-3 pb-3">
             <label for="name" class="name col-3">Chức vụ</label>
-            <div class="col-9">Nhân viên</div>
+            <div class="col-9"><?= $dataDetail['position_name'] ?></div>
           </div>
           <div class="row field-info pt-3 pb-3">
             <label for="name" class="name col-3">Ngày sinh </label>
-            <div class="col-9">10-10-1990</div>
+            <div class="col-9"><?= $dataDetail['birthday'] ?></div>
           </div>
           <div class="row field-info pt-3 pb-3">
             <label for="name" class="name col-3">Số điện thoại</label>
-            <div class="col-9">123456789</div>
+            <div class="col-9"><?= $dataDetail['phone'] ?></div>
           </div>
           <div class="row field-info pt-3 pb-3">
             <label for="name" class="name col-3">Email</label>
-            <div class="col-9">tranvana@gmail.com</div>
+            <div class="col-9"><?= $dataDetail['email'] ?></div>
           </div>
         </div>
 

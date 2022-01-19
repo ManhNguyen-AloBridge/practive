@@ -18,7 +18,7 @@ class FormRepository
   public function getListForm()
   {
     $query = $this->conn->getInstance()->query("
-    SELECT users.phone, register_forms.deleted_at, form_types.name AS name_form_type, states.name AS name_status, users.name AS user_name, positions.name AS name_position 
+    SELECT register_forms.id, users.phone, register_forms.deleted_at, form_types.name AS name_form_type, states.name AS name_status, users.name AS user_name, positions.name AS name_position 
     FROM register_forms 
     JOIN form_types ON  form_types.id =  register_forms.form_type_id 
     JOIN states ON states.id = register_forms.status_id 
@@ -40,5 +40,22 @@ class FormRepository
   {
     $query = $this->conn->getInstance()->query('SELECT * FROM extend_absence');
     return $query->fetchAll(PDO::FETCH_ASSOC);
+  }
+
+  public function findById(int $formId)
+  {
+    $query = $this->conn->getInstance()->query("
+    SELECT users.phone, register_forms.detail_time, register_forms.created_at, register_forms.start_date, register_forms.end_date, register_forms.reason, form_types.name AS name_form_type, states.name AS name_status, users.name AS user_name, positions.name AS name_position 
+    FROM register_forms 
+    JOIN form_types ON  form_types.id =  register_forms.form_type_id 
+    JOIN states ON states.id = register_forms.status_id 
+    JOIN users ON users.id = register_forms.user_id 
+    JOIN positions ON positions.id = users.position_id
+    WHERE register_forms.id = " . $formId . "
+    AND users.deleted_at IS NULL
+    AND register_forms.deleted_at IS NULL
+    ");
+    $data = $query->fetchAll(PDO::FETCH_ASSOC);
+    return $data[0];
   }
 }

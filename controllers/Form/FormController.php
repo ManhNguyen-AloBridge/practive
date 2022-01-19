@@ -39,4 +39,16 @@ class FormController
   {
     return $this->formService->getListForm();
   }
+
+  public function show(int $formId)
+  {
+    $result = $this->formService->findById($formId);
+
+    if (!$result) {
+      session_start();
+      $_SESSION['error_show'] = ' Thông tin form không tồn tại.';
+    }
+
+    return $result;
+  }
 }
