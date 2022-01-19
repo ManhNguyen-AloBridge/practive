@@ -61,4 +61,9 @@ class UserService
   {
     return $this->userRepository->findById($userId);
   }
+
+  public function deleteSoftUser(array $data)
+  {
+    return $this->userRepository->deleteSoftUser($data);
+  }
 }

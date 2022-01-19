@@ -64,13 +64,13 @@ class UserController
     if (!$result) {
       $this->errorSession($isAdmin);
     }
-    $_SESSION['success_create'] = $isAdmin ? 'Thêm mới Admin thành công' : 'Thêm mới người dùng thành công';
+    $_SESSION['success_create'] = $isAdmin ? 'Thêm mới Admin thành công.' : 'Thêm mới người dùng thành công.';
     return $isAdmin ? header('Location: /views/pages/admin/list-admin.php') : header('Location: /views/pages/staff/list-staff.php');
   }
 
   private function errorSession(bool $isAdmin)
   {
-    $_SESSION['error_create'] = $isAdmin ? 'Thêm mới Admin không thành công' : 'Thêm mới người dùng không thành công';
+    $_SESSION['error_create'] = $isAdmin ? 'Thêm mới Admin không thành công!' : 'Thêm mới người dùng không thành công!';
     die($isAdmin ? header('Location: /views/pages/admin/create.php') : header('Location: /views/pages/staff/create.php'));
   }
 
@@ -97,8 +97,45 @@ class UserController
   {
   }
 
-  function delete()
+  function deleteAdmin(int $userId)
   {
+    $isAdmin = true;
+    return $this->delete($isAdmin, $userId);
+  }
+
+  function deleteUser(int $userId)
+  {
+    $isAdmin = false;
+    return $this->delete($isAdmin, $userId);
+  }
+
+  private function delete(bool $isAdmin, int $userId)
+  {
+    $user = $this->userService->findById($userId);
+    session_start();
+    if (!$user) {
+      $this->errorDeleteUser($isAdmin);
+    }
+
+    $data = [
+      'id' => $userId,
+      'deleted_at' => date('Y-m-d'),
+    ];
+
+    $result = $this->userService->deleteSoftUser($data);
+
+    if (!$result) {
+      $this->errorDeleteUser($isAdmin);
+    }
+
+    $_SESSION['success_delete'] = 'Xóa người dùng thành công.';
+    return $isAdmin ? header('Location: /views/pages/admin/list-admin.php') : header('Location: /views/pages/staff/list-staff.php');
+  }
+
+  private function errorDeleteUser(bool $isAdmin)
+  {
+    $_SESSION['error_delete'] = 'Xóa người dùng không thành công!';
+    die($isAdmin ? header('Location: /views/pages/admin/list-admin.php') : header('Location: /views/pages/staff/list-staff.php'));
   }
 
   private function validateCreateUser(bool $isAdmin, array $data)

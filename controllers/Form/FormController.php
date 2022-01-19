@@ -103,4 +103,33 @@ class FormController
       die(header('Location: /views/pages/form/create.php'));
     }
   }
+
+  function deleteForm(int $formId)
+  {
+    $form = $this->formService->findById($formId);
+    session_start();
+    if (!$form) {
+      $this->errorDeleteForm();
+    }
+
+    $data = [
+      'id' => $formId,
+      'deleted_at' => date('Y-m-d'),
+    ];
+
+    $result = $this->formService->deleteSoftForm($data);
+
+    if (!$result) {
+      $this->errorDeleteForm();
+    }
+
+    $_SESSION['success_delete'] = 'Xóa form thành công.';
+    return header('Location: /views/pages/form/list-form.php');
+  }
+
+  private function errorDeleteForm()
+  {
+    $_SESSION['error_delete'] = 'Xóa form không thành công!';
+    die(header('Location: /views/pages/form/list-form.php'));
+  }
 }

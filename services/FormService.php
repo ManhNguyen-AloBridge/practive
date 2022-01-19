@@ -43,4 +43,9 @@ class FormService
   {
     return $this->formRepository->getListFormType();
   }
+
+  public function deleteSoftForm(array $data)
+  {
+    return $this->formRepository->deleteSoftForm($data);
+  }
 }
