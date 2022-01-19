@@ -74,7 +74,7 @@ class UserRepository
   public function findById(int $userId)
   {
     $query = $this->conn->getInstance()->query("
-    SELECT users.id, users.email, users.address, users.birthday, users.phone, users.deleted_at, users.name AS user_name, roles.name AS role_name, positions.name AS position_name 
+    SELECT users.id, users.email, users.address, roles.id AS role_id, positions.id AS position_id, users.birthday, users.phone, users.deleted_at, users.name AS user_name, roles.name AS role_name, positions.name AS position_name 
     FROM users  
     JOIN roles ON roles.id = users.role_id 
     JOIN positions ON positions.id = users.position_id 
@@ -89,5 +89,11 @@ class UserRepository
   {
     $sql = "UPDATE users SET deleted_at=now() WHERE id=$userId";
     return $this->conn->getInstance()->prepare($sql)->execute();
+  }
+
+  public function updateInfo(array $data)
+  {
+    $sql = "UPDATE users SET name=:name, email=:email, birthday=:birthday, address=:address, phone=:phone, role_id=:role, position_id=:position, updated_at=:updated_at WHERE id=:id";
+    return $this->conn->getInstance()->prepare($sql)->execute($data);
   }
 }

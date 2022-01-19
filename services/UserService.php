@@ -66,4 +66,9 @@ class UserService
   {
     return $this->userRepository->deleteSoft($userId);
   }
+
+  public function updateInfo(array $data)
+  {
+    return $this->userRepository->updateInfo($data);
+  }
 }

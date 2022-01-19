@@ -7,6 +7,14 @@ if (isset($_GET['id'])) {
   $dataDetail = $userController->detailInfo($userId);
 }
 
+session_start();
+$success = false;
+if (isset($_SESSION['success_update'])) {
+  $success = true;
+  $messageSuccess = $_SESSION['success_update'];
+  unset($_SESSION['success_update']);
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -91,6 +99,15 @@ if (isset($_GET['id'])) {
           </div>
         </div>
         <div class="content-detail">
+          <div id='container'>
+            <?php if ($success) {
+            ?>
+            <div id='hideMe' class="alert alert-success m-0" role="alert">
+              <?= $messageSuccess ?>
+            </div>
+            <?php
+            } ?>
+          </div>
           <div class="row field-info pt-3 pb-3">
             <label for="name" class="name col-3">Họ tên</label>
             <div class="col-9"><?= $dataDetail['user_name'] ?></div>

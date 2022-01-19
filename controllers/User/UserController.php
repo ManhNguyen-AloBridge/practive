@@ -62,13 +62,14 @@ class UserController
     $result = $this->userService->store($data);
 
     if (!$result) {
-      $this->errorSession($isAdmin);
+      $this->errorCreateSession($isAdmin);
     }
+
     $_SESSION['success_create'] = $isAdmin ? 'Thêm mới Admin thành công' : 'Thêm mới người dùng thành công';
     return $isAdmin ? header('Location: /views/pages/admin/list-admin.php') : header('Location: /views/pages/staff/list-staff.php');
   }
 
-  private function errorSession(bool $isAdmin)
+  private function errorCreateSession(bool $isAdmin)
   {
     $_SESSION['error_create'] = $isAdmin ? 'Thêm mới Admin không thành công' : 'Thêm mới người dùng không thành công';
     die($isAdmin ? header('Location: /views/pages/admin/create.php') : header('Location: /views/pages/staff/create.php'));
@@ -93,8 +94,71 @@ class UserController
     return $data;
   }
 
-  function update()
+  public function updateAdmin(array $data)
   {
+    $isAdmin = true;
+    $isProfile = false;
+    return $this->updateInfo($isAdmin, $isProfile, $data);
+  }
+
+  public function updateStaff(array $data)
+  {
+    $isAdmin = false;
+    $isProfile = false;
+    return $this->updateInfo($isAdmin, $isProfile, $data);
+  }
+
+  public function updateProfile(array $data)
+  {
+    $userId = $data['id'];
+    $isAdmin = false;
+    $isProfile = true;
+    $user = $this->userService->findById($userId);
+
+    session_start();
+    if (!$user) {
+      $this->errorUpdateInfo($isAdmin, $isProfile, $userId);
+    }
+
+    $result = $this->userService->updateInfo($data);
+
+    if (!$result) {
+      $this->errorUpdateInfo($isAdmin, $isProfile, $userId);
+    }
+
+    $_SESSION['success_update'] = 'Cập nhật thông tin thành công';
+    return header('Location: /views/pages/profile.php');
+  }
+
+  private function updateInfo(bool $isAdmin, bool $isProfile, array $data)
+  {
+    $userId = $data['id'];
+    $user = $this->userService->findById($userId);
+
+    session_start();
+    if (!$user) {
+      $this->errorUpdateInfo($isAdmin, $isProfile, $userId);
+    }
+
+    $result = $this->userService->updateInfo($data);
+
+    if (!$result) {
+      $this->errorUpdateInfo($isAdmin, $isProfile, $userId);
+    }
+
+    $_SESSION['success_update'] = 'Cập nhật thông tin thành công';
+    return $isAdmin ? header('Location: /views/pages/admin/detail.php?id=' . $userId) : header('Location: /views/pages/staff/detail.php?id=' . $userId);
+  }
+
+  private function errorUpdateInfo(bool $isAdmin, bool $isProfile, int $userId)
+  {
+    $_SESSION['error_update'] = 'Cập nhật thông tin không thành công';
+
+    if ($isProfile) {
+      die(header('Location: /views/pages/edit.php'));
+    }
+
+    die($isAdmin ? header('Location: /views/pages/admin/edit.php?id=' . $userId) : header('Location: /views/pages/staff/edit.php?id=' . $userId));
   }
 
   function deleteAdmin(int $userId)
