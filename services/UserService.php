@@ -13,4 +13,18 @@ class UserService
   {
     return $this->userRepository->store($data);
   }
+
+  public function getListAdmin()
+  {
+
+    $listAdmin = $this->userRepository->getListAdmin();
+    return $listAdmin;
+  }
+
+
+  public function getListStaff()
+  {
+    $listStaff = $this->userRepository->getListStaff();
+    return $listStaff;
+  }
 }

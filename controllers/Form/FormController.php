@@ -28,4 +28,9 @@ class FormController
 
     header('Location: /views/pages/form/list-form.php');
   }
+
+  public function getListForm()
+  {
+    return $this->formService->getListForm();
+  }
 }

@@ -1,16 +1,11 @@
 <?php
-require_once('../../../controllers/Form/FormController.php');
-session_start();
-$formController = new FormController();
-$listData = $formController->getListForm();
+require_once('../../../controllers/User/UserController.php');
+$userController = new UserController();
 
-$success = false;
-if (isset($_SESSION['success_create_form'])) {
-  $success = true;
-  $messageSuccess = $_SESSION['success_create_form'];
-  unset($_SESSION['success_create_form']);
-}
+$listData = $userController->getListAdmin();
+
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -56,7 +51,7 @@ if (isset($_SESSION['success_create_form'])) {
           </a>
         </li>
         <li>
-          <a href="../admin/list-admin.php" class="nav-link link-dark" id="listAdmin">
+          <a href="list-admin.php" class="nav-link link-dark active" aria-current="page" id="listAdmin">
             <svg class="bi me-2" width="16" height="16"></svg>
             Danh sách admin
           </a>
@@ -68,7 +63,7 @@ if (isset($_SESSION['success_create_form'])) {
           </a>
         </li>
         <li>
-          <a href="form/list-form.php" class="nav-link link-dark active" aria-current="page" id="listForm">
+          <a href="../form/list-form.php" class="nav-link link-dark" id="listForm">
             <svg class="bi me-2" width="16" height="16"></svg>
             Danh sách sách form
           </a>
@@ -83,7 +78,7 @@ if (isset($_SESSION['success_create_form'])) {
         </a>
         <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
           <li><a class="dropdown-item" href="../profile.php">Profile</a></li>
-          <li><a class="dropdown-item" href="create.php">Gửi form</a></li>
+          <li><a class="dropdown-item" href="../form/create.php">Gửi form</a></li>
           <li>
             <hr class="dropdown-divider">
           </li>
@@ -94,35 +89,36 @@ if (isset($_SESSION['success_create_form'])) {
     <div class="b-example-divider"></div>
     <div class="w-100">
       <div class="main-content">
-        <h1 class="">Danh sách from gửi</h1>
+        <div class="row main-content-header">
+          <h1 class="col-10">Danh sách Admin</h1>
+          <div class="col-2 ">
+            <a href="create.php" class="btn btn-primary btn-create">Tạo mới</a>
+          </div>
+        </div>
         <table class="table table-striped">
           <thead>
             <tr>
               <th>STT</th>
-              <th>Loại form</th>
-              <th>Người gửi</th>
-              <th>Phone</th>
-              <th>Trạng thái</th>
+              <th>Họ tên</th>
+              <th>Chức vụ</th>
+              <th>Số điện thoại</th>
               <th>Thao tác</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <?php
-              foreach ($listData as $key => $value) {
-              ?>
+            <?php
+            foreach ($listData as $key => $value) {
+            ?>
             <tr>
               <td><?= ++$key ?></td>
-              <td><?= $value['name_form_type'] ?></td>
-              <td><?= $value['name_position'] ?></td>
+              <td><?= $value['user_name'] ?></td>
+              <td><?= $value['position_name'] ?></td>
               <td><?= $value['phone'] ?></td>
-              <td>
-                <?= $value['name_status'] ?>
-              </td>
-              <td class="table-list-action form-list">
+              <td class="table-list-action">
                 <ul class="p-0 m-0">
                   <li>
                     <a href="detail.php" class="btn table-btn btn-primary">Chi tiết</a>
+                    <a href="edit.php" class="btn table-btn btn-warning">Cập nhật</a>
                     <button data-toggle="modal" data-target="#exampleModal" href=""
                       class="btn table-btn btn-danger">Xóa</button>
                   </li>
@@ -130,29 +126,19 @@ if (isset($_SESSION['success_create_form'])) {
               </td>
             </tr>
             <?php
-              }
-          ?>
-          </tbody>
-          <div id='container'>
-            <?php if ($success) {
-            ?>
-            <div id='hideMe' class="alert alert-success m-0" role="alert">
-              <?= $messageSuccess ?>
-            </div>
-            <?php
             } ?>
-          </div>
+          </tbody>
         </table>
         <nav aria-label="Page navigation example">
-          <ul class="pagination">
+          <ul class="pagination" id="pagination">
             <li class="page-item">
               <a class="page-link" href="#" aria-label="Previous">
                 <span aria-hidden="true">&laquo;</span>
               </a>
             </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item"><a class="page-link" value="1">1</a></li>
+            <li class="page-item"><a class="page-link" value="2">2</a></li>
+            <li class="page-item"><a class="page-link" value="3">3</a></li>
             <li class="page-item">
               <a class="page-link" href="#" aria-label="Next">
                 <span aria-hidden="true">&raquo;</span>
@@ -171,10 +157,7 @@ if (isset($_SESSION['success_create_form'])) {
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Bạn có muốn xóa nhân viên này?</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+          <h5 class="modal-title" id="exampleModalLabel">Bạn có muốn xóa admin này?</h5>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy bỏ</button>
@@ -182,7 +165,13 @@ if (isset($_SESSION['success_create_form'])) {
         </div>
       </div>
     </div>
-  </div>
+
+    <script>
+    const a = document.getElementById('pagination');
+    a.addEventListener('click', function(e) {
+      console.log(e.target);
+    });
+    </script>
 
 </body>
 

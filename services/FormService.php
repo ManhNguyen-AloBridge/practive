@@ -7,10 +7,8 @@ class FormService
 
   function __construct()
   {
-    $formRepository = new FormRepository();
-    $this->formRepository = $formRepository;
-    $form = new Form();
-    $this->formModel = $form;
+    $this->formRepository  = new FormRepository();
+    $this->formModel = new Form();
   }
 
   public function store(array $data)
@@ -39,22 +37,27 @@ class FormService
       $newData['deleted_at'],
     ];
 
-    if ($type == 1) { //absence
+    if ($type == $this->formModel::ABSENCE) { //absence
       if ($data['extend_absence'] == null) {
         return false;
       }
       return $this->formRepository->store($dataInsert);
     }
 
-    if ($type == 2) { //inlate/early
+    if ($type == $this->formModel::INLATE_EARLY) { //inlate/early
       if ($data['extend_inlate_early'] == null) {
         return false;
       }
       return $this->formRepository->store($dataInsert);
     }
 
-    if ($type == 3) { //remote
+    if ($type == $this->formModel::REMOTE) { //remote
       return $this->formRepository->store($dataInsert);
     }
+  }
+
+  public function getListForm()
+  {
+    return $this->formPosition->getListForm();
   }
 }
