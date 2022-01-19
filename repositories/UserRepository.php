@@ -54,4 +54,16 @@ class UserRepository
     $data = $result->fetchAll(PDO::FETCH_ASSOC);
     return $data[0];
   }
+
+  public function getListPosition()
+  {
+    $query = $this->conn->getInstance()->query(" SELECT * FROM positions");
+    return $query->fetchAll(PDO::FETCH_ASSOC);
+  }
+
+  public function getListRole()
+  {
+    $query = $this->conn->getInstance()->query(" SELECT * FROM roles");
+    return $query->fetchAll(PDO::FETCH_ASSOC);
+  }
 }

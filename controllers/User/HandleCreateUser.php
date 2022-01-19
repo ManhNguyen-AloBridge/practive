@@ -4,23 +4,20 @@ require_once('UserController.php');
 
 $controller = new UserController();
 
-
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
   $data = [
-    $_POST['name'],
-    $_POST['email'],
-    empty($_POST['password']) ? null : $_POST['password'],
-    empty($_POST['birthday']) ? null : $_POST['birthday'],
-    $_POST['address'],
-    $_POST['phone'],
-    $_POST['role'],
-    $_POST['position'],
-    $_POST['created_at'] ?? date('Y-m-d'),
-    $_POST['updated_at'] ?? date('Y-m-d'),
-    $_POST['deleted_at'],
+    'name' => $_POST['name'],
+    'email' => $_POST['email'],
+    'password' => empty($_POST['password']) ? null : $_POST['password'],
+    'birthday' => empty($_POST['birthday']) ? null : $_POST['birthday'],
+    'address' => $_POST['address'],
+    'phone' => $_POST['phone'],
+    'role' => $_POST['role'],
+    'position' => $_POST['position'],
+    'created_at' => $_POST['created_at'] ?? date('Y-m-d'),
+    'updated_at' => $_POST['updated_at'] ?? date('Y-m-d'),
+    'deleted_at' => $_POST['deleted_at'],
   ];
-
 
   $controller->storeUser($data);
 }

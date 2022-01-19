@@ -1,5 +1,5 @@
 <?php
-require_once('../../../services/UserService.php');
+require_once(dirname('/home/giangtuan/Documents/Code/study/practive/controllers') . '/services/UserService.php');
 class UserController
 {
   public $userService;
@@ -16,44 +16,41 @@ class UserController
 
   public function storeAdmin(array $data)
   {
-    $result = $this->userService->store($data);
+    $isAdmin = true;
     session_start();
-
-    if (!$result) {
-      $_SESSION['error_create_admin'] = 'Thêm mới Admin không thành công';
-
-      return header('Location: /views/pages/admin/create.php');
-    }
-
-    if (isset($_SESSION['error_create_admin'])) {
-      unset($_SESSION['error_create_admin']);
-    }
-
-    $_SESSION['success_create_admin'] = 'Thêm mới Admin thành công';
-
-    header('Location: /views/pages/admin/list-admin.php');
+    $this->store($isAdmin, $data);
   }
 
   public function storeUser(array $data)
   {
-    $result = $this->userService->store($data);
-
+    $isAdmin = false;
     session_start();
-
-    if (!$result) {
-      $_SESSION['error_create_user'] = 'Thêm mới người dùng không thành công';
-      return header('Location: /views/pages/staff/create.php');
-    }
-
-    if (isset($_SESSION['error_create_user'])) {
-      unset($_SESSION['error_create_user']);
-    }
-
-
-    $_SESSION['success_create_user'] = 'Thêm mới người dùng thành công';
-    return header('Location: /views/pages/staff/list-staff.php');
+    $this->store($isAdmin, $data);
   }
 
+  private function store(bool $isAdmin, array $data)
+  {
+    $email = $this->userService->findByEmail($data['email']);
+
+    if ($email) {
+      $this->errorSession($isAdmin);
+    }
+
+    $result = $this->userService->store($data);
+
+    if (!$result) {
+      $this->errorSession($isAdmin);
+    }
+    $_SESSION['success_create'] = $isAdmin ? 'Thêm mới Admin thành công' : 'Thêm mới người dùng thành công';
+    return $isAdmin ? header('Location: /views/pages/admin/list-admin.php') : header('Location: /views/pages/staff/list-staff.php');
+  }
+
+  private function errorSession(bool $isAdmin)
+  {
+    $_SESSION['error_create'] = $isAdmin ? 'Thêm mới Admin không thành công' : 'Thêm mới người dùng không thành công';
+    var_dump($_SESSION['error_create']);
+    die($isAdmin ? header('Location: /views/pages/admin/create.php') : header('Location: /views/pages/staff/create.php'));
+  }
 
   public function getListAdmin()
   {

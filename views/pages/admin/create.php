@@ -1,10 +1,16 @@
 <?php
+require_once('../../../services/UserService.php');
+$userService = new UserService();
+
+$roles = $userService->getListRole();
+$positions = $userService->getListPosition();
+
 session_start();
 $error = false;
-if (isset($_SESSION['error_create_admin'])) {
+if (isset($_SESSION['error_create'])) {
   $error = true;
-  $messageError = $_SESSION['error_create_admin'];
-  unset($_SESSION['error_create_admin']);
+  $messageError = $_SESSION['error_create'];
+  unset($_SESSION['error_create']);
 }
 ?>
 <!DOCTYPE html>
@@ -118,30 +124,25 @@ if (isset($_SESSION['error_create_admin'])) {
               <div class="col-9">
                 <select class="select-role" name="role" id="">
                   <option value="">Chọn quyền</option>
-                  <option value="1">Admin</option>
-                  <option value="2">User</option>
+                  <?php foreach ($roles as $role) {
+                  ?>
+                  <option value="<?= $role['id'] ?>"><?= $role['name'] ?></option>
+                  <?php
+                  } ?>
                 </select>
               </div>
             </div>
             <div class="row field-info pt-3 pb-3">
               <label for="name" class="name col-3">Chức vụ</label>
               <div class="col-9">
+                <?php foreach ($positions as $item) {
+                ?>
                 <div class="position">
-                  <input class="" type="radio" value="1" name="position" id="giamdoc">
-                  <label for="giamdoc">Giám đốc</label>
+                  <input class="" type="radio" value="<?= $item['id'] ?>" name="position">
+                  <label><?= $item['name'] ?></label>
                 </div>
-                <div class="position">
-                  <input class="" type="radio" value="2" name="position" id="truongnhom">
-                  <label for="truongnhom">Trưởng nhóm</label>
-                </div>
-                <div class="position">
-                  <input class="" type="radio" value="3" name="position" id="truongphong">
-                  <label for="truongphong">Trưởng phòng</label>
-                </div>
-                <div class="position">
-                  <input class="" checked type="radio" value="4" name="position" id="nhanvien">
-                  <label for="nhanvien">Nhân viên</label>
-                </div>
+                <?php
+                } ?>
               </div>
             </div>
             <div class="row field-info pt-3 pb-3">

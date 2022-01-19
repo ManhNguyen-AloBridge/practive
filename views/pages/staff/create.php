@@ -1,10 +1,10 @@
 <?php
 session_start();
 $error = false;
-if (isset($_SESSION['error_create_user'])) {
+if (isset($_SESSION['error_create'])) {
   $error = true;
-  $messageError = $_SESSION['error_create_user'];
-  unset($_SESSION['error_create_user']);
+  $messageError = $_SESSION['error_create'];
+  unset($_SESSION['error_create']);
 }
 ?>
 <!DOCTYPE html>

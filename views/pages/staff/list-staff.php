@@ -1,10 +1,15 @@
 <?php
+require_once('../../../controllers/User/UserController.php');
 session_start();
+$userController = new UserController();
+
+$listData = $userController->getListStaff();
+
 $success = false;
-if (isset($_SESSION['success_create_user'])) {
+if (isset($_SESSION['success_create'])) {
   $success = true;
-  $messageSuccess = $_SESSION['success_create_user'];
-  unset($_SESSION['success_create_user']);
+  $messageSuccess = $_SESSION['success_create'];
+  unset($_SESSION['success_create']);
 }
 ?>
 <!DOCTYPE html>
@@ -108,11 +113,14 @@ if (isset($_SESSION['success_create_user'])) {
             </tr>
           </thead>
           <tbody>
+            <?php
+            foreach ($listData as $key => $value) {
+            ?>
             <tr>
-              <td>1</td>
-              <td>Tran Van A</td>
-              <td>Leader</td>
-              <td>123456789</td>
+              <td><?= ++$key ?></td>
+              <td><?= $value['user_name'] ?></td>
+              <td><?= $value['position_name'] ?></td>
+              <td><?= $value['phone'] ?></td>
               <td class="table-list-action">
                 <ul class="p-0 m-0">
                   <li>
@@ -124,134 +132,8 @@ if (isset($_SESSION['success_create_user'])) {
                 </ul>
               </td>
             </tr>
-            <tr>
-              <td>2</td>
-              <td>Tran Van A</td>
-              <td>Leader</td>
-              <td>123456789</td>
-              <td class="table-list-action">
-                <ul class="p-0 m-0">
-                  <li>
-                    <a href="detail.php" class="btn table-btn btn-primary">Chi tiết</a>
-                    <a href="edit.php" class="btn table-btn btn-warning">Cập nhật</a>
-                    <button data-toggle="modal" data-target="#exampleModal" href=""
-                      class="btn table-btn btn-danger">Xóa</button>
-                  </li>
-                </ul>
-              </td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td>Tran Van A</td>
-              <td>Leader</td>
-              <td>123456789</td>
-              <td class="table-list-action">
-                <ul class="p-0 m-0">
-                  <li>
-                    <a href="detail.php" class="btn table-btn btn-primary">Chi tiết</a>
-                    <a href="edit.php" class="btn table-btn btn-warning">Cập nhật</a>
-                    <button data-toggle="modal" data-target="#exampleModal" href=""
-                      class="btn table-btn btn-danger">Xóa</button>
-                  </li>
-                </ul>
-              </td>
-            </tr>
-            <tr>
-              <td>4</td>
-              <td>Tran Van A</td>
-              <td>Leader</td>
-              <td>123456789</td>
-              <td class="table-list-action">
-                <ul class="p-0 m-0">
-                  <li>
-                    <a href="detail.php" class="btn table-btn btn-primary">Chi tiết</a>
-                    <a href="edit.php" class="btn table-btn btn-warning">Cập nhật</a>
-                    <button data-toggle="modal" data-target="#exampleModal" href=""
-                      class="btn table-btn btn-danger">Xóa</button>
-                  </li>
-                </ul>
-              </td>
-            </tr>
-            <tr>
-              <td>4</td>
-              <td>Tran Van A</td>
-              <td>Leader</td>
-              <td>123456789</td>
-              <td class="table-list-action">
-                <ul class="p-0 m-0">
-                  <li>
-                    <a href="detail.php" class="btn table-btn btn-primary">Chi tiết</a>
-                    <a href="edit.php" class="btn table-btn btn-warning">Cập nhật</a>
-                    <button data-toggle="modal" data-target="#exampleModal" href=""
-                      class="btn table-btn btn-danger">Xóa</button>
-                  </li>
-                </ul>
-              </td>
-            </tr>
-            <tr>
-              <td>4</td>
-              <td>Tran Van A</td>
-              <td>Leader</td>
-              <td>123456789</td>
-              <td class="table-list-action">
-                <ul class="p-0 m-0">
-                  <li>
-                    <a href="detail.php" class="btn table-btn btn-primary">Chi tiết</a>
-                    <a href="edit.php" class="btn table-btn btn-warning">Cập nhật</a>
-                    <button data-toggle="modal" data-target="#exampleModal" href=""
-                      class="btn table-btn btn-danger">Xóa</button>
-                  </li>
-                </ul>
-              </td>
-            </tr>
-            <tr>
-              <td>4</td>
-              <td>Tran Van A</td>
-              <td>Leader</td>
-              <td>123456789</td>
-              <td class="table-list-action">
-                <ul class="p-0 m-0">
-                  <li>
-                    <a href="detail.php" class="btn table-btn btn-primary">Chi tiết</a>
-                    <a href="edit.php" class="btn table-btn btn-warning">Cập nhật</a>
-                    <button data-toggle="modal" data-target="#exampleModal" href=""
-                      class="btn table-btn btn-danger">Xóa</button>
-                  </li>
-                </ul>
-              </td>
-            </tr>
-            <tr>
-              <td>4</td>
-              <td>Tran Van A</td>
-              <td>Leader</td>
-              <td>123456789</td>
-              <td class="table-list-action">
-                <ul class="p-0 m-0">
-                  <li>
-                    <a href="detail.php" class="btn table-btn btn-primary">Chi tiết</a>
-                    <a href="edit.php" class="btn table-btn btn-warning">Cập nhật</a>
-                    <button data-toggle="modal" data-target="#exampleModal" href=""
-                      class="btn table-btn btn-danger">Xóa</button>
-                  </li>
-                </ul>
-              </td>
-            </tr>
-            <tr>
-              <td>4</td>
-              <td>Tran Van A</td>
-              <td>Leader</td>
-              <td>123456789</td>
-              <td class="table-list-action">
-                <ul class="p-0 m-0">
-                  <li>
-                    <a href="detail.php" class="btn table-btn btn-primary">Chi tiết</a>
-                    <a href="edit.php" class="btn table-btn btn-warning">Cập nhật</a>
-                    <button data-toggle="modal" data-target="#exampleModal" href=""
-                      class="btn table-btn btn-danger">Xóa</button>
-                  </li>
-                </ul>
-              </td>
-            </tr>
+            <?php
+            } ?>
           </tbody>
           <div id='container'>
             <?php if ($success) {
@@ -263,6 +145,23 @@ if (isset($_SESSION['success_create_user'])) {
             } ?>
           </div>
         </table>
+        <nav aria-label="Page navigation example">
+          <ul class="pagination" id="pagination">
+            <li class="page-item">
+              <a class="page-link" href="#" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+            <li class="page-item"><a class="page-link" value="1">1</a></li>
+            <li class="page-item"><a class="page-link" value="2">2</a></li>
+            <li class="page-item"><a class="page-link" value="3">3</a></li>
+            <li class="page-item">
+              <a class="page-link" href="#" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
       </div>
     </div>
 
