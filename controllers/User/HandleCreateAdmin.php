@@ -13,10 +13,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     'address' => $_POST['address'],
     'phone' => $_POST['phone'],
     'role' => $_POST['role'],
-    'position' => $_POST['position'],
+    'position' => $_POST['position'] ?? null,
     'created_at' => $_POST['created_at'] ?? date('Y-m-d'),
     'updated_at' => $_POST['updated_at'] ?? date('Y-m-d'),
-    'deleted_at' => $_POST['deleted_at'],
+    'deleted_at' => $_POST['deleted_at'] ?? null,
   ];
 
   $controller->storeAdmin($data);

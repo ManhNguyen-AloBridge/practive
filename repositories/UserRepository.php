@@ -52,7 +52,11 @@ class UserRepository
   {
     $result = $this->conn->getInstance()->query("SELECT * FROM users WHERE email ='" . $email . "' AND users.deleted_at IS NULL");
     $data = $result->fetchAll(PDO::FETCH_ASSOC);
-    return $data[0];
+
+    if (isset($data[0])) {
+      return $data[0];
+    }
+    return $data;
   }
 
   public function getListPosition()
