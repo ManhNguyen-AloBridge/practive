@@ -10,10 +10,4 @@ $data = [
   'password' => $_POST['password']
 ];
 
-$login = $authController->checkLogin($data);
-
-if (!$login) {
-  include_once('../views/pages/login.php');
-}
-
-include_once('../views/pages/index.php');
+$authController->checkLogin($data);

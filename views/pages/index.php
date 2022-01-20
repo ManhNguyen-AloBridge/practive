@@ -62,7 +62,7 @@
         </a>
         <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
           <li><a class="dropdown-item" href="profile.php">Profile</a></li>
-          <li><a class="dropdown-item" href="../pages/form/create.php">Gửi form</a></li>
+          <li><a class="dropdown-item" href="form/create.php">Gửi form</a></li>
           <li>
             <hr class="dropdown-divider">
           </li>

@@ -58,4 +58,10 @@ class FormRepository
     $data = $query->fetchAll(PDO::FETCH_ASSOC);
     return $data[0];
   }
+
+  public function getListFormType()
+  {
+    $query = $this->conn->getInstance()->query('SELECT * FROM form_types');
+    return $query->fetchAll(PDO::FETCH_ASSOC);
+  }
 }
