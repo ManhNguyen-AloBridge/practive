@@ -10,8 +10,27 @@ class UserController
     $this->userService = $userService;
   }
 
-  function show()
+  public function detailInfo(int $userId)
   {
+    $result = $this->userService->findById($userId);
+
+    if (!$result) {
+      session_start();
+      $_SESSION['error_show'] = 'Thông tin người dùng không tồn tại';
+      die(header('Location: /views/pages/admin/list-admin.php'));
+    }
+    return $result;
+  }
+
+  public function show()
+  {
+    session_start();
+    $result = $this->userService->findById($_SESSION['user_id']);
+    if (!$result) {
+      $_SESSION['error_show'] = 'Thông tin người dùng không tồn tại';
+      die(header('Location: /views/pages/index.php'));
+    }
+    return $result;
   }
 
   public function storeAdmin(array $data)
@@ -48,18 +67,26 @@ class UserController
   private function errorSession(bool $isAdmin)
   {
     $_SESSION['error_create'] = $isAdmin ? 'Thêm mới Admin không thành công' : 'Thêm mới người dùng không thành công';
-    var_dump($_SESSION['error_create']);
     die($isAdmin ? header('Location: /views/pages/admin/create.php') : header('Location: /views/pages/staff/create.php'));
   }
 
   public function getListAdmin()
   {
-    return $this->userService->getListAdmin();
+    $data = $this->userService->getListAdmin();
+    return $this->uncheckYourInfoInList($data);
   }
 
   public function getListStaff()
   {
-    return $this->userService->getListStaff();
+    $data = $this->userService->getListStaff();
+    return $this->uncheckYourInfoInList($data);
+  }
+
+  private function uncheckYourInfoInList(array $data)
+  {
+    $index = array_search(strval($_SESSION['user_id']), array_column($data, 'id'));
+    unset($data[$index]);
+    return $data;
   }
 
   function update()

@@ -135,7 +135,7 @@
 
         <footer class="footer-detail">
           <div class="footer text-center">
-            <a href="list-admin.php" class="btn btn-footer-edit btn-back btn-secondary">
+            <a href="profile.php" class="btn btn-footer-edit btn-back btn-secondary">
               Quay lại
             </a>
             <a href="#" class="btn btn-footer-edit btn-update btn-primary">

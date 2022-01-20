@@ -56,4 +56,9 @@ class UserService
   {
     return $this->userRepository->getListRole();
   }
+
+  public function findById(int $userId)
+  {
+    return $this->userRepository->findById($userId);
+  }
 }

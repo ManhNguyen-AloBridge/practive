@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     'start_date' => $_POST['start_date'],
     'end_date' => $_POST['end_date'],
     'detail_time' => $_POST['detail_time'],
-    'created_at' => $_POST['created_at'] ?? date('Y-m-d'),
+    'created_at' => $_POST['created_at'] ?? date('Y-m-d H:i'),
     'deleted_at' => $_POST['deleted_at'],
   ];
 

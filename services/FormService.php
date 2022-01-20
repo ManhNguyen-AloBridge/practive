@@ -36,4 +36,9 @@ class FormService
   {
     return $this->formRepository->getListExtendAbsence();
   }
+
+  public function FindById(int $formId)
+  {
+    return $this->formRepository->findById($formId);
+  }
 }

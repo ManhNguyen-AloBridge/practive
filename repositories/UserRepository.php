@@ -22,7 +22,7 @@ class UserRepository
   public function getListAdmin()
   {
     $query = $this->conn->getInstance()->query("
-    SELECT users.phone, users.deleted_at, users.name AS user_name, roles.name AS role_name, positions.name AS position_name 
+    SELECT users.id, users.phone, users.deleted_at, users.name AS user_name, roles.name AS role_name, positions.name AS position_name 
     FROM users  
     JOIN roles ON roles.id = users.role_id 
     JOIN positions ON positions.id = users.position_id 
@@ -37,7 +37,7 @@ class UserRepository
   public function getListStaff()
   {
     $query = $this->conn->getInstance()->query("
-    SELECT users.phone, users.deleted_at, users.name AS user_name, roles.name AS role_name, positions.name AS position_name 
+    SELECT users.id, users.phone, users.deleted_at, users.name AS user_name, roles.name AS role_name, positions.name AS position_name 
     FROM users  
     JOIN roles ON roles.id = users.role_id 
     JOIN positions ON positions.id = users.position_id 
@@ -65,5 +65,19 @@ class UserRepository
   {
     $query = $this->conn->getInstance()->query(" SELECT * FROM roles");
     return $query->fetchAll(PDO::FETCH_ASSOC);
+  }
+
+  public function findById(int $userId)
+  {
+    $query = $this->conn->getInstance()->query("
+    SELECT users.id, users.email, users.address, users.birthday, users.phone, users.deleted_at, users.name AS user_name, roles.name AS role_name, positions.name AS position_name 
+    FROM users  
+    JOIN roles ON roles.id = users.role_id 
+    JOIN positions ON positions.id = users.position_id 
+    WHERE users.id = " . $userId . "
+    AND users.deleted_at IS NULL
+    ");
+    $data = $query->fetchAll(PDO::FETCH_ASSOC);
+    return $data[0];
   }
 }
