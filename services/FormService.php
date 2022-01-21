@@ -1,6 +1,6 @@
 <?php
-require_once(dirname(__DIR__) . '/repositories/FormRepository.php');
-require_once(dirname(__DIR__) . '/models/Form.php');
+require_once $_SERVER['DOCUMENT_ROOT']  . '/repositories/FormRepository.php';
+require_once $_SERVER['DOCUMENT_ROOT']  . '/models/Form.php';
 
 class FormService
 {

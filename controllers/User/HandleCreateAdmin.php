@@ -1,6 +1,5 @@
 <?php
-
-require_once('UserController.php');
+require_once $_SERVER['DOCUMENT_ROOT']  . '/controllers/User/UserController.php';
 
 $controller = new UserController();
 

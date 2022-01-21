@@ -1,5 +1,5 @@
 <?php
-require_once('FormController.php');
+require_once $_SERVER['DOCUMENT_ROOT']  . '/controllers/Form/FormController.php';
 $controller = new FormController();
 
 

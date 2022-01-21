@@ -1,5 +1,5 @@
 <?php
-require_once('../services/AuthService.php');
+require_once $_SERVER['DOCUMENT_ROOT']  . '/services/AuthService.php';
 
 class AuthController
 {

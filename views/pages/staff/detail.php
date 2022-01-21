@@ -1,5 +1,5 @@
 <?php
-require_once("../../../controllers/User/UserController.php");
+require_once $_SERVER['DOCUMENT_ROOT']  . "/controllers/User/UserController.php";
 $userController = new UserController();
 
 if (isset($_GET['id'])) {
@@ -77,7 +77,7 @@ if (isset($_GET['id'])) {
           <li>
             <hr class="dropdown-divider">
           </li>
-          <li><a class="dropdown-item" href="../../../controllers/LogoutController.php">Sign out</a></li>
+          <li><a class="dropdown-item" href="../../../controllers/HandleLogout.php">Sign out</a></li>
         </ul>
       </div>
     </div>
