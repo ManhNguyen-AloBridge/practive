@@ -1,7 +1,11 @@
 <?php
 require_once(dirname('/home/giangtuan/Documents/Code/study/practive/controllers') . '/services/UserService.php');
+require_once(dirname('/home/giangtuan/Documents/Code/study/practive/controllers') . '/trait/ValidateName.php');
 class UserController
 {
+
+  use Validate;
+
   public $userService;
 
   function __construct()
@@ -73,57 +77,21 @@ class UserController
   {
     $errors = [];
     unset($data['deleted_at']);
-    if (empty($data['name'])) {
-      $errors['name'] = 'Họ tên không được để trống.';
-    } else {
-      $checkName = preg_match('/^.{3,50}$/', $data['name']);
-      if (!$checkName) {
-        $errors['name'] = 'Họ tên tối thiểu phải có 3 ký tự và tối đa 50 ký tự.';
-      }
+
+    $errors['name'] = $this->validateFieldString('Họ tên', 3, 50, $data['name']);
+
+    $errors['email'] = $this->validateFieldRegexSpecial($data['email'], '/\S+@\S+\.\S+/', 'Email không được để trống.', 'Email không đúng định dạng.');
+
+    $email = $this->userService->findByEmail($data['email']);
+    if ($email) {
+      $errors['email'] = 'Email đã tồn tại.';
     }
 
-    if (empty($data['email'])) {
-      $errors['email'] = 'Email không được để trống.';
-    } else {
+    $errors['confirm_email'] = $this->validateConfirm('email', $data['email'], $data['confirm_email']);
 
-      $checkEmail = preg_match('/\S+@\S+\.\S+/', $data['email']);
-      if (!$checkEmail) {
-        $errors['email'] = 'Email không đúng định dạng.';
-      }
+    $errors['password'] = $this->validateFieldString('Mật khẩu', 6, 50, $data['password']);
 
-      $email = $this->userService->findByEmail($data['email']);
-      if ($email) {
-        $errors['email'] = 'Email đã tồn tại.';
-      }
-    }
-
-    if (empty($data['confirm_email'])) {
-      $errors['confirm_email'] = 'Xác nhận email không được để trống.';
-    } else {
-
-      if ($data['confirm_email'] != $data['email']) {
-        $errors['confirm_email'] = 'Xác nhận email không khớp.';
-      }
-    }
-
-    if (empty($data['password'])) {
-      $errors['password'] = 'Mật khẩu không được để trống.';
-    } else {
-      $checkPassword = preg_match('/^.{6,50}$/', $data['password']);
-      if (!$checkPassword) {
-        $errors['password'] = 'Mật khẩu tối thiểu phải có 6 ký tự và tối đa 50 ký tự.';
-      }
-    }
-
-    if (empty($data['confirm_password'])) {
-      $errors['confirm_password'] = 'Xác nhận mật khẩu không được để trống.';
-    } else {
-      $checkPassword = preg_match('/^.{6,50}$/', $data['confirm_password']);
-
-      if ($data['confirm_password'] != $data['password']) {
-        $errors['confirm_password'] = 'Xác nhận mật khẩu không khớp.';
-      }
-    }
+    $errors['confirm_password'] = $this->validateConfirm('mật khẩu', $data['password'], $data['confirm_password']);
 
     if (empty($data['role'])) {
       $errors['role'] = 'Hãy chọn một quyền.';
@@ -133,31 +101,12 @@ class UserController
       $errors['position'] = 'Hãy chọn một chức vụ.';
     }
 
-    if (empty($data['birthday'])) {
-      $errors['birthday'] = 'Hãy chọn ngày sinh.';
-    } else {
-      if ($data['birthday'] >= date('Y-m-d')) {
-        $errors['birthday'] = 'Ngày sinh phải trước ngày hiện tại.';
-      }
-    }
+    $errors['birthday'] = $this->validateBirthday($data['birthday'], 'Hãy chọn ngày sinh.', 'Ngày sinh phải trước ngày hiện tại.');
 
-    if (empty($data['phone'])) {
-      $errors['phone'] = 'Số điện thoại không được để trống.';
-    } else {
-      $checkPhone = preg_match('/^[0-9\-\+]{9,15}$/', $data['phone']);
+    $errors['phone'] = $this->validateFieldRegexSpecial($data['phone'], '/^[0-9\-\+]{9,15}$/', 'Số điện thoại không được để trống.', 'Số điện thoại phải có độ dài từ 9 - 15 ký tự số.');
 
-      if (!$checkPhone) {
-        $errors['phone'] = 'Số điện thoại phải có độ dài từ 9 - 15 ký tự số.';
-      }
-    }
-    if (empty($data['address'])) {
-      $errors['address'] = 'Địa chỉ không được để trống.';
-    } else {
-      $checkAddress = preg_match('/^.{6,100}$/', $data['address']);
-      if (!$checkAddress) {
-        $errors['address'] = 'Địa chỉ tối thiểu phải có 6 ký tự và tối đa 100 ký tự.';
-      }
-    }
+    $errors['address'] = $this->validateFieldString('Địa chỉ', 6, 50, $data['address']);
+
 
     if (count($errors) > 0) {
       $_SESSION['old_data'] = $data;
