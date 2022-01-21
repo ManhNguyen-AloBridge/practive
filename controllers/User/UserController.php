@@ -1,6 +1,6 @@
 <?php
 require_once(dirname('/home/giangtuan/Documents/Code/study/practive/controllers') . '/services/UserService.php');
-require_once(dirname('/home/giangtuan/Documents/Code/study/practive/controllers') . '/trait/ValidateName.php');
+require_once(dirname('/home/giangtuan/Documents/Code/study/practive/controllers') . '/trait/Validate.php');
 class UserController
 {
 
@@ -136,7 +136,7 @@ class UserController
     $errors['address'] = $this->validateFieldString('Địa chỉ', 6, 50, $data['address']);
 
 
-    if (count($errors) > 0) {
+    if (count(array_filter($errors)) > 0) {
       $_SESSION['old_data'] = $data;
       $_SESSION['errors_validate'] = $errors;
       die($isAdmin ? header('Location: /views/pages/admin/create.php') : header('Location: /views/pages/staff/create.php'));

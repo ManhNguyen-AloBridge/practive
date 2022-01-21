@@ -1,8 +1,11 @@
 <?php
 require_once(dirname('/home/giangtuan/Documents/Code/study/practive/controllers') . '/services/FormService.php');
 require_once(dirname('/home/giangtuan/Documents/Code/study/practive/controllers') . '/models/Form.php');
+require_once(dirname('/home/giangtuan/Documents/Code/study/practive/controllers') . '/trait/Validate.php');
 class FormController
 {
+
+  use Validate;
 
   function __construct()
   {
@@ -62,14 +65,8 @@ class FormController
     if (empty($data['form_type_id'])) {
       $errors['form_type'] = 'Hãy chọn một yêu cầu cho form.';
     }
-    if (empty($data['reason'])) {
-      $errors['reason'] = 'Hãy viết lý do của bạn.';
-    } else {
-      $checkReason = preg_match('/^.{7,100}$/', $data['reason']);
-      if (!$checkReason) {
-        $errors['reason'] = 'Họ tên tối thiểu phải có 7 ký tự và tối đa 100 ký tự.';
-      }
-    }
+
+    $errors['reason'] = $this->validateFieldString('Lý do', 7, 100, $data['reason']);
 
     if ($data['form_type_id'] == Form::TYPE_INLATE_EARLY && empty($data['extend_inlate_early'])) {
       $errors['extend_inlate_early'] = 'Hãy chọn chi tiết.';
@@ -82,22 +79,10 @@ class FormController
       $errors['start_date'] = 'Hãy chọn ngày bắt đầu.';
     }
 
-    if (empty($data['end_date'])) {
-      $errors['end_date'] = 'Hãy chọn ngày kết thúc.';
-    } else {
-      if ($data['start_date'] > $data['end_date']) {
-        $errors['start_date'] = 'Ngày bắt đầu phải trước hoặc bằng ngày kết thúc.';
-      }
-    }
+    $errors['end_date'] = $this->validateDateBeforeAnother($data['start_date'], $data['end_date'], 'Hãy chọn ngày kết thúc.', 'Ngày kết thúc phải sau ngày bắt đầu');
 
-    if (empty($data['detail_time'])) {
-      $errors['detail_time'] = 'Hãy nhập thông tin bổ sung.';
-    } else {
-      $checkDetailTime = preg_match('/^.{7,100}$/', $data['detail_time']);
-      if (!$checkDetailTime) {
-        $errors['detail_time'] = 'Họ tên tối thiểu phải có 7 ký tự và tối đa 100 ký tự.';
-      }
-    }
+    $errors['detail_time'] = $this->validateFieldString('Thông tin bổ sung', 7, 100, $data['detail_time']);
+
 
     if ($data['form_type_id'] == Form::TYPE_INLATE_EARLY) {
       $data['extend_absence'] = null;
@@ -112,7 +97,7 @@ class FormController
       $data['extend_inlate_early'] = null;
     }
 
-    if (count($errors) > 0) {
+    if (count(array_filter($errors)) > 0) {
       $_SESSION['old_data'] = $data;
       $_SESSION['errors_validate'] = $errors;
       die(header('Location: /views/pages/form/create.php'));

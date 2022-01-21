@@ -54,4 +54,15 @@ trait Validate
       }
     }
   }
+
+  public function validateDateBeforeAnother(?string $date, ?string $anotherDate, string $messageEmpty, string $messageDate)
+  {
+    if (empty($date)) {
+      return $messageEmpty;
+    } else {
+      if ($date > $anotherDate) {
+        return $messageDate;
+      }
+    }
+  }
 }
