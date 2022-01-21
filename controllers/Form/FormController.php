@@ -104,7 +104,7 @@ class FormController
     }
   }
 
-  function deleteForm(int $formId)
+  function delete(int $formId)
   {
     $form = $this->formService->findById($formId);
     session_start();
@@ -117,7 +117,7 @@ class FormController
       'deleted_at' => date('Y-m-d'),
     ];
 
-    $result = $this->formService->deleteSoftForm($data);
+    $result = $this->formService->deleteSoft($data);
 
     if (!$result) {
       $this->errorDeleteForm();

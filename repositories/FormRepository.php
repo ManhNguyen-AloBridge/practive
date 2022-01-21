@@ -65,7 +65,8 @@ class FormRepository
     return $query->fetchAll(PDO::FETCH_ASSOC);
   }
 
-  public function deleteSoftForm(array $data)
+
+  public function deleteSoft(array $data)
   {
     $sql = "UPDATE register_forms SET deleted_at=:deleted_at WHERE id=:id";
     return $this->conn->getInstance()->prepare($sql)->execute($data);
