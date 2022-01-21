@@ -12,6 +12,16 @@ if (isset($_SESSION['error_create'])) {
   $messageError = $_SESSION['error_create'];
   unset($_SESSION['error_create']);
 }
+
+if (isset($_SESSION['errors_validate']) && isset($_SESSION['old_data'])) {
+  $errorsValidate = $_SESSION['errors_validate'];
+  $oldData = $_SESSION['old_data'];
+
+  unset($_SESSION['errors_validate']);
+  unset($_SESSION['old_data']);
+}
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -83,12 +93,12 @@ if (isset($_SESSION['error_create'])) {
           <li>
             <hr class="dropdown-divider">
           </li>
-          <li><a class="dropdown-item" href="#">Sign out</a></li>
+          <li><a class="dropdown-item" href="../../../controllers/LogoutController.php">Sign out</a></li>
         </ul>
       </div>
     </div>
     <div class="b-example-divider"></div>
-    <div class="w-100">
+    <div class="content">
       <div class="main-content">
         <form action="../../../controllers/User/HandleCreateAdmin.php" method="post">
           <h1 class="title-detail pb-3 mb-4">Thêm mới Admin</h1>
@@ -104,19 +114,61 @@ if (isset($_SESSION['error_create'])) {
             <div class="row field-info pt-3 pb-3">
               <label for="name" class="name col-3">Họ tên</label>
               <div class="col-9">
-                <input class="field-input" type="text" name="name">
+                <input class="field-input" type="text" name="name" value="<?php if (isset($oldData['name'])) {
+                                                                            echo $oldData['name'];
+                                                                          }  ?>">
+                <?php if (isset($errorsValidate['name'])) { ?>
+                <span class="message-error"><?= $errorsValidate['name']; ?></span>
+                <?php
+                } ?>
               </div>
             </div>
             <div class="row field-info pt-3 pb-3">
               <label for="email" class="name col-3">Email</label>
               <div class="col-9">
-                <input class="field-input" type="email" name="email">
+                <input class="field-input" type="email" name="email" value="<?php if (isset($oldData['email'])) {
+                                                                              echo $oldData['email'];
+                                                                            }  ?>">
+                <?php if (isset($errorsValidate['email'])) { ?>
+                <span class="message-error"><?= $errorsValidate['email']; ?></span>
+                <?php
+                } ?>
               </div>
             </div>
             <div class="row field-info pt-3 pb-3">
-              <label for="password" class="name col-3">Password</label>
+              <label for="email" class="name col-3">Nhập lại email</label>
               <div class="col-9">
-                <input class="field-input" type="password" name="password">
+                <input class="field-input" type="email" name="confirm_email" value="<?php if (isset($oldData['confirm_email'])) {
+                                                                                      echo $oldData['confirm_email'];
+                                                                                    }  ?>">
+                <?php if (isset($errorsValidate['confirm_email'])) { ?>
+                <span class="message-error"><?= $errorsValidate['confirm_email']; ?></span>
+                <?php
+                } ?>
+              </div>
+            </div>
+            <div class="row field-info pt-3 pb-3">
+              <label for="password" class="name col-3">Mật khẩu</label>
+              <div class="col-9">
+                <input class="field-input" type="password" name="password" value="<?php if (isset($oldData['password'])) {
+                                                                                    echo $oldData['password'];
+                                                                                  }  ?>">
+                <?php if (isset($errorsValidate['password'])) { ?>
+                <span class="message-error"><?= $errorsValidate['password']; ?></span>
+                <?php
+                } ?>
+              </div>
+            </div>
+            <div class="row field-info pt-3 pb-3">
+              <label for="password" class="name col-3">Nhập lại mật khẩu</label>
+              <div class="col-9">
+                <input class="field-input" type="password" name="confirm_password" value="<?php if (isset($oldData['confirm_password'])) {
+                                                                                            echo $oldData['confirm_password'];
+                                                                                          }  ?>">
+                <?php if (isset($errorsValidate['confirm_password'])) { ?>
+                <span class="message-error"><?= $errorsValidate['confirm_password']; ?></span>
+                <?php
+                } ?>
               </div>
             </div>
             <div class="row field-info pt-3 pb-3">
@@ -126,10 +178,16 @@ if (isset($_SESSION['error_create'])) {
                   <option value="">Chọn quyền</option>
                   <?php foreach ($roles as $role) {
                   ?>
-                  <option value="<?= $role['id'] ?>"><?= $role['name'] ?></option>
+                  <option value="<?= $role['id'] ?>" <?php if (isset($oldData['role']) && $oldData['role'] === $role['id']) {
+                                                          echo 'selected="selected"';
+                                                        } ?>><?= $role['name'] ?></option>
                   <?php
                   } ?>
                 </select>
+                <?php if (isset($errorsValidate['role'])) { ?>
+                <span class="message-error"><?= $errorsValidate['role']; ?></span>
+                <?php
+                } ?>
               </div>
             </div>
             <div class="row field-info pt-3 pb-3">
@@ -138,9 +196,15 @@ if (isset($_SESSION['error_create'])) {
                 <?php foreach ($positions as $item) {
                 ?>
                 <div class="position">
-                  <input class="" type="radio" value="<?= $item['id'] ?>" name="position">
+                  <input class="" type="radio" value="<?= $item['id'] ?>" name="position" <?php if (isset($oldData['position']) && $oldData['position'] == $item['id']) {
+                                                                                              echo 'checked';
+                                                                                            } ?>>
                   <label><?= $item['name'] ?></label>
                 </div>
+                <?php
+                } ?>
+                <?php if (isset($errorsValidate['position'])) { ?>
+                <span class="message-error"><?= $errorsValidate['position']; ?></span>
                 <?php
                 } ?>
               </div>
@@ -148,19 +212,37 @@ if (isset($_SESSION['error_create'])) {
             <div class="row field-info pt-3 pb-3">
               <label for="name" class="name col-3">Ngày sinh </label>
               <div class="col-9">
-                <input class="" type="date" value="" name="birthday">
+                <input class="" type="date" name="birthday" value="<?php if (isset($oldData['birthday'])) {
+                                                                      echo $oldData['birthday'];
+                                                                    }  ?>">
+                <?php if (isset($errorsValidate['birthday'])) { ?>
+                <span class="message-error"><?= $errorsValidate['birthday']; ?></span>
+                <?php
+                } ?>
               </div>
             </div>
             <div class="row field-info pt-3 pb-3">
               <label for="name" class="name col-3">Số điện thoại</label>
               <div class="col-9">
-                <input class="field-input" type="text" value="" name="phone">
+                <input class="field-input" type="text" name="phone" value="<?php if (isset($oldData['phone'])) {
+                                                                              echo $oldData['phone'];
+                                                                            }  ?>">
+                <?php if (isset($errorsValidate['phone'])) { ?>
+                <span class="message-error"><?= $errorsValidate['phone']; ?></span>
+                <?php
+                } ?>
               </div>
             </div>
             <div class="row field-info pt-3 pb-3">
               <label for="address" class="name col-3">Địa chỉ</label>
               <div class="col-9">
-                <input class="field-input" type="text" value="" name="address">
+                <input class="field-input" type="text" name="address" value="<?php if (isset($oldData['address'])) {
+                                                                                echo $oldData['address'];
+                                                                              }  ?>">
+                <?php if (isset($errorsValidate['address'])) { ?>
+                <span class="message-error"><?= $errorsValidate['address']; ?></span>
+                <?php
+                } ?>
               </div>
             </div>
           </div>

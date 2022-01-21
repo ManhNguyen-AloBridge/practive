@@ -32,6 +32,12 @@ main {
   padding: 0px 0px;
 }
 
+.content{
+  overflow: auto;
+  width: 100%;
+
+}
+
 .main-content {
   min-height: 85vh;
   margin: 70px 50px 50px 50px;
