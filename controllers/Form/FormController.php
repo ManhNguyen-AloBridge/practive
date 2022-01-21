@@ -1,7 +1,7 @@
 <?php
-require_once(dirname('/home/giangtuan/Documents/Code/study/practive/controllers') . '/services/FormService.php');
-require_once(dirname('/home/giangtuan/Documents/Code/study/practive/controllers') . '/models/Form.php');
-require_once(dirname('/home/giangtuan/Documents/Code/study/practive/controllers') . '/trait/Validate.php');
+require_once $_SERVER['DOCUMENT_ROOT']  . '/services/FormService.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/models/Form.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/trait/Validate.php';
 class FormController
 {
 
@@ -112,12 +112,7 @@ class FormController
       $this->errorDeleteForm();
     }
 
-    $data = [
-      'id' => $formId,
-      'deleted_at' => date('Y-m-d'),
-    ];
-
-    $result = $this->formService->deleteSoft($data);
+    $result = $this->formService->deleteSoft($formId);
 
     if (!$result) {
       $this->errorDeleteForm();

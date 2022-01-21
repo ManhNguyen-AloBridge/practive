@@ -85,9 +85,9 @@ class UserRepository
     return $data[0];
   }
 
-  public function deleteSoftUser(array $data)
+  public function deleteSoft(int $userId)
   {
-    $sql = "UPDATE users SET deleted_at=:deleted_at WHERE id=:id";
-    return $this->conn->getInstance()->prepare($sql)->execute($data);
+    $sql = "UPDATE users SET deleted_at=now() WHERE id=$userId";
+    return $this->conn->getInstance()->prepare($sql)->execute();
   }
 }

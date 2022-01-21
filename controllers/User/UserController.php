@@ -1,6 +1,6 @@
 <?php
-require_once(dirname('/home/giangtuan/Documents/Code/study/practive/controllers') . '/services/UserService.php');
-require_once(dirname('/home/giangtuan/Documents/Code/study/practive/controllers') . '/trait/Validate.php');
+require_once $_SERVER['DOCUMENT_ROOT']  . '/services/UserService.php';
+require_once $_SERVER['DOCUMENT_ROOT']  . '/trait/Validate.php';
 class UserController
 {
 
@@ -64,13 +64,13 @@ class UserController
     if (!$result) {
       $this->errorSession($isAdmin);
     }
-    $_SESSION['success_create'] = $isAdmin ? 'Thêm mới Admin thành công.' : 'Thêm mới người dùng thành công.';
+    $_SESSION['success_create'] = $isAdmin ? 'Thêm mới Admin thành công' : 'Thêm mới người dùng thành công';
     return $isAdmin ? header('Location: /views/pages/admin/list-admin.php') : header('Location: /views/pages/staff/list-staff.php');
   }
 
   private function errorSession(bool $isAdmin)
   {
-    $_SESSION['error_create'] = $isAdmin ? 'Thêm mới Admin không thành công!' : 'Thêm mới người dùng không thành công!';
+    $_SESSION['error_create'] = $isAdmin ? 'Thêm mới Admin không thành công' : 'Thêm mới người dùng không thành công';
     die($isAdmin ? header('Location: /views/pages/admin/create.php') : header('Location: /views/pages/staff/create.php'));
   }
 
@@ -117,12 +117,7 @@ class UserController
       $this->errorDeleteUser($isAdmin);
     }
 
-    $data = [
-      'id' => $userId,
-      'deleted_at' => date('Y-m-d'),
-    ];
-
-    $result = $this->userService->deleteSoftUser($data);
+    $result = $this->userService->deleteSoft($userId);
 
     if (!$result) {
       $this->errorDeleteUser($isAdmin);
