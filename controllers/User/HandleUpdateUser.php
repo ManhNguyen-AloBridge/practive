@@ -9,12 +9,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     'id' => $_POST['id'],
     'name' => $_POST['name'],
     'email' => $_POST['email'],
-    'birthday' => empty($_POST['birthday']) ? null : $_POST['birthday'],
+    'password' => $_POST['password'],
+    'confirm_password' =>  $_POST['confirm_password'],
+    'birthday' => $_POST['birthday'],
     'address' => $_POST['address'],
     'phone' => $_POST['phone'],
     'role' => $_POST['role'],
     'position' => $_POST['position'],
-    'updated_at' => $_POST['updated_at'] ?? date('Y-m-d'),
+    'updated_at' => $_POST['updated_at'] ?? null,
   ];
 
   $controller->updateStaff($data);

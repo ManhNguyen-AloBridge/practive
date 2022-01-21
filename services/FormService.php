@@ -14,6 +14,7 @@ class FormService
   {
     $data['user_id'] = $_SESSION['user_id'];
     $data['status_id'] = Form::STATUS_PENDING;
+    $data['created_at'] = date('Y-m-d');
 
     $dataInsert = array_values($data);
     return $this->formRepository->store($dataInsert);

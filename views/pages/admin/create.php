@@ -1,11 +1,19 @@
 <?php
 require_once('../../../services/UserService.php');
+require_once $_SERVER['DOCUMENT_ROOT']  . '/models/User.php';
 $userService = new UserService();
 
 $roles = $userService->getListRole();
 $positions = $userService->getListPosition();
 
 session_start();
+
+if (isset($_SESSION['user_role'])) {
+  $roleUser = $_SESSION['user_role'];
+} else {
+  die(header('Location: /views/pages/login.php'));
+}
+
 $error = false;
 if (isset($_SESSION['error_create'])) {
   $error = true;
@@ -249,12 +257,14 @@ if (isset($_SESSION['errors_validate']) && isset($_SESSION['old_data'])) {
 
           <footer class="footer-detail">
             <div class="footer text-center">
+              <?php if ($roleUser == User::ADMIN) { ?>
               <a href="../../../views/pages/admin/list-admin.php" class="btn btn-footer-edit btn-back btn-secondary">
                 Hủy bỏ
               </a>
               <button type="submit" class="btn btn-footer-edit btn-update btn-primary">
                 Tạo mới
               </button>
+              <?php } ?>
             </div>
           </footer>
         </form>

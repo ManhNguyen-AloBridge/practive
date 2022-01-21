@@ -1,16 +1,23 @@
 <?php
 require_once("../../controllers/User/UserController.php");
 $userController = new UserController();
+session_start();
 
 $dataDetail = $userController->show();
 
-session_start();
+if (isset($_SESSION['user_role'])) {
+  $roleUser = $_SESSION['user_role'];
+} else {
+  die(header('Location: /views/pages/login.php'));
+}
+
 $success = false;
 if (isset($_SESSION['success_update'])) {
   $success = true;
   $messageSuccess = $_SESSION['success_update'];
   unset($_SESSION['success_update']);
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

@@ -1,8 +1,10 @@
 <?php
 require_once("../../../controllers/User/UserController.php");
 require_once('../../../services/UserService.php');
+require_once $_SERVER['DOCUMENT_ROOT']  . '/models/User.php';
 $userController = new UserController();
 $userService = new UserService();
+session_start();
 
 if (isset($_GET['id'])) {
   $userId = $_GET['id'];
@@ -13,7 +15,12 @@ if (isset($_GET['id'])) {
 $roles = $userService->getListRole();
 $positions = $userService->getListPosition();
 
-session_start();
+if (isset($_SESSION['user_role'])) {
+  $roleUser = $_SESSION['user_role'];
+} else {
+  die(header('Location: /views/pages/login.php'));
+}
+
 $error = false;
 if (isset($_SESSION['error_update'])) {
   $error = true;
@@ -21,6 +28,12 @@ if (isset($_SESSION['error_update'])) {
   unset($_SESSION['error_update']);
 }
 
+if (isset($_SESSION['errors_update_validate']) && isset($_SESSION['old_data_update'])) {
+  $errorsValidate = $_SESSION['errors_update_validate'];
+  $oldData = $_SESSION['old_data_update'];
+  unset($_SESSION['errors_update_validate']);
+  unset($_SESSION['old_data_update']);
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -115,13 +128,57 @@ if (isset($_SESSION['error_update'])) {
             <div class="row field-info pt-3 pb-3">
               <label for="name" class="name col-3">Họ tên</label>
               <div class="col-9">
-                <input class="field-input" type="text" value="<?= $dataDetail['user_name'] ?>" name="name">
+                <input class="field-input" type="text" value="<?php if (isset($oldData['name'])) {
+                                                                echo $oldData['name'];
+                                                              } else {
+                                                                echo $dataDetail['user_name'];
+                                                              }  ?>" name="name">
+                <?php if (isset($errorsValidate['name'])) { ?>
+                <span class="message-error"><?= $errorsValidate['name']; ?></span>
+                <?php
+                } ?>
               </div>
             </div>
             <div class="row field-info pt-3 pb-3">
               <label for="email" class="name col-3">Email</label>
               <div class="col-9">
-                <input class="field-input" type="email" value="<?= $dataDetail['email'] ?>" name="email">
+                <input class="field-input" type="email" value="<?php if (isset($oldData['email'])) {
+                                                                  echo $oldData['email'];
+                                                                } else {
+                                                                  echo $dataDetail['email'];
+                                                                } ?>" name="email">
+                <?php if (isset($errorsValidate['email'])) { ?>
+                <span class="message-error"><?= $errorsValidate['email']; ?></span>
+                <?php
+                } ?>
+              </div>
+            </div>
+            <div class="row field-info pt-3 pb-3">
+              <label for="password" class="name col-3">Mật khẩu</label>
+              <div class="col-9">
+                <input class="field-input" type="password" name="password" value="<?php if (isset($oldData['password'])) {
+                                                                                    echo $oldData['password'];
+                                                                                  } else {
+                                                                                    echo $dataDetail['password'];
+                                                                                  } ?>">
+                <?php if (isset($errorsValidate['password'])) { ?>
+                <span class="message-error"><?= $errorsValidate['password']; ?></span>
+                <?php
+                } ?>
+              </div>
+            </div>
+            <div class="row field-info pt-3 pb-3">
+              <label for="password" class="name col-3">Nhập lại mật khẩu</label>
+              <div class="col-9">
+                <input class="field-input" type="password" name="confirm_password" value="<?php if (isset($oldData['password'])) {
+                                                                                            echo $oldData['password'];
+                                                                                          } else {
+                                                                                            echo $dataDetail['password'];
+                                                                                          } ?>">
+                <?php if (isset($errorsValidate['confirm_password'])) { ?>
+                <span class="message-error"><?= $errorsValidate['confirm_password']; ?></span>
+                <?php
+                } ?>
               </div>
             </div>
             <div class="row field-info pt-3 pb-3">
@@ -129,29 +186,70 @@ if (isset($_SESSION['error_update'])) {
               <div class="col-9">
                 <select class="select-role" name="role" id="">
                   <option value="">Chọn quyền</option>
-                  <?php foreach ($roles as $role) {
+                  <?php
+                  if (isset($oldData['role'])) {
+                    foreach ($roles as $role) {
                   ?>
-                  <option value="<?= $role['id'] ?>" <?php if ($dataDetail['role_id'] == $role['id']) {
-                                                          echo "selected ='selected'";
-                                                        } ?>>
+                  <option value="<?= $role['id'] ?>" <?php if ($oldData['role'] == $role['id']) {
+                                                            echo "selected ='selected'";
+                                                          } ?>>
                     <?= $role['name'] ?>
                   </option>
                   <?php
-                  } ?>
+                    }
+                  } else {
+                    foreach ($roles as $role) {
+                    ?>
+                  <option value="<?= $role['id'] ?>" <?php if ($dataDetail['role_id'] == $role['id']) {
+                                                            echo "selected ='selected'";
+                                                          } ?>>
+                    <?= $role['name'] ?>
+                  </option>
+                  <?php
+                    }
+                  }
+                  ?>
                 </select>
+                <?php if (isset($errorsValidate['role'])) { ?>
+                <span class="message-error"><?= $errorsValidate['role']; ?></span>
+                <?php
+                } ?>
               </div>
             </div>
             <div class="row field-info pt-3 pb-3">
               <label for="name" class="name col-3">Chức vụ</label>
               <div class="col-9">
-                <?php foreach ($positions as $item) {
+                <?php if (isset($oldData['position'])) {
+                  foreach ($positions as $item) {
                 ?>
                 <div class="position">
-                  <input class="" type="radio" value="<?= $item['id'] ?>" name="position" <?php if ($dataDetail['position_id'] == $item['id']) {
-                                                                                              echo "checked";
-                                                                                            } ?>>
+                  <input class="" type="radio" value="<?= $item['id'] ?>" name="position" <?php
+                                                                                              if ($oldData['position'] == $item['id']) {
+                                                                                                echo "checked";
+                                                                                              }
+                                                                                              ?>>
                   <label><?= $item['name'] ?></label>
                 </div>
+                <?php
+                  }
+                } else {
+
+                  foreach ($positions as $item) {
+                  ?>
+                <div class="position">
+                  <input class="" type="radio" value="<?= $item['id'] ?>" name="position" <?php
+                                                                                              if ($dataDetail['position_id'] == $item['id']) {
+                                                                                                echo "checked";
+                                                                                              }
+                                                                                              ?>>
+                  <label><?= $item['name'] ?></label>
+                </div>
+                <?php
+                  }
+                } ?>
+
+                <?php if (isset($errorsValidate['position'])) { ?>
+                <span class="message-error"><?= $errorsValidate['position']; ?></span>
                 <?php
                 } ?>
               </div>
@@ -159,31 +257,57 @@ if (isset($_SESSION['error_update'])) {
             <div class="row field-info pt-3 pb-3">
               <label for="name" class="name col-3">Ngày sinh </label>
               <div class="col-9">
-                <input class="" type="date" value="<?= $dataDetail['birthday'] ?>" name="birthday">
+                <input class="" type="date" value="<?php if (isset($oldData['birthday'])) {
+                                                      echo $oldData['birthday'];
+                                                    } else {
+                                                      echo $dataDetail['birthday'];
+                                                    } ?>" name="birthday">
+                <?php if (isset($errorsValidate['birthday'])) { ?>
+                <span class="message-error"><?= $errorsValidate['birthday']; ?></span>
+                <?php
+                } ?>
               </div>
             </div>
             <div class="row field-info pt-3 pb-3">
               <label for="name" class="name col-3">Số điện thoại</label>
               <div class="col-9">
-                <input class="field-input" type="text" value="<?= $dataDetail['phone'] ?>" name="phone">
+                <input class="field-input" type="text" value="<?php if (isset($oldData['phone'])) {
+                                                                echo $oldData['phone'];
+                                                              } else {
+                                                                echo $dataDetail['phone'];
+                                                              } ?>" name="phone">
+                <?php if (isset($errorsValidate['phone'])) { ?>
+                <span class="message-error"><?= $errorsValidate['phone']; ?></span>
+                <?php
+                } ?>
               </div>
             </div>
             <div class="row field-info pt-3 pb-3">
               <label for="address" class="name col-3">Địa chỉ</label>
               <div class="col-9">
-                <input class="field-input" type="text" value="<?= $dataDetail['address'] ?>" name="address">
+                <input class="field-input" type="text" value="<?php if (isset($oldData['address'])) {
+                                                                echo $oldData['address'];
+                                                              } else {
+                                                                echo $dataDetail['address'];
+                                                              } ?>" name="address">
+                <?php if (isset($errorsValidate['address'])) { ?>
+                <span class="message-error"><?= $errorsValidate['address']; ?></span>
+                <?php
+                } ?>
               </div>
             </div>
           </div>
 
           <footer class="footer-detail">
             <div class="footer text-center">
+              <?php if ($roleUser == User::ADMIN) { ?>
               <a href="detail.php?id=<?= $userId ?>" class="btn btn-footer-edit btn-back btn-secondary">
                 Quay lại
               </a>
               <button type="submit" class="btn btn-footer-edit btn-update btn-primary">
                 Cập nhật
               </button>
+              <?php } ?>
             </div>
           </footer>
         </form>

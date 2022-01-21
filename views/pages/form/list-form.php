@@ -1,8 +1,15 @@
 <?php
 require_once('../../../controllers/Form/FormController.php');
+require_once $_SERVER['DOCUMENT_ROOT']  . '/models/User.php';
 session_start();
 $formController = new FormController();
 $listData = $formController->getListForm();
+
+if (isset($_SESSION['user_role'])) {
+  $roleUser = $_SESSION['user_role'];
+} else {
+  die(header('Location: /views/pages/login.php'));
+}
 
 $success = false;
 if (isset($_SESSION['success_create_form'])) {
@@ -129,8 +136,10 @@ if (isset($_SESSION['success_delete'])) {
                 <ul class="p-0 m-0">
                   <li>
                     <a href="detail.php?id=<?= $value['id'] ?>" class="btn table-btn btn-primary">Chi tiết</a>
+                    <?php if ($roleUser == User::ADMIN) { ?>
                     <a data-toggle="modal" data-target="#exampleModal" value="<?= $value['id'] ?>"
                       class="btn table-btn btn-danger">Xóa</a>
+                    <?php } ?>
                   </li>
                 </ul>
               </td>

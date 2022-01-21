@@ -1,10 +1,17 @@
 <?php
 require_once("../../../controllers/Form/FormController.php");
 $formController = new FormController();
+session_start();
 
 if (isset($_GET['id'])) {
   $formId = $_GET['id'];
   $dataDetail = $formController->show($formId);
+}
+
+if (isset($_SESSION['user_role'])) {
+  $roleUser = $_SESSION['user_role'];
+} else {
+  die(header('Location: /views/pages/login.php'));
 }
 
 ?>

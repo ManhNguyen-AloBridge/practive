@@ -1,13 +1,20 @@
 <?php
 require_once("../../../controllers/User/UserController.php");
+require_once $_SERVER['DOCUMENT_ROOT']  . '/models/User.php';
 $userController = new UserController();
+session_start();
 
 if (isset($_GET['id'])) {
   $userId = $_GET['id'];
   $dataDetail = $userController->detailInfo($userId);
 }
 
-session_start();
+if (isset($_SESSION['user_role'])) {
+  $roleUser = $_SESSION['user_role'];
+} else {
+  die(header('Location: /views/pages/login.php'));
+}
+
 $success = false;
 if (isset($_SESSION['success_update'])) {
   $success = true;
@@ -96,7 +103,9 @@ if (isset($_SESSION['success_update'])) {
         <div class="row main-content-header">
           <h1 class="col-10">Thông tin chi tiết Admin</h1>
           <div class="col-2 ">
+            <?php if ($roleUser == User::ADMIN) { ?>
             <a href="edit.php?id=<?= $dataDetail['id'] ?>" class="btn btn-primary btn-update">Cập nhật</a>
+            <?php } ?>
           </div>
         </div>
         <div class="content-detail">

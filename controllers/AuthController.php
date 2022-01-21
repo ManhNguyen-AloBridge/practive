@@ -21,13 +21,16 @@ class AuthController
 
     session_start();
     $_SESSION['user_id'] = $user['id'];
+    $_SESSION['user_role'] = $user['role_id'];
 
     return header('Location: /views/pages/index.php');
   }
 
   public function logout()
   {
-    unset($_SESSION['user']);
+    session_start();
+    unset($_SESSION['user_id']);
+    unset($_SESSION['user_role']);
     return header('Location: /views/pages/login.php');
   }
 }

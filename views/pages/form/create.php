@@ -7,6 +7,11 @@ $listInlateEarly = $formService->getListExtendInlateEarly();
 $listAbsence = $formService->getListExtendAbsence();
 $listFormType = $formService->getListFormType();
 
+if (isset($_SESSION['user_role'])) {
+  $roleUser = $_SESSION['user_role'];
+} else {
+  die(header('Location: /views/pages/login.php'));
+}
 
 $error = false;
 if (isset($_SESSION['error_create_form'])) {
