@@ -64,4 +64,10 @@ class FormRepository
     $query = $this->conn->getInstance()->query('SELECT * FROM form_types');
     return $query->fetchAll(PDO::FETCH_ASSOC);
   }
+
+  public function deleteSoft(int $formId)
+  {
+    $sql = "UPDATE register_forms SET deleted_at=now() WHERE id=$formId";
+    return $this->conn->getInstance()->prepare($sql)->execute();
+  }
 }

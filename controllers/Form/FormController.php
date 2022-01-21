@@ -1,7 +1,7 @@
 <?php
-require_once(dirname('/home/giangtuan/Documents/Code/study/practive/controllers') . '/services/FormService.php');
-require_once(dirname('/home/giangtuan/Documents/Code/study/practive/controllers') . '/models/Form.php');
-require_once(dirname('/home/giangtuan/Documents/Code/study/practive/controllers') . '/trait/Validate.php');
+require_once $_SERVER['DOCUMENT_ROOT']  . '/services/FormService.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/models/Form.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/trait/Validate.php';
 class FormController
 {
 
@@ -102,5 +102,29 @@ class FormController
       $_SESSION['errors_validate'] = $errors;
       die(header('Location: /views/pages/form/create.php'));
     }
+  }
+
+  function delete(int $formId)
+  {
+    $form = $this->formService->findById($formId);
+    session_start();
+    if (!$form) {
+      $this->errorDeleteForm();
+    }
+
+    $result = $this->formService->deleteSoft($formId);
+
+    if (!$result) {
+      $this->errorDeleteForm();
+    }
+
+    $_SESSION['success_delete'] = 'Xóa form thành công.';
+    return header('Location: /views/pages/form/list-form.php');
+  }
+
+  private function errorDeleteForm()
+  {
+    $_SESSION['error_delete'] = 'Xóa form không thành công!';
+    die(header('Location: /views/pages/form/list-form.php'));
   }
 }

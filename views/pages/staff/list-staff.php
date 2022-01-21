@@ -6,10 +6,23 @@ $userController = new UserController();
 $listData = $userController->getListStaff();
 
 $success = false;
+$error = false;
 if (isset($_SESSION['success_create'])) {
   $success = true;
   $messageSuccess = $_SESSION['success_create'];
   unset($_SESSION['success_create']);
+}
+
+if (isset($_SESSION['success_delete'])) {
+  $success = true;
+  $messageSuccess = $_SESSION['success_delete'];
+  unset($_SESSION['success_delete']);
+}
+
+if (isset($_SESSION['error_delete'])) {
+  $success = true;
+  $messageError = $_SESSION['error_delete'];
+  unset($_SESSION['error_delete']);
 }
 ?>
 <!DOCTYPE html>
@@ -112,7 +125,7 @@ if (isset($_SESSION['success_create'])) {
               <th>Thao tác</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody id="tbodyTable">
             <?php
             foreach ($listData as $key => $value) {
             ?>
@@ -125,8 +138,8 @@ if (isset($_SESSION['success_create'])) {
                 <ul class="p-0 m-0">
                   <li>
                     <a href="detail.php?id=<?= $value['id'] ?>" class="btn table-btn btn-primary">Chi tiết</a>
-                    <button data-toggle="modal" data-target="#exampleModal" href=""
-                      class="btn table-btn btn-danger">Xóa</button>
+                    <a data-toggle="modal" data-target="#exampleModal" value="<?= $value['id'] ?>"
+                      class="btn table-btn btn-danger">Xóa</a>
                   </li>
                 </ul>
               </td>
@@ -139,6 +152,14 @@ if (isset($_SESSION['success_create'])) {
             ?>
             <div id='hideMe' class="alert alert-success m-0" role="alert">
               <?= $messageSuccess ?>
+            </div>
+            <?php
+            } ?>
+
+            <?php if ($error) {
+            ?>
+            <div id='hideMe' class="alert alert-danger m-0" role="alert">
+              <?= $messageError ?>
             </div>
             <?php
             } ?>
@@ -170,23 +191,19 @@ if (isset($_SESSION['success_create'])) {
     aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Thông báo</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          Bạn có muốn xóa from này?
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy bỏ</button>
-          <button type="button" class="btn btn-primary">Xóa</button>
-        </div>
+        <form action="../../../controllers/User/HandleDeleteUser.php" method="post">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Bạn có muốn xóa người dùng này?</h5>
+          </div>
+          <input type="hidden" value="" name="id" id="inputDelete">
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy bỏ</button>
+            <button type="submit" class="btn btn-primary">Xóa</button>
+          </div>
+        </form>
       </div>
     </div>
-  </div>
 
-</body>
+    <script src="../../../assets/js/index.js"></script>
 
 </html>

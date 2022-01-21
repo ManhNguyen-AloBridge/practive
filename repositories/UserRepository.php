@@ -84,4 +84,10 @@ class UserRepository
     $data = $query->fetchAll(PDO::FETCH_ASSOC);
     return $data[0];
   }
+
+  public function deleteSoft(int $userId)
+  {
+    $sql = "UPDATE users SET deleted_at=now() WHERE id=$userId";
+    return $this->conn->getInstance()->prepare($sql)->execute();
+  }
 }

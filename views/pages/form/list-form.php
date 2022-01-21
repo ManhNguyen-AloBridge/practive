@@ -10,6 +10,12 @@ if (isset($_SESSION['success_create_form'])) {
   $messageSuccess = $_SESSION['success_create_form'];
   unset($_SESSION['success_create_form']);
 }
+
+if (isset($_SESSION['success_delete'])) {
+  $success = true;
+  $messageSuccess = $_SESSION['success_delete'];
+  unset($_SESSION['success_delete']);
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -106,7 +112,7 @@ if (isset($_SESSION['success_create_form'])) {
               <th>Thao tác</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody id="tbodyTable">
             <tr>
               <?php
               foreach ($listData as $key => $value) {
@@ -123,8 +129,8 @@ if (isset($_SESSION['success_create_form'])) {
                 <ul class="p-0 m-0">
                   <li>
                     <a href="detail.php?id=<?= $value['id'] ?>" class="btn table-btn btn-primary">Chi tiết</a>
-                    <button data-toggle="modal" data-target="#exampleModal" href=""
-                      class="btn table-btn btn-danger">Xóa</button>
+                    <a data-toggle="modal" data-target="#exampleModal" value="<?= $value['id'] ?>"
+                      class="btn table-btn btn-danger">Xóa</a>
                   </li>
                 </ul>
               </td>
@@ -170,20 +176,21 @@ if (isset($_SESSION['success_create_form'])) {
     aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Bạn có muốn xóa nhân viên này?</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy bỏ</button>
-          <button type="button" class="btn btn-primary">Xóa</button>
-        </div>
+        <form action="../../../controllers/Form/HandleDeleteForm.php" method="post">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Bạn có muốn xóa form này?</h5>
+          </div>
+          <input type="hidden" value="" name="id" id="inputDelete">
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy bỏ</button>
+            <button type="submit" class="btn btn-primary">Xóa</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
 
+  <script src="../../../assets/js/index.js"></script>
 </body>
 
 </html>
