@@ -89,7 +89,7 @@ if (isset($_SESSION['success_create'])) {
           <li>
             <hr class="dropdown-divider">
           </li>
-          <li><a class="dropdown-item" href="#">Sign out</a></li>
+          <li><a class="dropdown-item" href="../../../controllers/LogoutController.php">Sign out</a></li>
         </ul>
       </div>
     </div>

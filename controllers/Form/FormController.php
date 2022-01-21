@@ -1,8 +1,11 @@
 <?php
 require_once(dirname('/home/giangtuan/Documents/Code/study/practive/controllers') . '/services/FormService.php');
 require_once(dirname('/home/giangtuan/Documents/Code/study/practive/controllers') . '/models/Form.php');
+require_once(dirname('/home/giangtuan/Documents/Code/study/practive/controllers') . '/trait/Validate.php');
 class FormController
 {
+
+  use Validate;
 
   function __construct()
   {
@@ -11,8 +14,11 @@ class FormController
 
   public function store(array $data)
   {
-    $type = intval($data['form_type_id']);
     session_start();
+
+    $this->validateCreateForm($data);
+
+    $type = intval($data['form_type_id']);
 
 
     if (($type == Form::TYPE_ABSENCE && $data['extend_absence'] == null) || ($type == Form::TYPE_INLATE_EARLY && $data['extend_inlate_early'] == null)) {
@@ -50,5 +56,51 @@ class FormController
     }
 
     return $result;
+  }
+
+  private function validateCreateForm(array $data)
+  {
+    $errors = [];
+    unset($data['deleted_at']);
+    if (empty($data['form_type_id'])) {
+      $errors['form_type'] = 'Hãy chọn một yêu cầu cho form.';
+    }
+
+    $errors['reason'] = $this->validateFieldString('Lý do', 7, 100, $data['reason']);
+
+    if ($data['form_type_id'] == Form::TYPE_INLATE_EARLY && empty($data['extend_inlate_early'])) {
+      $errors['extend_inlate_early'] = 'Hãy chọn chi tiết.';
+    }
+
+    if ($data['form_type_id'] == Form::TYPE_ABSENCE &&  empty($data['extend_absence'])) {
+      $errors['extend_absence'] = 'Hãy chọn khoảng thời gian bạn muốn xin nghỉ.';
+    }
+    if (empty($data['start_date'])) {
+      $errors['start_date'] = 'Hãy chọn ngày bắt đầu.';
+    }
+
+    $errors['end_date'] = $this->validateDateBeforeAnother($data['start_date'], $data['end_date'], 'Hãy chọn ngày kết thúc.', 'Ngày kết thúc phải sau ngày bắt đầu');
+
+    $errors['detail_time'] = $this->validateFieldString('Thông tin bổ sung', 7, 100, $data['detail_time']);
+
+
+    if ($data['form_type_id'] == Form::TYPE_INLATE_EARLY) {
+      $data['extend_absence'] = null;
+    }
+
+    if ($data['form_type_id'] == Form::TYPE_ABSENCE) {
+      $data['extend_inlate_early'] = null;
+    }
+
+    if ($data['form_type_id'] == Form::TYPE_REMOTE) {
+      $data['extend_absence'] = null;
+      $data['extend_inlate_early'] = null;
+    }
+
+    if (count(array_filter($errors)) > 0) {
+      $_SESSION['old_data'] = $data;
+      $_SESSION['errors_validate'] = $errors;
+      die(header('Location: /views/pages/form/create.php'));
+    }
   }
 }

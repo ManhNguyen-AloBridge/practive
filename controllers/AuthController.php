@@ -13,12 +13,21 @@ class AuthController
 
   public function checkLogin(array $data)
   {
-    return $this->authService->checkLogin($data);
+    $user = $this->authService->checkLogin($data);
+
+    if (!$user) {
+      return header('Location: /views/pages/login.php');
+    }
+
+    session_start();
+    $_SESSION['user_id'] = $user['id'];
+
+    return header('Location: /views/pages/index.php');
   }
 
   public function logout()
   {
     unset($_SESSION['user']);
-    include_once('../views/pages/login.php');
+    return header('Location: /views/pages/login.php');
   }
 }

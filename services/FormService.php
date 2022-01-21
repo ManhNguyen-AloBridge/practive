@@ -12,13 +12,10 @@ class FormService
 
   public function store(array $data)
   {
-    session_start();
-
     $data['user_id'] = $_SESSION['user_id'];
     $data['status_id'] = Form::STATUS_PENDING;
 
     $dataInsert = array_values($data);
-
     return $this->formRepository->store($dataInsert);
   }
 
@@ -40,5 +37,10 @@ class FormService
   public function FindById(int $formId)
   {
     return $this->formRepository->findById($formId);
+  }
+
+  public function getListFormType()
+  {
+    return $this->formRepository->getListFormType();
   }
 }

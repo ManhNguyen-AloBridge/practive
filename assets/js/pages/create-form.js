@@ -1,7 +1,7 @@
 document.getElementById("reason").addEventListener("click", function (e) {
   const inlateEarly = document.getElementById("extend-inlate-early");
   const absence = document.getElementById("extend-absence");
-  if (e.target.getAttribute("id") == "lateEarly") {
+  if (e.target.getAttribute("id") == "3") {
     if (inlateEarly.getAttribute("class").includes("d-none")) {
       inlateEarly.classList.remove("d-none");
       absence.classList.add("d-none");
@@ -13,7 +13,7 @@ document.getElementById("reason").addEventListener("click", function (e) {
     }
   }
 
-  if (e.target.getAttribute("id") == "remote") {
+  if (e.target.getAttribute("id") == "1") {
     if (!inlateEarly.getAttribute("class").includes("d-none")) {
       inlateEarly.classList.add("d-none");
     }
@@ -22,7 +22,7 @@ document.getElementById("reason").addEventListener("click", function (e) {
     }
   }
 
-  if (e.target.getAttribute("id") == "absence") {
+  if (e.target.getAttribute("id") == "2") {
     if (!inlateEarly.getAttribute("class").includes("d-none")) {
       inlateEarly.classList.remove("d-none");
       absence.classList.add("d-none");

@@ -5,12 +5,22 @@ $formService = new FormService();
 
 $listInlateEarly = $formService->getListExtendInlateEarly();
 $listAbsence = $formService->getListExtendAbsence();
+$listFormType = $formService->getListFormType();
+
 
 $error = false;
 if (isset($_SESSION['error_create_form'])) {
   $error = true;
   $messageError = $_SESSION['error_create_form'];
   unset($_SESSION['error_create_form']);
+}
+
+if (isset($_SESSION['errors_validate']) && isset($_SESSION['old_data'])) {
+  $errorsValidate = $_SESSION['errors_validate'];
+  $oldData = $_SESSION['old_data'];
+
+  unset($_SESSION['errors_validate']);
+  unset($_SESSION['old_data']);
 }
 ?>
 <!DOCTYPE html>
@@ -83,12 +93,12 @@ if (isset($_SESSION['error_create_form'])) {
           <li>
             <hr class="dropdown-divider">
           </li>
-          <li><a class="dropdown-item" href="#">Sign out</a></li>
+          <li><a class="dropdown-item" href="../../../controllers/LogoutController.php">Sign out</a></li>
         </ul>
       </div>
     </div>
     <div class="b-example-divider"></div>
-    <div class="w-100">
+    <div class="content">
       <div class="main-content">
         <form action="../../../controllers/Form/HandleCreateForm.php" method="post">
           <h1 class="title-detail pb-3 mb-4">Gửi form</h1>
@@ -103,68 +113,114 @@ if (isset($_SESSION['error_create_form'])) {
             <div class="row field-info pt-3 pb-3" id="reason">
               <label for="name" class="name col-3">Yêu cầu</label>
               <div class="col-9">
+                <?php foreach ($listFormType as $item) { ?>
                 <div class="form-type">
-                  <input class="" type="radio" name="form_type" value="1" id="absence">
-                  <label for="absence">Xin nghỉ</label>
+                  <input class="" type="radio" name="form_type" <?php if (isset($oldData['form_type_id']) && $oldData['form_type_id'] == $item['id']) {
+                                                                    echo 'checked';
+                                                                  } ?> value="<?= $item['id'] ?>"
+                    id="<?= $item['id'] ?>">
+                  <label for="remote"><?= $item['name'] ?></label>
                 </div>
-                <div class="form-type">
-                  <input class="" type="radio" name="form_type" value="2" id="lateEarly">
-                  <label for="lateEarly">Đi muộn/ Về sớm</label>
-                </div>
-                <div class="form-type">
-                  <input class="" type="radio" name="form_type" value="3" id="remote">
-                  <label for="remote">Remote</label>
-                </div>
+                <?php
+                }
+                ?>
+
+                <?php if (isset($errorsValidate['form_type'])) { ?>
+                <span class="message-error"><?= $errorsValidate['form_type']; ?></span>
+                <?php
+                } ?>
               </div>
             </div>
-            <div class="row field-extend-late-early d-none pt-3 pb-3" id="extend-inlate-early">
+            <div class="row field-extend-late-early pt-3 pb-3 <?php if (!empty($oldData['extend_inlate_early']) || isset($errorsValidate['extend_inlate_early'])) {
+                                                                echo '';
+                                                              } else {
+                                                                echo 'd-none';
+                                                              } ?>" id="extend-inlate-early">
               <label for="name" class="name col-3">Chi tiết</label>
               <div class="col-9">
                 <?php foreach ($listInlateEarly as $item) {
                 ?>
                 <div class="form-type">
-                  <input class="" type="radio" name="extend_inlate_early" value="<?= $item['id'] ?>">
+                  <input class="" type="radio" name="extend_inlate_early" value="<?= $item['id'] ?>" <?php if (isset($oldData['extend_inlate_early']) && $oldData['extend_inlate_early'] == $item['id']) {
+                                                                                                          echo 'checked';
+                                                                                                        } ?>>
                   <label for=""><?= $item['name'] ?></label>
                 </div>
                 <?php
-                } ?>
+                } ?> <?php if (isset($errorsValidate['extend_inlate_early'])) { ?>
+                <span class="message-error"><?= $errorsValidate['extend_inlate_early']; ?></span>
+                <?php
+                      } ?>
               </div>
             </div>
-            <div class="row field-extend-absence d-none pt-3 pb-3" id="extend-absence">
+            <div class="row field-extend-absence pt-3 pb-3 <?php if (!empty($oldData['extend_absence']) || isset($errorsValidate['extend_absence'])) {
+                                                              echo '';
+                                                            } else {
+                                                              echo 'd-none';
+                                                            } ?>" id="extend-absence">
               <label for="name" class="name col-3">Buổi trong ngày</label>
               <div class="col-9">
                 <?php foreach ($listAbsence as $item) {
                 ?>
                 <div class="form-type">
-                  <input class="" type="radio" name="extend_absence" value="<?= $item['id'] ?>">
+                  <input class="" type="radio" name="extend_absence" value="<?= $item['id'] ?>" <?php if (isset($oldData['extend_absence']) && $oldData['extend_absence'] == $item['id']) {
+                                                                                                    echo 'checked';
+                                                                                                  } ?>>
                   <label for=""><?= $item['name'] ?></label>
                 </div>
                 <?php
-                } ?>
+                } ?> <?php if (isset($errorsValidate['extend_absence'])) { ?>
+                <span class="message-error"><?= $errorsValidate['extend_absence']; ?></span>
+                <?php
+                      } ?>
               </div>
             </div>
             <div class="row field-info pt-3 pb-3">
               <label for="name" class="name col-3">Lý do</label>
               <div class="col-9">
-                <input class="field-input" type="text" name="reason" id="">
+                <input class="field-input" type="text" name="reason" value="<?php if (isset($oldData['reason'])) {
+                                                                              echo $oldData['reason'];
+                                                                            }  ?>" id="">
+                <?php if (isset($errorsValidate['reason'])) { ?>
+                <span class="message-error"><?= $errorsValidate['reason']; ?></span>
+                <?php
+                } ?>
               </div>
             </div>
             <div class="row field-info pt-3 pb-3">
               <label for="name" class="name col-3">Thời gian bắt đầu</label>
               <div class="col-9">
-                <input class="" type="date" name="start_date" id="">
+                <input class="" type="date" name="start_date" value="<?php if (isset($oldData['start_date'])) {
+                                                                        echo $oldData['start_date'];
+                                                                      }  ?>" id="">
+                <?php if (isset($errorsValidate['start_date'])) { ?>
+                <span class="message-error"><?= $errorsValidate['start_date']; ?></span>
+                <?php
+                } ?>
               </div>
             </div>
             <div class="row field-info pt-3 pb-3">
               <label for="name" class="name col-3">Thời gian kết thúc</label>
               <div class="col-9">
-                <input class="" type="date" name="end_date" id="">
+                <input class="" type="date" name="end_date" value="<?php if (isset($oldData['end_date'])) {
+                                                                      echo $oldData['end_date'];
+                                                                    }  ?>" id="">
+                <?php if (isset($errorsValidate['end_date'])) { ?>
+                <span class="message-error"><?= $errorsValidate['end_date']; ?></span>
+                <?php
+                } ?>
               </div>
             </div>
             <div class="row field-info pt-3 pb-3">
-              <label for="name" class="name col-3">Thông tin bổ xung</label>
+              <label for="name" class="name col-3">Thông tin bổ sung</label>
               <div class="col-9">
-                <input class="field-input" type="text" name="detail_time" id="">
+                <input class="field-input" type="text" name="detail_time" value="<?php if (isset($oldData['detail_time'])) {
+                                                                                    echo $oldData['detail_time'];
+                                                                                  } ?>" id="">
+                <?php if (isset($errorsValidate['detail_time'])) { ?>
+                <span class="message-error"><?= $errorsValidate['detail_time']; ?></span>
+                <?php
+                } ?>
               </div>
             </div>
           </div>
@@ -184,7 +240,7 @@ if (isset($_SESSION['error_create_form'])) {
     </div>
 
   </main>
-  <script src="../../../assets/js/pages/send-form.js"></script>
+  <script src="../../../assets/js/pages/create-form.js"></script>
 </body>
 
 </body>
