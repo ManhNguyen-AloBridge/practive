@@ -125,13 +125,37 @@ if (isset($_SESSION['errors_validate']) && isset($_SESSION['old_data'])) {
               </div>
             </div>
             <div class="row field-info pt-3 pb-3">
-              <label for="password" class="name col-3">Password</label>
+              <label for="email" class="name col-3">Nhập lại email</label>
+              <div class="col-9">
+                <input class="field-input" type="email" name="confirm_email" value="<?php if (isset($oldData['confirm_email'])) {
+                                                                                      echo $oldData['confirm_email'];
+                                                                                    }  ?>">
+                <?php if (isset($errorsValidate['confirm_email'])) { ?>
+                <span class="message-error"><?= $errorsValidate['confirm_email']; ?></span>
+                <?php
+                } ?>
+              </div>
+            </div>
+            <div class="row field-info pt-3 pb-3">
+              <label for="password" class="name col-3">Mật khẩu</label>
               <div class="col-9">
                 <input class="field-input" type="password" name="password" value="<?php if (isset($oldData['password'])) {
                                                                                     echo $oldData['password'];
                                                                                   }  ?>">
                 <?php if (isset($errorsValidate['password'])) { ?>
                 <span class="message-error"><?= $errorsValidate['password']; ?></span>
+                <?php
+                } ?>
+              </div>
+            </div>
+            <div class="row field-info pt-3 pb-3">
+              <label for="password" class="name col-3">Nhập lại mật khẩu</label>
+              <div class="col-9">
+                <input class="field-input" type="password" name="confirm_password" value="<?php if (isset($oldData['confirm_password'])) {
+                                                                                            echo $oldData['confirm_password'];
+                                                                                          }  ?>">
+                <?php if (isset($errorsValidate['confirm_password'])) { ?>
+                <span class="message-error"><?= $errorsValidate['confirm_password']; ?></span>
                 <?php
                 } ?>
               </div>

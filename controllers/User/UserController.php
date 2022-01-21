@@ -97,12 +97,31 @@ class UserController
       }
     }
 
+    if (empty($data['confirm_email'])) {
+      $errors['confirm_email'] = 'Xác nhận email không được để trống.';
+    } else {
+
+      if ($data['confirm_email'] != $data['email']) {
+        $errors['confirm_email'] = 'Xác nhận email không khớp.';
+      }
+    }
+
     if (empty($data['password'])) {
       $errors['password'] = 'Mật khẩu không được để trống.';
     } else {
       $checkPassword = preg_match('/^.{6,50}$/', $data['password']);
       if (!$checkPassword) {
         $errors['password'] = 'Mật khẩu tối thiểu phải có 6 ký tự và tối đa 50 ký tự.';
+      }
+    }
+
+    if (empty($data['confirm_password'])) {
+      $errors['confirm_password'] = 'Xác nhận mật khẩu không được để trống.';
+    } else {
+      $checkPassword = preg_match('/^.{6,50}$/', $data['confirm_password']);
+
+      if ($data['confirm_password'] != $data['password']) {
+        $errors['confirm_password'] = 'Xác nhận mật khẩu không khớp.';
       }
     }
 
