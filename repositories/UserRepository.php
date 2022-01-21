@@ -1,6 +1,6 @@
 <?php
-require_once(dirname(__DIR__) . '/connection.php');
-require_once(dirname(__DIR__) . '/models/User.php');
+require_once $_SERVER['DOCUMENT_ROOT']  . '/connection.php';
+require_once $_SERVER['DOCUMENT_ROOT']  . '/models/User.php';
 class UserRepository
 {
   public $conn;

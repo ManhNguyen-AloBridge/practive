@@ -1,5 +1,5 @@
 <?php
-require_once(dirname(__DIR__) . '/connection.php');
+require_once $_SERVER['DOCUMENT_ROOT']  . '/connection.php';
 
 class FormRepository
 {

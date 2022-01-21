@@ -1,5 +1,5 @@
 <?php
-require_once('../../../services/UserService.php');
+require_once $_SERVER['DOCUMENT_ROOT']  . '/services/UserService.php';
 $userService = new UserService();
 
 $roles = $userService->getListRole();
@@ -90,7 +90,7 @@ if (isset($_SESSION['errors_validate']) && isset($_SESSION['old_data'])) {
           <li>
             <hr class="dropdown-divider">
           </li>
-          <li><a class="dropdown-item" href="../../../controllers/LogoutController.php">Sign out</a></li>
+          <li><a class="dropdown-item" href="../../../controllers/HandleLogout.php">Sign out</a></li>
         </ul>
       </div>
     </div>

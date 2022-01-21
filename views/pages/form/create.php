@@ -1,5 +1,5 @@
 <?php
-require_once('../../../services/FormService.php');
+require_once $_SERVER['DOCUMENT_ROOT']  . '/services/FormService.php';
 session_start();
 $formService = new FormService();
 
@@ -62,7 +62,7 @@ if (isset($_SESSION['errors_validate']) && isset($_SESSION['old_data'])) {
           </a>
         </li>
         <li>
-          <a href="../list-admin.php" class="nav-link link-dark" id="listAdmin">
+          <a href="../admin/list-admin.php" class="nav-link link-dark" id="listAdmin">
             <svg class="bi me-2" width="16" height="16"></svg>
             Danh sách admin
           </a>
@@ -74,7 +74,7 @@ if (isset($_SESSION['errors_validate']) && isset($_SESSION['old_data'])) {
           </a>
         </li>
         <li>
-          <a href="form/list-form.php" class="nav-link link-dark" id="listForm">
+          <a href="../form/list-form.php" class="nav-link link-dark" id="listForm">
             <svg class="bi me-2" width="16" height="16"></svg>
             Danh sách sách form
           </a>
@@ -93,7 +93,7 @@ if (isset($_SESSION['errors_validate']) && isset($_SESSION['old_data'])) {
           <li>
             <hr class="dropdown-divider">
           </li>
-          <li><a class="dropdown-item" href="../../../controllers/LogoutController.php">Sign out</a></li>
+          <li><a class="dropdown-item" href="../../../controllers/HandleLogout.php">Sign out</a></li>
         </ul>
       </div>
     </div>

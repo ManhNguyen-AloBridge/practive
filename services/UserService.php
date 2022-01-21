@@ -1,5 +1,5 @@
 <?php
-require_once(dirname(__DIR__) . '/repositories/UserRepository.php');
+require_once $_SERVER['DOCUMENT_ROOT']  . '/repositories/UserRepository.php';
 class UserService
 {
 
