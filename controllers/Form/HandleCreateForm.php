@@ -9,11 +9,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     'form_type_id' => $_POST['form_type'],
     'reason' => $_POST['reason'],
     'extend_inlate_early' =>  $_POST['extend_inlate_early'] ?? null,
-    'extend_absence' => $_POST['extend_absence'],
+    'extend_absence' => $_POST['extend_absence'] ?? null,
     'start_date' => $_POST['start_date'],
     'end_date' => $_POST['end_date'],
     'detail_time' => $_POST['detail_time'],
-    'created_at' => $_POST['created_at'] ?? date('Y-m-d H:i'),
+    'created_at' => $_POST['created_at'] ?? null,
     'deleted_at' => $_POST['deleted_at'] ?? null,
   ];
 

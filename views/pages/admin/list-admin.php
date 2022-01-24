@@ -1,9 +1,17 @@
 <?php
-require_once('../../../controllers/User/UserController.php');
+require_once $_SERVER['DOCUMENT_ROOT'] . '/controllers/User/UserController.php';
+require_once $_SERVER['DOCUMENT_ROOT']  . '/models/User.php';
 session_start();
 $userController = new UserController();
 
 $listData = $userController->getListAdmin();
+
+if (isset($_SESSION['user_role']) && isset($_SESSION['user_id'])) {
+  $roleUser = $_SESSION['user_role'];
+  $userId = $_SESSION['user_id'];
+} else {
+  die(header('Location: /views/pages/login.php'));
+}
 
 $success = false;
 if (isset($_SESSION['success_create'])) {
@@ -11,6 +19,7 @@ if (isset($_SESSION['success_create'])) {
   $messageSuccess = $_SESSION['success_create'];
   unset($_SESSION['success_create']);
 }
+
 
 if (isset($_SESSION['success_delete'])) {
   $success = true;
@@ -104,7 +113,9 @@ if (isset($_SESSION['success_delete'])) {
         <div class="row main-content-header">
           <h1 class="col-10">Danh sách Admin</h1>
           <div class="col-2 ">
+            <?php if ($roleUser == User::ADMIN) { ?>
             <a href="create.php" class="btn btn-primary btn-create">Tạo mới</a>
+            <?php } ?>
           </div>
         </div>
         <table class="table table-striped">
@@ -127,13 +138,17 @@ if (isset($_SESSION['success_delete'])) {
               <td><?= $value['position_name'] ?></td>
               <td><?= $value['phone'] ?></td>
               <td class="table-list-action">
+                <?php if ($userId != $value['id']) { ?>
                 <ul class="p-0 m-0">
                   <li>
                     <a href="detail.php?id=<?= $value['id'] ?>" class="btn table-btn btn-primary">Chi tiết</a>
+                    <?php if ($roleUser == User::ADMIN) { ?>
                     <a data-toggle="modal" data-target="#exampleModal" value="<?= $value['id'] ?>"
                       class="btn table-btn btn-danger">Xóa</a>
+                    <?php } ?>
                   </li>
                 </ul>
+                <?php } ?>
               </td>
             </tr>
             <?php

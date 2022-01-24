@@ -1,8 +1,22 @@
 <?php
 require_once("../../controllers/User/UserController.php");
 $userController = new UserController();
+session_start();
 
 $dataDetail = $userController->show();
+
+if (isset($_SESSION['user_role'])) {
+  $roleUser = $_SESSION['user_role'];
+} else {
+  die(header('Location: /views/pages/login.php'));
+}
+
+$success = false;
+if (isset($_SESSION['success_update'])) {
+  $success = true;
+  $messageSuccess = $_SESSION['success_update'];
+  unset($_SESSION['success_update']);
+}
 
 ?>
 <!DOCTYPE html>
@@ -88,6 +102,15 @@ $dataDetail = $userController->show();
           </div>
         </div>
         <div class="content-detail">
+          <div id='container'>
+            <?php if ($success) {
+            ?>
+            <div id='hideMe' class="alert alert-success m-0" role="alert">
+              <?= $messageSuccess ?>
+            </div>
+            <?php
+            } ?>
+          </div>
           <div class="row field-info pt-3 pb-3">
             <label for="name" class="name col-3">Họ tên</label>
             <div class="col-9"><?= $dataDetail['user_name'] ?></div>

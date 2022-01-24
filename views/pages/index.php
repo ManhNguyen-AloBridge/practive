@@ -1,3 +1,12 @@
+<?php
+session_start();
+
+if (isset($_SESSION['user_role'])) {
+  $roleUser = $_SESSION['user_role'];
+} else {
+  die(header('Location: /views/pages/login.php'));
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 

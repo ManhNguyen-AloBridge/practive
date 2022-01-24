@@ -1,5 +1,6 @@
 <?php
-require_once(dirname(__DIR__) . '/repositories/UserRepository.php');
+require_once $_SERVER['DOCUMENT_ROOT']  . '/repositories/UserRepository.php';
+require_once $_SERVER['DOCUMENT_ROOT']  . '/models/User.php';
 class UserService
 {
 
@@ -11,10 +12,13 @@ class UserService
 
   public function store(array $data)
   {
+    $data['created_at'] = date('Y-m-d');
+    $data['updated_at'] = date('Y-m-d');
+
     $dataInsert = [
       $data['name'],
       $data['email'],
-      $data['password'],
+      md5($data['password']),
       $data['birthday'],
       $data['address'],
       $data['phone'],
@@ -65,5 +69,24 @@ class UserService
   public function deleteSoft(int $userId)
   {
     return $this->userRepository->deleteSoft($userId);
+  }
+
+  public function updateInfo(int $userRole, array $data)
+  {
+    $data['updated_at'] = date('Y-m-d');
+    unset($data['confirm_password']);
+    $currentPassword = $this->findById($data['id'])['password'];
+    if ($currentPassword != $data['password']) {
+      $data['password'] = md5($data['password']);
+    }
+
+    if ($userRole == User::ADMIN) {
+      return $this->userRepository->updateInfoForAdmin($data);
+    }
+
+    unset($data['role']);
+    unset($data['position']);
+    unset($data['email']);
+    return $this->userRepository->updateInfoForUser($data);
   }
 }

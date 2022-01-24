@@ -62,13 +62,14 @@ class UserController
     $result = $this->userService->store($data);
 
     if (!$result) {
-      $this->errorSession($isAdmin);
+      $this->errorCreateSession($isAdmin);
     }
+
     $_SESSION['success_create'] = $isAdmin ? 'Thêm mới Admin thành công' : 'Thêm mới người dùng thành công';
     return $isAdmin ? header('Location: /views/pages/admin/list-admin.php') : header('Location: /views/pages/staff/list-staff.php');
   }
 
-  private function errorSession(bool $isAdmin)
+  private function errorCreateSession(bool $isAdmin)
   {
     $_SESSION['error_create'] = $isAdmin ? 'Thêm mới Admin không thành công' : 'Thêm mới người dùng không thành công';
     die($isAdmin ? header('Location: /views/pages/admin/create.php') : header('Location: /views/pages/staff/create.php'));
@@ -76,25 +77,95 @@ class UserController
 
   public function getListAdmin()
   {
-    $data = $this->userService->getListAdmin();
-    return $this->uncheckYourInfoInList($data);
+    return $this->userService->getListAdmin();
   }
 
   public function getListStaff()
   {
-    $data = $this->userService->getListStaff();
-    return $this->uncheckYourInfoInList($data);
+    return $this->userService->getListStaff();
   }
 
-  private function uncheckYourInfoInList(array $data)
+  public function updateAdmin(array $data)
   {
-    $index = array_search(strval($_SESSION['user_id']), array_column($data, 'id'));
-    unset($data[$index]);
-    return $data;
+    $isAdmin = true;
+    $isProfile = false;
+    session_start();
+
+    $this->validateUpdateUser($isAdmin, $data);
+
+    return $this->updateInfo($isAdmin, $isProfile, $data);
   }
 
-  function update()
+  public function updateStaff(array $data)
   {
+    $isAdmin = false;
+    $isProfile = false;
+    session_start();
+
+    $this->validateUpdateUser($isAdmin, $data);
+
+    return $this->updateInfo($isAdmin, $isProfile, $data);
+  }
+
+  public function updateProfile(array $data)
+  {
+    $userId = $data['id'];
+    $isAdmin = false;
+    $isProfile = true;
+    session_start();
+
+
+    $user = $this->userService->findById($userId);
+    $userRole = $_SESSION['user_role'];
+    unset($_SESSION['user_role']);
+
+    if (!$user) {
+      $this->errorUpdateInfo($isAdmin, $isProfile, $userId);
+    }
+
+    $result = $this->userService->updateInfo($userRole, $data);
+
+    if (!$result) {
+      $this->errorUpdateInfo($isAdmin, $isProfile, $userId);
+    }
+
+    $_SESSION['success_update'] = 'Cập nhật thông tin thành công';
+    return header('Location: /views/pages/profile.php');
+  }
+
+  private function updateInfo(bool $isAdmin, bool $isProfile, array $data)
+  {
+    session_start();
+
+    $userId = $data['id'];
+    $user = $this->userService->findById($userId);
+
+    if (!$user) {
+      $this->errorUpdateInfo($isAdmin, $isProfile, $userId);
+    }
+
+
+    $userRole = $_SESSION['user_role'];
+
+    $result = $this->userService->updateInfo($userRole, $data);
+
+    if (!$result) {
+      $this->errorUpdateInfo($isAdmin, $isProfile, $userId);
+    }
+
+    $_SESSION['success_update'] = 'Cập nhật thông tin thành công';
+    return $isAdmin ? header('Location: /views/pages/admin/detail.php?id=' . $userId) : header('Location: /views/pages/staff/detail.php?id=' . $userId);
+  }
+
+  private function errorUpdateInfo(bool $isAdmin, bool $isProfile, int $userId)
+  {
+    $_SESSION['error_update'] = 'Cập nhật thông tin không thành công';
+
+    if ($isProfile) {
+      die(header('Location: /views/pages/edit.php?id=' . $userId));
+    }
+
+    die($isAdmin ? header('Location: /views/pages/admin/edit.php?id=' . $userId) : header('Location: /views/pages/staff/edit.php?id=' . $userId));
   }
 
   function deleteAdmin(int $userId)
@@ -131,6 +202,40 @@ class UserController
   {
     $_SESSION['error_delete'] = 'Xóa người dùng không thành công!';
     die($isAdmin ? header('Location: /views/pages/admin/list-admin.php') : header('Location: /views/pages/staff/list-staff.php'));
+  }
+
+  private function validateUpdateUser(bool $isAdmin, array $data)
+  {
+    $errors = [];
+
+    $errors['name'] = $this->validateFieldString('Họ tên', 3, 50, $data['name']);
+
+    $errors['email'] = $this->validateFieldRegexSpecial($data['email'], '/\S+@\S+\.\S+/', 'Email không được để trống.', 'Email không đúng định dạng.');
+
+    $errors['password'] = $this->validateFieldString('Mật khẩu', 6, 50, $data['password']);
+
+    $errors['confirm_password'] = $this->validateConfirm('mật khẩu', $data['password'], $data['confirm_password']);
+
+    if (empty($data['role'])) {
+      $errors['role'] = 'Hãy chọn một quyền.';
+    }
+
+    if (empty($data['position'])) {
+      $errors['position'] = 'Hãy chọn một chức vụ.';
+    }
+
+    $errors['birthday'] = $this->validateBirthday($data['birthday'], 'Hãy chọn ngày sinh.', 'Ngày sinh phải trước ngày hiện tại.');
+
+    $errors['phone'] = $this->validateFieldRegexSpecial($data['phone'], '/^[0-9\-\+]{9,15}$/', 'Số điện thoại không được để trống.', 'Số điện thoại phải có độ dài từ 9 - 15 ký tự số.');
+
+    $errors['address'] = $this->validateFieldString('Địa chỉ', 6, 50, $data['address']);
+
+
+    if (count(array_filter($errors)) > 0) {
+      $_SESSION['old_data_update'] = $data;
+      $_SESSION['errors_update_validate'] = $errors;
+      die($isAdmin ? header('Location: /views/pages/admin/edit.php?id=' . $data['id']) : header('Location: /views/pages/staff/edit.php?id=' . $data['id']));
+    }
   }
 
   private function validateCreateUser(bool $isAdmin, array $data)
