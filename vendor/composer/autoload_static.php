@@ -73,7 +73,6 @@ class ComposerStaticInitbd2080d5037dd5ec573f65dbd19646e1
     public static $classMap = array (
         'AuthController' => __DIR__ . '/../..' . '/app/controllers/Auth/AuthController.php',
         'AuthService' => __DIR__ . '/../..' . '/app/services/AuthService.php',
-        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'Form' => __DIR__ . '/../..' . '/app/models/Form.php',
         'FormController' => __DIR__ . '/../..' . '/app/controllers/Form/FormController.php',
         'FormRepository' => __DIR__ . '/../..' . '/app/repositories/FormRepository.php',
