@@ -63,9 +63,16 @@ class UserServiceTest extends TestCase
     $this->assertIsArray($result);
   }
 
-  public function testFindById()
+  public function testFindByIdWithValidId()
   {
     $id = 1;
+    $result = $this->userService->findById($id);
+    $this->assertIsArray($result);
+  }
+
+  public function testFindByIdWithInValidId()
+  {
+    $id = -1;
     $result = $this->userService->findById($id);
     $this->assertIsArray($result);
   }

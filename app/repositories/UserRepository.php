@@ -54,7 +54,7 @@ class UserRepository
     $data = $result->fetchAll(PDO::FETCH_ASSOC);
 
     if (isset($data[0])) {
-      return $data[0];
+    return $data[0];
     }
     return $data;
   }

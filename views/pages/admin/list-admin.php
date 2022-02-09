@@ -94,7 +94,7 @@ if (isset($_SESSION['success_delete'])) {
           <li>
             <hr class="dropdown-divider">
           </li>
-          <li><a class="dropdown-item" href="../../../controllers/LogoutController.php">Sign out</a></li>
+          <li><a class="dropdown-item" href="../../../controllers/HandleLogout.php">Sign out</a></li>
         </ul>
       </div>
     </div>

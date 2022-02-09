@@ -5,9 +5,9 @@ $authController = new AuthController();
 if (!isset($_POST)) {
   return false;
 }
-// $data = [
-//   'email' => $_POST['email'],
-//   'password' => $_POST['password']
-// ];
+$data = [
+  'email' => $_POST['email'],
+  'password' => $_POST['password']
+];
 
-// $authController->checkLogin($data);
+$authController->checkLogin($data);

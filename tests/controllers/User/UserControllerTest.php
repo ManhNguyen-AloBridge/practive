@@ -3,7 +3,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . 'app/controllers/User/UserController.ph
 
 use PHPUnit\Framework\TestCase;
 
-// if (isset($_SESSION)) $_SESSION = [];
+if (isset($_SESSION)) $_SESSION = [];
 
 class UserControllerTest extends TestCase
 {
@@ -19,10 +19,21 @@ class UserControllerTest extends TestCase
 
   public function testGetDetailInfoWithIdValid()
   {
-    $id = 216;
+    $id = 6;
 
     $result = $this->userController->detailInfo($id);
     $this->assertIsArray($result);
+  }
+
+  /**
+  * @runInSeparateProcess
+  */
+  public function testGetDetailInfoWithIdInValid()
+  {
+    $id = -1;
+
+    $result = $this->userController->detailInfo($id);
+    $this->assertNull($result);
   }
 
   public function testShowInfoWithIdValid()
@@ -31,6 +42,19 @@ class UserControllerTest extends TestCase
     $this->assertIsArray($result);
   }
 
+  /**
+  * @runInSeparateProcess
+  */
+  public function testShowInfoWithIdInValid()
+  {
+    $_SESSION['user_id'] = -1;
+    $result = $this->userController->show();
+    $this->assertNull($result);
+  }
+
+  /**
+    * @runInSeparateProcess
+    */
   public function testCreateNewAdminWithDataValid()
   {
     $email = uniqid() . '@gmail1.com';
@@ -56,6 +80,35 @@ class UserControllerTest extends TestCase
     $this->assertNull($result);
   }
 
+  /**
+    * @runInSeparateProcess
+    */
+  public function testCreateNewAdminWithDataInValid()
+  {
+    $data = [
+      'name' => 'test test',
+      'email' => 'admin@gmail.com',
+      'password' => '123123123',
+      'confirm_password' => '123123123',
+      'birthday' => '1999-01-01',
+      'address' => 'address test',
+      'phone' => '123456789',
+      'role' => '',
+      'position' => '',
+      'created_at' => '2020-01-01',
+      'updated_at' => '2020-01-01',
+      'deleted_at' => null,
+
+    ];
+
+    $result = $this->userController->storeAdmin($data);
+
+    $this->assertNull($result);
+  }
+
+  /**
+  * @runInSeparateProcess
+  */
   public function testCreateNewUserWithDataValid()
   {
     $email = uniqid() . '@gmail2.com';
@@ -81,19 +134,61 @@ class UserControllerTest extends TestCase
     $this->assertNull($result);
   }
 
+  /**
+  * @runInSeparateProcess
+  */
+  public function testCreateNewUserWithDataInValid()
+  {
+    $data = [
+      'name' => 'test test',
+      'email' => 'admin@gmail.com',
+      'password' => '123123123',
+      'confirm_password' => '123123123',
+      'birthday' => '1999-01-01',
+      'address' => 'address test',
+      'phone' => '123456789',
+      'role' => '',
+      'position' => '',
+      'created_at' => '2020-01-01',
+      'updated_at' => '2020-01-01',
+      'deleted_at' => null,
+
+    ];
+
+    $result = $this->userController->storeUser($data);
+
+    $this->assertNull($result);
+  }
+
+  /**
+  * @runInSeparateProcess
+  */
   public function testDeleteAdmin()
   {
-    $id = 233;
+    $id = 15;
     $result = $this->userController->deleteAdmin($id);
     $this->assertNull($result);
   }
 
+  /**
+  * @runInSeparateProcess
+  */
   public function testDeleteUser()
   {
-    $id = 253;
+    $id = 16;
     $result = $this->userController->deleteUser($id);
     $this->assertNull($result);
   }
+
+  /**
+  * @runInSeparateProcess
+  */
+  public function testDeleteWithInValidId(){
+    $id = 9;
+    $result = $this->userController->deleteUser($id);
+    $this->assertNull($result);
+  }
+
 
   public function testGetListAdmin()
   {
@@ -101,9 +196,10 @@ class UserControllerTest extends TestCase
     $this->assertIsArray($result);
   }
 
-  public function testGetListUser()
+  public function testGetListStaff()
   {
-    $result = $this->userController->getListAdmin();
+    $result = $this->userController->getListStaff();
     $this->assertIsArray($result);
   }
+
 }

@@ -23,7 +23,6 @@ class FormController
 
     $type = intval($data['form_type_id']);
 
-
     if (($type == Form::TYPE_ABSENCE && $data['extend_absence'] == null) || ($type == Form::TYPE_INLATE_EARLY && $data['extend_inlate_early'] == null)) {
       $this->createSessionError();
     }
@@ -41,7 +40,7 @@ class FormController
   private function createSessionError()
   {
     $_SESSION['error_create_form'] = 'Gửi form không thành công';
-    die(header('Location: /views/pages/form/create.php'));
+    return header('Location: /views/pages/form/create.php');
   }
 
   public function getListForm()
@@ -103,7 +102,7 @@ class FormController
     if (count(array_filter($errors)) > 0) {
       $_SESSION['old_data'] = $data;
       $_SESSION['errors_validate'] = $errors;
-      die(header('Location: /views/pages/form/create.php'));
+      return header('Location: /views/pages/form/create.php');
     }
   }
 
@@ -129,6 +128,6 @@ class FormController
   private function errorDeleteForm()
   {
     $_SESSION['error_delete'] = 'Xóa form không thành công!';
-    die(header('Location: /views/pages/form/list-form.php'));
+    return header('Location: /views/pages/form/list-form.php');
   }
 }

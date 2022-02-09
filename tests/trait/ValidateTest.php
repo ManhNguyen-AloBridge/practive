@@ -154,3 +154,4 @@ class ValidateTest extends TestCase
     $this->assertNull($result);
   }
 }
+?>
