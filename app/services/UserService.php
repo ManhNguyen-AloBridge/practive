@@ -59,7 +59,9 @@ class UserService
 
   public function findById(int $userId)
   {
-    return $this->userRepository->findById($userId);
+    // return $this->userRepository->findById($userId);
+    $result = $this->userRepository->findById($userId);
+    return $result;
   }
 
   public function deleteSoft(int $userId)

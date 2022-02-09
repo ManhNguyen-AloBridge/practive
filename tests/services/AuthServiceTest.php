@@ -14,16 +14,16 @@ class AuthServiceTest extends TestCase
     $this->authService = new AuthService();
   }
 
-  public function testLoginInvalidUser(): void
+  public function testLoginInvalidUserPassword(): void
   {
-    $data = ['email' => 'asb@gmail.com', 'password' => '1231123123'];
+    $data = ['email' => 'admin@gmail.com', 'password' => '12311123123'];
     $result = $this->authService->checkLogin($data);
     $this->assertFalse($result);
   }
 
   public function testLoginValidUser()
   {
-    $data = ['email' => 'asb@gmail.com', 'password' => '123123123'];
+    $data = ['email' => 'admin@gmail.com', 'password' => '123123123'];
     $result = $this->authService->checkLogin($data);
     $this->assertIsArray($result);
   }

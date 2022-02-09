@@ -94,13 +94,13 @@ class Printer
     {
         if ($this->stream) {
             assert(is_resource($this->stream));
-
+            
             fwrite($this->stream, $buffer);
         } else {
             if (PHP_SAPI !== 'cli' && PHP_SAPI !== 'phpdbg') {
                 $buffer = htmlspecialchars($buffer, ENT_COMPAT | ENT_SUBSTITUTE);
             }
-
+            
             print $buffer;
         }
     }

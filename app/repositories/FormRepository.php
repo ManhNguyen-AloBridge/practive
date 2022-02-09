@@ -56,6 +56,7 @@ class FormRepository
     AND register_forms.deleted_at IS NULL
     ");
     $data = $query->fetchAll(PDO::FETCH_ASSOC);
+
     if (isset($data[0])) {
       return $data[0];
     }

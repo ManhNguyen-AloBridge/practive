@@ -1,5 +1,5 @@
 {
-    "name": "giangtuan/practive",
+    "name": "manh/practive",
     "type": "project",
     "require-dev": {
         "phpunit/phpunit": "^9.5"
