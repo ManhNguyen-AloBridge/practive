@@ -1,5 +1,5 @@
 <?php
-require_once(dirname(__DIR__) . '/connection.php');
+require_once $_SERVER['DOCUMENT_ROOT'] . 'connection.php';
 
 class FormRepository
 {
@@ -56,7 +56,11 @@ class FormRepository
     AND register_forms.deleted_at IS NULL
     ");
     $data = $query->fetchAll(PDO::FETCH_ASSOC);
-    return $data[0];
+
+    if (isset($data[0])) {
+      return $data[0];
+    }
+    return $data;
   }
 
   public function getListFormType()

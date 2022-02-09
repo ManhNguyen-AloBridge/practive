@@ -1,6 +1,7 @@
 <?php
-require_once('../services/AuthService.php');
+require_once $_SERVER['DOCUMENT_ROOT'] . 'app/services/AuthService.php';
 
+if (empty(session_id())) session_start();
 class AuthController
 {
   public $authService;
@@ -19,7 +20,6 @@ class AuthController
       return header('Location: /views/pages/login.php');
     }
 
-    session_start();
     $_SESSION['user_id'] = $user['id'];
 
     return header('Location: /views/pages/index.php');

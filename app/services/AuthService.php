@@ -1,5 +1,5 @@
 <?php
-require_once('../repositories/UserRepository.php');
+require_once $_SERVER['DOCUMENT_ROOT'] . 'app/repositories/UserRepository.php';
 
 class AuthService
 {

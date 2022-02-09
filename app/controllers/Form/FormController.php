@@ -1,7 +1,10 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT']  . '/services/FormService.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/models/Form.php';
-require_once $_SERVER['DOCUMENT_ROOT'] . '/trait/Validate.php';
+require_once $_SERVER['DOCUMENT_ROOT']  . 'app/services/FormService.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . 'app/models/Form.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . 'app/trait/Validate.php';
+
+if (empty(session_id())) session_start();
+
 class FormController
 {
 
@@ -14,12 +17,10 @@ class FormController
 
   public function store(array $data)
   {
-    session_start();
 
     $this->validateCreateForm($data);
 
     $type = intval($data['form_type_id']);
-
 
     if (($type == Form::TYPE_ABSENCE && $data['extend_absence'] == null) || ($type == Form::TYPE_INLATE_EARLY && $data['extend_inlate_early'] == null)) {
       $this->createSessionError();
@@ -38,7 +39,7 @@ class FormController
   private function createSessionError()
   {
     $_SESSION['error_create_form'] = 'Gửi form không thành công';
-    die(header('Location: /views/pages/form/create.php'));
+    return header('Location: /views/pages/form/create.php');
   }
 
   public function getListForm()
@@ -51,7 +52,6 @@ class FormController
     $result = $this->formService->findById($formId);
 
     if (!$result) {
-      session_start();
       $_SESSION['error_show'] = ' Thông tin form không tồn tại.';
     }
 
@@ -100,14 +100,13 @@ class FormController
     if (count(array_filter($errors)) > 0) {
       $_SESSION['old_data'] = $data;
       $_SESSION['errors_validate'] = $errors;
-      die(header('Location: /views/pages/form/create.php'));
+      return header('Location: /views/pages/form/create.php');
     }
   }
 
   function delete(int $formId)
   {
     $form = $this->formService->findById($formId);
-    session_start();
     if (!$form) {
       $this->errorDeleteForm();
     }
@@ -118,6 +117,7 @@ class FormController
       $this->errorDeleteForm();
     }
 
+
     $_SESSION['success_delete'] = 'Xóa form thành công.';
     return header('Location: /views/pages/form/list-form.php');
   }
@@ -125,6 +125,6 @@ class FormController
   private function errorDeleteForm()
   {
     $_SESSION['error_delete'] = 'Xóa form không thành công!';
-    die(header('Location: /views/pages/form/list-form.php'));
+    return header('Location: /views/pages/form/list-form.php');
   }
 }

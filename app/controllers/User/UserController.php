@@ -1,6 +1,10 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT']  . '/services/UserService.php';
-require_once $_SERVER['DOCUMENT_ROOT']  . '/trait/Validate.php';
+require_once $_SERVER['DOCUMENT_ROOT']  . 'app/services/UserService.php';
+require_once $_SERVER['DOCUMENT_ROOT']  . 'app/trait/Validate.php';
+
+
+if (empty(session_id())) session_start();
+
 class UserController
 {
 
@@ -16,23 +20,23 @@ class UserController
 
   public function detailInfo(int $userId)
   {
+
     $result = $this->userService->findById($userId);
 
+    
     if (!$result) {
-      session_start();
       $_SESSION['error_show'] = 'Thông tin người dùng không tồn tại';
-      die(header('Location: /views/pages/admin/list-admin.php'));
+      return header('Location: /views/pages/admin/list-admin.php');
     }
     return $result;
   }
 
   public function show()
   {
-    session_start();
     $result = $this->userService->findById($_SESSION['user_id']);
     if (!$result) {
       $_SESSION['error_show'] = 'Thông tin người dùng không tồn tại';
-      die(header('Location: /views/pages/index.php'));
+      return header('Location: /views/pages/index.php');
     }
     return $result;
   }
@@ -40,21 +44,19 @@ class UserController
   public function storeAdmin(array $data)
   {
     $isAdmin = true;
-    session_start();
 
     $this->validateCreateUser($isAdmin, $data);
 
-    $this->store($isAdmin, $data);
+    return $this->store($isAdmin, $data);
   }
 
   public function storeUser(array $data)
   {
     $isAdmin = false;
-    session_start();
 
     $this->validateCreateUser($isAdmin, $data);
 
-    $this->store($isAdmin, $data);
+    return $this->store($isAdmin, $data);
   }
 
   private function store(bool $isAdmin, array $data)
@@ -71,7 +73,7 @@ class UserController
   private function errorSession(bool $isAdmin)
   {
     $_SESSION['error_create'] = $isAdmin ? 'Thêm mới Admin không thành công' : 'Thêm mới người dùng không thành công';
-    die($isAdmin ? header('Location: /views/pages/admin/create.php') : header('Location: /views/pages/staff/create.php'));
+    return $isAdmin ? header('Location: /views/pages/admin/create.php') : header('Location: /views/pages/staff/create.php');
   }
 
   public function getListAdmin()
@@ -93,26 +95,21 @@ class UserController
     return $data;
   }
 
-  function update()
-  {
-  }
-
   function deleteAdmin(int $userId)
   {
     $isAdmin = true;
     return $this->delete($isAdmin, $userId);
   }
-
+  
   function deleteUser(int $userId)
   {
     $isAdmin = false;
     return $this->delete($isAdmin, $userId);
   }
-
+  
   private function delete(bool $isAdmin, int $userId)
   {
     $user = $this->userService->findById($userId);
-    session_start();
     if (!$user) {
       $this->errorDeleteUser($isAdmin);
     }
@@ -130,7 +127,7 @@ class UserController
   private function errorDeleteUser(bool $isAdmin)
   {
     $_SESSION['error_delete'] = 'Xóa người dùng không thành công!';
-    die($isAdmin ? header('Location: /views/pages/admin/list-admin.php') : header('Location: /views/pages/staff/list-staff.php'));
+    return $isAdmin ? header('Location: /views/pages/admin/list-admin.php') : header('Location: /views/pages/staff/list-staff.php');
   }
 
   private function validateCreateUser(bool $isAdmin, array $data)
@@ -146,8 +143,6 @@ class UserController
     if ($email) {
       $errors['email'] = 'Email đã tồn tại.';
     }
-
-    $errors['confirm_email'] = $this->validateConfirm('email', $data['email'], $data['confirm_email']);
 
     $errors['password'] = $this->validateFieldString('Mật khẩu', 6, 50, $data['password']);
 
@@ -171,7 +166,7 @@ class UserController
     if (count(array_filter($errors)) > 0) {
       $_SESSION['old_data'] = $data;
       $_SESSION['errors_validate'] = $errors;
-      die($isAdmin ? header('Location: /views/pages/admin/create.php') : header('Location: /views/pages/staff/create.php'));
+      return $isAdmin ? header('Location: /views/pages/admin/create.php') : header('Location: /views/pages/staff/create.php');
     }
   }
 }
