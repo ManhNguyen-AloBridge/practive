@@ -66,7 +66,7 @@
           <li>
             <hr class="dropdown-divider">
           </li>
-          <li><a class="dropdown-item" href="../../controllers/LogoutController.php">Sign out</a></li>
+          <li><a class="dropdown-item" href="../../app/controllers/HandleLogout.php">Sign out</a></li>
         </ul>
       </div>
     </div>

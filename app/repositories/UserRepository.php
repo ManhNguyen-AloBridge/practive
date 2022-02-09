@@ -1,6 +1,6 @@
 <?php
-require_once(dirname(__DIR__) . '/connection.php');
-require_once(dirname(__DIR__) . '/models/User.php');
+require_once $_SERVER['DOCUMENT_ROOT'] . 'connection.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . 'app/models/User.php';
 class UserRepository
 {
   public $conn;
@@ -82,7 +82,10 @@ class UserRepository
     AND users.deleted_at IS NULL
     ");
     $data = $query->fetchAll(PDO::FETCH_ASSOC);
-    return $data[0];
+    if (isset($data[0])) {
+      return $data[0];
+    }
+    return $data;
   }
 
   public function deleteSoft(int $userId)

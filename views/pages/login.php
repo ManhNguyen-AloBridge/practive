@@ -16,7 +16,7 @@
 
   <div class="container login-page">
     <div class="login-content">
-      <form action="../../controllers/LoginController.php" class="form-login" method="post">
+      <form action="../../app/controllers/Auth/HandleLogin.php" class="form-login" method="post">
         <h4 class="text-center pb-4">Login</h4>
         <?php if (isset($_SESSION['error_login'])) {
         ?>

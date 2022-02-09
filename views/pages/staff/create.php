@@ -90,7 +90,7 @@ if (isset($_SESSION['errors_validate']) && isset($_SESSION['old_data'])) {
           <li>
             <hr class="dropdown-divider">
           </li>
-          <li><a class="dropdown-item" href="../../../controllers/LogoutController.php">Sign out</a></li>
+          <li><a class="dropdown-item" href="../../../app/controllers/HandleLogout.php">Sign out</a></li>
         </ul>
       </div>
     </div>
